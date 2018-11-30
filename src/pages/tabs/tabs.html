@@ -1,5 +1,9 @@
-<ion-tabs>
-  <ion-tab [root]="tab1Root" tabTitle="Home" tabIcon="home"></ion-tab>
-  <ion-tab [root]="tab2Root" tabTitle="About" tabIcon="information-circle"></ion-tab>
-  <ion-tab [root]="tab3Root" tabTitle="Contact" tabIcon="contacts"></ion-tab>
+<ion-tabs #theTabs tabsLayout="icon-start" [selectedIndex]="selectedTab">
+  <ion-tab [root]="tab1Root" tabTitle="Payables" tabIcon="sad"></ion-tab>
+  <ion-tab [root]="tab2Root"></ion-tab>
+  <ion-tab [root]="tab3Root" tabTitle="Receivables" tabIcon="logo-freebsd-devil"></ion-tab>
 </ion-tabs>
+
+<ion-fab center bottom>
+  <button ion-fab (click)="goToHomeTab()"><ion-icon name="home"></ion-icon></button>
+</ion-fab>
