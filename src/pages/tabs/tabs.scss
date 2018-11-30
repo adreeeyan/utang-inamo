@@ -1,3 +1,9 @@
 .tabbar{
     height: 45px;
 }
+
+.home-fab button {
+    $primary: map-get($colors, secondary);
+    $lighter-primary: lighten($primary, 20%);
+    background: linear-gradient(200deg, $primary 23%, $lighter-primary 100%) !important;
+}
