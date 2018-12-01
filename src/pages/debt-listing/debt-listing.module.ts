@@ -3,6 +3,7 @@ import { IonicPageModule } from 'ionic-angular';
 import { DebtListingPage } from './debt-listing';
 import { PipesModule } from '../../pipes/pipes.module';
 import { DebtInfoPageModule } from '../debt-info/debt-info.module';
+import { DebtEditorPageModule } from '../debt-editor/debt-editor.module';
 
 @NgModule({
   declarations: [
@@ -11,7 +12,8 @@ import { DebtInfoPageModule } from '../debt-info/debt-info.module';
   imports: [
     IonicPageModule.forChild(DebtListingPage),
     PipesModule,
-    DebtInfoPageModule
+    DebtInfoPageModule,
+    DebtEditorPageModule
   ],
 })
 export class DebtListingPageModule {}

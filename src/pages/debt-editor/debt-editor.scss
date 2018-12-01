@@ -1,0 +1,43 @@
+page-debt-editor {
+    .header-container {
+        height: 200px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        justify-items: center;
+        align-items: center;
+        background: map-get($colors, danger) url(../assets/imgs/banderitas.png) repeat-x center 174px;
+        color: white;
+
+        .action-buttons {
+            button {
+                position: absolute;
+                top: 0;
+                box-shadow: none;
+                background-color: transparent;
+            }
+
+            .back {
+                left: 0;
+            }
+
+            .edit {
+                right: 0;
+            }
+        }
+
+        .detail {
+            font-size: 1.1em;
+            text-transform: uppercase;
+            font-weight: 800;
+        }
+
+        .amount {
+            font-size: 3em;
+        }
+    }
+
+    .info-part {
+        margin-top: 10px;
+    }
+}

@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Debt, DebtType, DebtStatus } from '../../models/debt';
 import { Borrower } from '../../models/borrower';
 import { DebtInfoPage } from '../debt-info/debt-info';
+import { DebtEditorPage } from '../debt-editor/debt-editor';
 
 @IonicPage()
 @Component({
@@ -90,6 +91,10 @@ export class DebtListingPage {
 
   goToDebtInfo(debt: Debt) {
     this.navCtrl.push(DebtInfoPage, debt);
+  }
+
+  goToDebtEditor(debt: Debt){
+    this.navCtrl.push(DebtEditorPage, debt);
   }
 
 }

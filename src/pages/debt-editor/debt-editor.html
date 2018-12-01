@@ -1,0 +1,38 @@
+<ion-content>
+  <div class="header-container">
+    <div class="action-buttons">
+      <button navPop ion-button icon-only class="back">
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+    </div>
+    <div class="detail">Amount</div>
+    <div class="amount">
+      ₱x,xxx.xx
+    </div>
+  </div>
+  <div class="info-part">
+    <ion-list mode="md">
+      <ion-item mode="md">
+        <ion-icon name="contact" item-start></ion-icon>
+        <ion-label>Borrower</ion-label>
+        <ion-input type="text"></ion-input>
+      </ion-item>
+      <ion-item mode="md">
+        <ion-icon name="calendar" item-start></ion-icon>
+        <ion-label>Due date</ion-label>
+        <ion-input type="date"></ion-input>
+      </ion-item>
+      <ion-item mode="md">
+        <ion-icon name="calculator" item-start></ion-icon>
+        <ion-label>Interest</ion-label>
+        <ion-input type="number"></ion-input>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <ion-fab bottom right>
+    <button ion-fab>
+      <ion-icon name="checkmark"></ion-icon>
+    </button>
+  </ion-fab>
+</ion-content>
