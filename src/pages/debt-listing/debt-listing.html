@@ -1,0 +1,78 @@
+<ion-header mode="md" class="header">
+  <ion-title mode="ios" class="title">{{title}}</ion-title>
+  <div padding>
+    <ion-segment mode="ios" class="segmenter" color="dark" [(ngModel)]="isPaid">
+      <ion-segment-button value="paid">
+        <div class="segment-info">Paid</div>
+        <div class="segment-total">({{totalPaid | formatCurrency}})</div>
+      </ion-segment-button>
+      <ion-segment-button value="unpaid">
+        <div class="segment-info">Unpaid</div>
+        <div class="segment-total">({{totalUnpaid | formatCurrency}})</div>
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <ion-fab bottom right edge>
+    <button ion-fab mini color="dark">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
+</ion-header>
+
+<ion-content>
+
+  <div [ngSwitch]="isPaid">
+    <ion-list *ngSwitchCase="'paid'">
+      <ion-item-sliding *ngFor="let payable of paid">
+        <button ion-item>
+          <ion-avatar item-start>
+            <img src="http://www.sunprairiebep.com/assets/img/profile-placeholder.gif">
+          </ion-avatar>
+          <div class="info">
+            <div class="text">
+              <h2 class="name">{{payable.borrower?.name}}</h2>
+              <h3 class="duedate">Paid on {{payable.dueDateString}}</h3>
+            </div>
+            <div class="amount">
+              <h1>{{payable.total | formatCurrency}}</h1>
+            </div>
+          </div>
+        </button>
+      </ion-item-sliding>
+    </ion-list>
+    <ion-list *ngSwitchCase="'unpaid'">
+      <ion-item-sliding *ngFor="let payable of unpaid">
+        <button ion-item>
+          <ion-avatar item-start>
+            <img src="http://www.sunprairiebep.com/assets/img/profile-placeholder.gif">
+          </ion-avatar>
+          <div class="info">
+            <div class="text">
+              <h2 class="name">{{payable.borrower?.name}}</h2>
+              <h3 class="duedate">Due on {{payable.dueDateString}}</h3>
+            </div>
+            <div class="amount">
+              <h1>{{payable.total | formatCurrency}}</h1>
+            </div>
+          </div>
+        </button>
+        <ion-item-options side="right" class="options">
+          <button ion-button color="secondary" class="sms">
+            <ion-icon name="text"></ion-icon>
+            SMS
+          </button>
+          <button ion-button color="secondary" class="facebook">
+            <ion-icon name="logo-facebook"></ion-icon>
+            FB
+          </button>
+          <button ion-button color="secondary" class="skype">
+            <ion-icon name="logo-skype"></ion-icon>
+            Skype
+          </button>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+  </div>
+
+</ion-content>
