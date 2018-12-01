@@ -22,7 +22,7 @@ import { DebtListingPageModule } from '../pages/debt-listing/debt-listing.module
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp, {tabsHideOnSubPages: true}),
     DebtListingPageModule
   ],
   bootstrap: [IonicApp],

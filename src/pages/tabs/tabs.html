@@ -4,6 +4,6 @@
   <ion-tab [root]="tab3Root" [rootParams]="tab3RootParams" tabTitle="Receivables" tabIcon="logo-freebsd-devil"></ion-tab>
 </ion-tabs>
 
-<ion-fab center bottom class="home-fab">
+<ion-fab center bottom class="home-fab" *ngIf="isHomeTabShown">
   <button ion-fab (click)="goToHomeTab()"><ion-icon name="home"></ion-icon></button>
 </ion-fab>

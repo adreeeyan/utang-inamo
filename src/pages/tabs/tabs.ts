@@ -3,7 +3,7 @@ import { Component, ViewChild } from '@angular/core';
 import { AboutPage } from '../about/about';
 import { ContactPage } from '../contact/contact';
 import { HomePage } from '../home/home';
-import { NavController, Tabs, NavParams } from 'ionic-angular';
+import { NavController, Tabs, NavParams, App } from 'ionic-angular';
 import { DebtListingPage } from '../debt-listing/debt-listing';
 import { DebtType } from '../../models/debt';
 
@@ -20,10 +20,18 @@ export class TabsPage {
   tab3RootParams = { type: DebtType.RECEIVABLE };
 
   selectedTab = 0;
+  isHomeTabShown = true;
 
   @ViewChild('theTabs') tabRef: Tabs;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public app: App) {
+
+    this.app.viewWillEnter.subscribe(viewCtrl => {
+      // Hide the home tab if current view is neither of these
+      const tabsList = ["DebtListingPage", "HomePage", "DebtListingPage"];
+      const currentView = viewCtrl.instance.constructor.name;
+      this.isHomeTabShown = tabsList.indexOf(currentView) != -1;
+   })
   }
 
   goToHomeTab() {
