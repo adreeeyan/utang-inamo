@@ -1,0 +1,102 @@
+page-debt-info {
+    .header-container {
+        height: 200px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        justify-items: center;
+        align-items: center;
+        background: map-get($colors, secondary) url(../assets/imgs/banderitas.png) repeat-x center 174px;
+        color: white;
+
+        .action-buttons {
+            button {
+                position: absolute;
+                top: 0;
+                box-shadow: none;
+                background-color: transparent;
+            }
+
+            .back {
+                left: 0;
+            }
+
+            .edit {
+                right: 0;
+            }
+        }
+
+        .amount {
+            font-size: 3em;
+        }
+    }
+
+    .borrower-info {
+        margin-top: 10px;
+
+        .name-part {
+            display: flex;
+            justify-content: center;
+            justify-items: center;
+            align-items: center;
+
+            .image {
+                margin-left: 20px;
+                margin-right: 20px;
+
+                img {
+                    height: 60px;
+                    border-radius: 50%;
+                }
+            }
+
+            .right {
+                flex-grow: 2;
+
+                .name {
+                    margin-bottom: 0;
+                }
+
+                .duedate {
+                    margin-top: 0;
+                    font-weight: normal;
+                    color: gray;
+                }
+            }
+        }
+
+        .contact-part {
+            button {
+    
+                &.sms .icon {
+                    color: #49d536;
+                }
+    
+                &.facebook .icon {
+                    color: #3b5998;
+                }
+    
+                &.skype .icon {
+                    color: #00AFF0;
+                }
+                
+            }
+        }
+    }
+
+    .sub-info-header {
+        display: flex;
+        margin-top: 10px;
+        margin-bottom: 10px;
+
+        .title {
+            font-size: 1.3em;
+        }
+
+        .ruler {
+            background-color: gray;
+            flex-grow: 1;
+            margin: 7px;
+        }
+    }
+}

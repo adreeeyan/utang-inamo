@@ -1,0 +1,77 @@
+<ion-content>
+  <div class="header-container">
+    <div class="action-buttons">
+      <button navPop ion-button icon-only class="back">
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+      <button ion-button icon-only class="edit">
+        <ion-icon name="brush"></ion-icon>
+      </button>
+    </div>
+    <div class="amount">
+      ₱1,000.00
+    </div>
+    <button ion-button color="danger" round>SET AS PAID</button>
+  </div>
+  <div class="borrower-info" padding>
+    <div class="name-part">
+      <div class="image">
+        <img src="http://www.sunprairiebep.com/assets/img/profile-placeholder.gif">
+      </div>
+      <div class="right">
+        <h3 class="name">John Doe</h3>
+        <h5 class="duedate">Due on August 29, 2018</h5>
+      </div>
+    </div>
+    <div class="contact-part">
+      <div class="sub-info-header">
+        <div class="title">
+          Contact info
+        </div>
+        <div class="ruler"></div>
+      </div>
+      <ion-list mode="md">
+        <button ion-item mode="md" class="sms">
+          <ion-icon name="text" item-start></ion-icon>
+          SMS: 09xxxxxxxx
+          <ion-badge item-end>Text now ></ion-badge>
+        </button>
+    
+        <button ion-item mode="md" class="facebook">
+          <ion-icon name="logo-facebook" item-start></ion-icon>
+          Messenger: user.id
+          <ion-badge item-end>PM now ></ion-badge>
+        </button>
+    
+        <button ion-item mode="md" class="skype">
+          <ion-icon name="logo-skype" item-start></ion-icon>
+          Skype: user.id
+          <ion-badge item-end>DM now ></ion-badge>
+        </button>
+        
+        <button ion-item mode="md">
+          <ion-icon name="navigate" item-start></ion-icon>
+          Location: Where...
+          <ion-badge item-end>Find now ></ion-badge>
+        </button>
+      </ion-list>
+    </div>
+    <div class="otherinfo-part">
+      <div class="sub-info-header">
+        <div class="title">
+          Other info
+        </div>
+        <div class="ruler"></div>
+      </div>
+      <ion-list mode="md">
+        <ion-item mode="md">
+          Date of debt: August 21, 2018
+        </ion-item>
+        
+        <ion-item mode="md">
+          Interest: 10%
+        </ion-item>
+      </ion-list>
+    </div>
+  </div>
+</ion-content>

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Debt, DebtType, DebtStatus } from '../../models/debt';
 import { Borrower } from '../../models/borrower';
+import { DebtInfoPage } from '../debt-info/debt-info';
 
 @IonicPage()
 @Component({
@@ -85,6 +86,10 @@ export class DebtListingPage {
 
   get totalUnpaid() {
     return this.unpaid.reduce((accumulator, currentValue) => accumulator + currentValue.total, 0);
+  }
+
+  goToDebtInfo(debt: Debt) {
+    this.navCtrl.push(DebtInfoPage, debt);
   }
 
 }

@@ -24,36 +24,36 @@
 
   <div [ngSwitch]="isPaid">
     <ion-list *ngSwitchCase="'paid'">
-      <ion-item-sliding *ngFor="let payable of paid">
-        <button ion-item>
+      <ion-item-sliding *ngFor="let debt of paid">
+        <button ion-item (click)="goToDebtInfo(debt)">
           <ion-avatar item-start>
             <img src="http://www.sunprairiebep.com/assets/img/profile-placeholder.gif">
           </ion-avatar>
           <div class="info">
             <div class="text">
-              <h2 class="name">{{payable.borrower?.name}}</h2>
-              <h3 class="duedate">Paid on {{payable.dueDateString}}</h3>
+              <h2 class="name">{{debt.borrower?.name}}</h2>
+              <h3 class="duedate">Paid on {{debt.dueDateString}}</h3>
             </div>
             <div class="amount">
-              <h1>{{payable.total | formatCurrency}}</h1>
+              <h1>{{debt.total | formatCurrency}}</h1>
             </div>
           </div>
         </button>
       </ion-item-sliding>
     </ion-list>
     <ion-list *ngSwitchCase="'unpaid'">
-      <ion-item-sliding *ngFor="let payable of unpaid">
-        <button ion-item>
+      <ion-item-sliding *ngFor="let debt of unpaid">
+        <button ion-item (click)="goToDebtInfo(debt)">
           <ion-avatar item-start>
             <img src="http://www.sunprairiebep.com/assets/img/profile-placeholder.gif">
           </ion-avatar>
           <div class="info">
             <div class="text">
-              <h2 class="name">{{payable.borrower?.name}}</h2>
-              <h3 class="duedate">Due on {{payable.dueDateString}}</h3>
+              <h2 class="name">{{debt.borrower?.name}}</h2>
+              <h3 class="duedate">Due on {{debt.dueDateString}}</h3>
             </div>
             <div class="amount">
-              <h1>{{payable.total | formatCurrency}}</h1>
+              <h1>{{debt.total | formatCurrency}}</h1>
             </div>
           </div>
         </button>
