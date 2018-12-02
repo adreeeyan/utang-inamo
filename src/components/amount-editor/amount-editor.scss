@@ -1,0 +1,52 @@
+amount-editor {
+    .amount-editor {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .total-part {
+        height: 30%;
+        background-color: #282728;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        .total {
+            font-size: 4em;
+        }
+
+        .accept {
+            margin-top: 10px;
+            color: lightgray;
+        }
+    }
+
+    .actions {
+        height: 70%;
+        background-color: black;
+
+        .buttons {
+            height: 100%;
+    
+            button {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                border-radius: 0;
+                background-color: #353734;
+                font-size: 2em;
+
+                &.sign {
+                    background-color: map-get($colors, primary);
+                }
+
+                &.equal {
+                    background-color: map-get($colors, danger);
+                }
+            }
+        }
+    }    
+}

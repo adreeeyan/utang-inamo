@@ -86,3 +86,10 @@ $colors: (
 
 @import "roboto";
 @import "noto-sans";
+
+
+// Urrrgghhh... Move this to another file
+// --------------------------------------------------
+.scroll-content {
+  overflow: auto !important;
+}
