@@ -24,7 +24,7 @@ import { DashboardPageModule } from '../pages/dashboard/dashboard.module';
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp, {tabsHideOnSubPages: true, pageTransition: "ios-transition"}),
+    IonicModule.forRoot(MyApp, { tabsHideOnSubPages: true, pageTransition: "ios-transition", navExitApp: false }),
     DebtListingPageModule,
     BorrowerEditorPageModule,
     DashboardPageModule
@@ -40,7 +40,7 @@ import { DashboardPageModule } from '../pages/dashboard/dashboard.module';
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })
-export class AppModule {}
+export class AppModule { }
