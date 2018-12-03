@@ -26,10 +26,8 @@ export class TabsPage {
 
     this.app.viewWillEnter.subscribe(viewCtrl => {
       // Hide the home tab if current view is neither of these
-      const tabsList = ["DebtListingPage", "DashboardPage", "DebtListingPage"];
-      const currentView = viewCtrl.instance.constructor.name;
-      this.isHomeTabShown = tabsList.indexOf(currentView) != -1;
-   })
+      this.isHomeTabShown = viewCtrl.instance instanceof DebtListingPage || viewCtrl.instance instanceof DashboardPage;
+   });
   }
 
   goToHomeTab() {
