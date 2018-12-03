@@ -1,0 +1,68 @@
+page-dashboard {
+    .dashboard {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-content: center;
+        align-items: center;
+
+        .top {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-content: center;
+            align-items: center;
+            background-color: map-get($colors, danger);
+            position: relative;
+
+            .image {
+                margin-top: 20px;
+                img {
+                    height: 150px;
+                    width: 150px;
+                    border-radius: 50%;
+                    border: 2px solid white;
+                }
+            }
+    
+            .greetings {
+                font-size: 2em;
+                font-weight: 400;
+                text-transform: uppercase;
+                text-align: center;
+            }
+
+            &:after {
+                content: '';
+                display: block;
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                height: calc(100% + 45px);
+                z-index: -1;
+                background-color: map-get($colors, danger);
+            }
+        }        
+
+        .info {
+            width: 100%;
+            margin-top: 10px;
+
+            .header {
+                text-align: center;
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+        }
+        
+        .alert {
+            button {
+                margin: 0;
+                border-radius: 0;
+            }
+        }
+    }
+}

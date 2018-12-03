@@ -12,6 +12,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { DebtListingPageModule } from '../pages/debt-listing/debt-listing.module';
 import { BorrowerEditorPageModule } from '../pages/borrower-editor/borrower-editor.module';
+import { DashboardPageModule } from '../pages/dashboard/dashboard.module';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { BorrowerEditorPageModule } from '../pages/borrower-editor/borrower-edit
     BrowserModule,
     IonicModule.forRoot(MyApp, {tabsHideOnSubPages: true, pageTransition: "ios-transition"}),
     DebtListingPageModule,
-    BorrowerEditorPageModule
+    BorrowerEditorPageModule,
+    DashboardPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
