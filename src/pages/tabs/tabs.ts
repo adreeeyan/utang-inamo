@@ -1,10 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
 
-import { NavController, Tabs, NavParams, App } from 'ionic-angular';
+import { NavController, Tabs, NavParams, App, IonicPage } from 'ionic-angular';
 import { DebtListingPage } from '../debt-listing/debt-listing';
 import { DebtType } from '../../models/debt';
 import { DashboardPage } from '../dashboard/dashboard';
 
+@IonicPage()
 @Component({
   templateUrl: 'tabs.html',
 })

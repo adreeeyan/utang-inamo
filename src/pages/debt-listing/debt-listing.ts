@@ -90,11 +90,11 @@ export class DebtListingPage {
   }
 
   goToDebtInfo(debt: Debt) {
-    this.navCtrl.push(DebtInfoPage, debt);
+    this.navCtrl.push(DebtInfoPage, { id: "1" });
   }
 
-  goToDebtEditor(debt: Debt){
-    this.navCtrl.push(DebtEditorPage, debt);
+  goToDebtEditor(debt: Debt) {
+    this.navCtrl.push(DebtEditorPage, { id: "1" });
   }
 
   openSkype() {

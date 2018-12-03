@@ -18,7 +18,7 @@ export class DebtInfoPage {
   }
 
   goToDebtEditor(debt: Debt) {
-    this.navCtrl.push(DebtEditorPage, debt);
+    this.navCtrl.push(DebtEditorPage, { id: "1" });
   }
 
   openMessenger() {
