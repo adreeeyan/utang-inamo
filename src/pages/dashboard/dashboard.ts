@@ -22,4 +22,12 @@ export class DashboardPage {
     console.log('ionViewDidLoad DashboardPage');
   }
 
+  openPayablesPage() {
+    this.navCtrl.parent.select(0);
+  }
+
+  openReceivablesPage() {
+    this.navCtrl.parent.select(2);
+  }
+
 }

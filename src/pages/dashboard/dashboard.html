@@ -13,17 +13,17 @@
           Collectibles
         </ion-card-header>
         <ion-list>
-          <ion-item>
-            <ion-icon name="cart" item-start></ion-icon>
+          <button ion-item (click)="openPayablesPage()">
+            <ion-icon name="sad" item-start></ion-icon>
             To pay
-            <ion-badge item-end color="danger">P1,000.00</ion-badge>
-          </ion-item>
+            <ion-badge item-end color="danger">₱1,000.00</ion-badge>
+          </button>
 
-          <ion-item>
-            <ion-icon name="medical" item-start></ion-icon>
+          <button ion-item (click)="openReceivablesPage()">
+            <ion-icon name="logo-freebsd-devil" item-start></ion-icon>
             To collect
-            <ion-badge item-end color="danger">P2,000.00</ion-badge>
-          </ion-item>
+            <ion-badge item-end color="danger">₱2,000.00</ion-badge>
+          </button>
         </ion-list>
       </ion-card>
     </div>
