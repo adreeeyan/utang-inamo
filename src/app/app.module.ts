@@ -24,7 +24,7 @@ import { DashboardPageModule } from '../pages/dashboard/dashboard.module';
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp, { tabsHideOnSubPages: true, pageTransition: "ios-transition", navExitApp: false }),
+    IonicModule.forRoot(MyApp, { tabsHideOnSubPages: true, pageTransition: "ios-transition" }),
     DebtListingPageModule,
     BorrowerEditorPageModule,
     DashboardPageModule

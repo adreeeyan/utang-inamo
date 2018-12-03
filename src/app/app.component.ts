@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { Platform } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { Platform, Nav, IonicApp, App, ToastController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -9,14 +9,63 @@ import { TabsPage } from '../pages/tabs/tabs';
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage:any = TabsPage;
+  rootPage: any = TabsPage;
+  @ViewChild(Nav) nav: Nav;
+  overallPages: Array<any>;
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
+  constructor(public platform: Platform,
+    statusBar: StatusBar,
+    splashScreen: SplashScreen,
+    private ionicApp: IonicApp,
+    private toastCtrl: ToastController) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
       splashScreen.hide();
+
+      // Register back button
+      this.registerBackButtonHandler();
     });
+  }
+
+  private registerBackButtonHandler() {
+    // Taken from https://stackoverflow.com/a/44365055 and https://github.com/ionic-team/ionic/issues/6982#issuecomment-295896544
+    // Back button handle
+    // Registration of push in Android and Windows Phone
+    var lastTimeBackPress = 0;
+    var timePeriodToExit = 2000;
+
+    this.platform.registerBackButtonAction(() => {
+      let activePortal = this.ionicApp._loadingPortal.getActive() ||
+        this.ionicApp._modalPortal.getActive() ||
+        this.ionicApp._overlayPortal.getActive();
+
+      //activePortal is the active overlay like a modal,toast,etc
+      if (activePortal) {
+        activePortal.dismiss();
+        return
+      }
+
+      let view = this.nav.getActive(); // As none of the above have occurred, its either a page pushed from menu or tab
+
+      if (this.nav.canGoBack() || view && view.isOverlay) {
+        this.nav.pop(); //pop if page can go back or if its an overlay over a menu page
+      }
+      else {
+        // Double check to exit app
+        if (new Date().getTime() - lastTimeBackPress < timePeriodToExit) {
+          this.platform.exitApp(); // Exit from app
+        } else {
+          let toast = this.toastCtrl.create({
+            message: "Press back again to exit the application.",
+            duration: timePeriodToExit,
+            position: "bottom"
+          });
+          toast.present();
+          lastTimeBackPress = new Date().getTime();
+        }
+      }
+    }, 0);
   }
 }
