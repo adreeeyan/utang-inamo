@@ -58,15 +58,15 @@
           </div>
         </button>
         <ion-item-options side="right" class="options">
-          <button ion-button color="secondary" class="sms">
+          <button ion-button color="secondary" class="sms" (click)="opeSMS()">
             <ion-icon name="text"></ion-icon>
             SMS
           </button>
-          <button ion-button color="secondary" class="facebook">
+          <button ion-button color="secondary" class="facebook" (click)="openMessenger()">
             <ion-icon name="logo-facebook"></ion-icon>
             FB
           </button>
-          <button ion-button color="secondary" class="skype">
+          <button ion-button color="secondary" class="skype" (click)="openSkype()">
             <ion-icon name="logo-skype"></ion-icon>
             Skype
           </button>

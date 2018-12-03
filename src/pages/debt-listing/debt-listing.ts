@@ -97,4 +97,16 @@ export class DebtListingPage {
     this.navCtrl.push(DebtEditorPage, debt);
   }
 
+  openSkype() {
+    window.open("skype:kddp.adrian?chat", "_system");
+  }
+
+  openSMS() {
+    window.open("sms://09424238867", "_system");
+  }
+
+  openMessenger() {
+    window.open("https://m.me/john.doe", "_system");
+  }
+
 }
