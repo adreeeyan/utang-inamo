@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { AmountEditorComponent } from '../../components/amount-editor/amount-editor';
+import { BorrowerPickerPage } from '../borrower-picker/borrower-picker';
 
 @IonicPage()
 @Component({
@@ -19,6 +20,11 @@ export class DebtEditorPage {
   openAmountEditor() {
     let amountEditorModal = this.modalCtrl.create(AmountEditorComponent);
     amountEditorModal.present();
+  }
+
+  openBorrowerPicker() {
+    let borrowerPickerModal = this.modalCtrl.create(BorrowerPickerPage);
+    borrowerPickerModal.present();
   }
 
 }

@@ -1,0 +1,33 @@
+<ion-header>
+
+  <ion-navbar color="primary" mode="ios">
+    <ion-buttons start>
+      <button ion-button (tap)="dismiss()" mode="ios">
+        <span ion-text>Cancel</span>
+      </button>
+    </ion-buttons>
+    <ion-searchbar mode="ios" (ionInput)="search($event)">
+    </ion-searchbar>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+
+  <ion-list class="results">
+    <button ion-item *ngFor="let borrower of searchResults" (click)="dismiss()">
+      <ion-avatar item-start>
+        <img src="http://www.sunprairiebep.com/assets/img/profile-placeholder.gif">
+      </ion-avatar>
+      <h2>{{borrower.name}}</h2>
+    </button>
+  </ion-list>
+
+  <ion-fab bottom right>
+    <button ion-fab (click)="dismiss()">
+      <ion-icon name="person"></ion-icon>
+    </button>
+  </ion-fab>
+
+</ion-content>

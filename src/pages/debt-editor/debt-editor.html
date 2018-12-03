@@ -6,7 +6,7 @@
       </button>
     </div>
     <div class="detail">Amount</div>
-    <div class="amount" (click)="openAmountEditor()">
+    <div class="amount" (tap)="openAmountEditor()">
       ₱x,xxx.xx
     </div>
   </div>
@@ -15,7 +15,7 @@
       <ion-item mode="md">
         <ion-icon name="contact" item-start></ion-icon>
         <ion-label>Borrower</ion-label>
-        <ion-input type="text"></ion-input>
+        <ion-input type="text" readonly="true" (tap)="openBorrowerPicker()"></ion-input>
       </ion-item>
       <ion-item mode="md">
         <ion-icon name="calendar" item-start></ion-icon>
