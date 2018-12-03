@@ -1,7 +1,7 @@
 <ion-header mode="md" class="header">
   <ion-title mode="ios" class="title">{{title}}</ion-title>
   <div padding>
-    <ion-segment mode="ios" class="segmenter" color="dark" [(ngModel)]="isPaid">
+    <ion-segment mode="ios" class="segmenter" color="danger" [(ngModel)]="isPaid">
       <ion-segment-button value="paid">
         <div class="segment-info">Paid</div>
         <div class="segment-total">({{totalPaid | formatCurrency}})</div>
@@ -14,7 +14,7 @@
   </div>
 
   <ion-fab bottom right edge>
-    <button ion-fab mini color="dark" (click)="goToDebtEditor(null)">
+    <button ion-fab mini color="danger" (click)="goToDebtEditor(null)">
       <ion-icon name="add"></ion-icon>
     </button>
   </ion-fab>
