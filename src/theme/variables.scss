@@ -93,3 +93,11 @@ $colors: (
 .scroll-content {
   overflow: auto !important;
 }
+
+.item-block:last-child, .list-ios > .item-wrapper:last-child .item-block {
+  border-bottom: 0 !important;
+}
+
+.list-ios > .item-block:first-child {
+  border-top: 0 !important;
+}

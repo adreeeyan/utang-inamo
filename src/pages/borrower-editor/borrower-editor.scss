@@ -1,0 +1,90 @@
+page-borrower-editor {
+    .header-container {
+        position: relative;
+        height: 200px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        justify-items: center;
+        align-items: center;
+        color: white;
+
+        .action-buttons {
+            button {
+                position: absolute;
+                top: 0;
+                box-shadow: none;
+                background-color: transparent;
+            }
+
+            .back {
+                left: 0;
+            }
+
+            .edit {
+                right: 0;
+            }
+        }
+
+        .background {
+            position: absolute;
+            width: 110%;
+            height: 100%;
+            overflow: hidden;
+            background-color: map-get($colors, primary);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .image {
+            img {
+                border-radius: 50%;
+                height: 100px;
+                width: 100px;
+                border: 3px solid white;
+                z-index: 1;
+            }
+        }
+    }
+
+    .borrower-info {
+        margin-top: 10px;
+
+        .contact-part {
+            .sms .icon {
+                color: #49d536;
+            }
+
+            .facebook .icon {
+                color: #3b5998;
+            }
+
+            .skype .icon {
+                color: #00AFF0;
+            }
+        }
+    }
+
+    .sub-info-header {
+        display: flex;
+        margin-top: 10px;
+        margin-bottom: 10px;
+
+        .title {
+            font-size: 1.3em;
+        }
+
+        .ruler {
+            background-color: gray;
+            flex-grow: 1;
+            margin: 7px;
+        }
+    }
+
+    ion-item {
+        border: 0 !important;
+    }
+}

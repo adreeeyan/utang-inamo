@@ -1,0 +1,65 @@
+<ion-content>
+  <div class="header-container">
+    <div class="background" [ngStyle]="backgroundInfo"></div>
+    <div class="action-buttons">
+      <button navPop ion-button icon-only class="back">
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+    </div>
+    <div class="image">
+      <img (click)="pickImage()" [src]="image">
+      <input class="hide" type="file" name="image" #imageFile (change)="changeImage(imageFile.files)">
+    </div>
+  </div>
+
+  <div class="borrower-info" padding>
+    <div class="sub-info-header">
+      <div class="title">
+        Name
+      </div>
+      <div class="ruler"></div>
+    </div>
+    <ion-list mode="md">
+      <ion-item mode="md">
+        <ion-input type="text" placeholder="First"></ion-input>
+      </ion-item>
+      <ion-item mode="md">
+        <ion-input type="text" placeholder="Last"></ion-input>
+      </ion-item>
+    </ion-list>
+    <div class="sub-info-header">
+      <div class="title">
+        Contact info
+      </div>
+      <div class="ruler"></div>
+    </div>
+    <ion-list mode="md" class="contact-part">
+      <ion-item mode="md" class="sms">
+        <ion-icon name="text" item-start></ion-icon>
+        <ion-label>Cell #</ion-label>
+        <ion-input type="text"></ion-input>
+      </ion-item>
+      <ion-item mode="md" class="facebook">
+        <ion-icon name="logo-facebook" item-start></ion-icon>
+        <ion-label>Messenger</ion-label>
+        <ion-input type="text"></ion-input>
+      </ion-item>
+      <ion-item mode="md" class="skype">
+        <ion-icon name="logo-skype" item-start></ion-icon>
+        <ion-label>Skype</ion-label>
+        <ion-input type="text"></ion-input>
+      </ion-item>
+      <ion-item mode="md">
+        <ion-icon name="navigate" item-start></ion-icon>
+        <ion-label>Address</ion-label>
+        <ion-textarea></ion-textarea>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <ion-fab bottom right>
+    <button ion-fab navPop>
+      <ion-icon name="checkmark"></ion-icon>
+    </button>
+  </ion-fab>
+</ion-content>

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { Borrower } from '../../models/borrower';
+import { BorrowerEditorPage } from '../borrower-editor/borrower-editor';
 
 @IonicPage()
 @Component({
@@ -12,7 +13,7 @@ export class BorrowerPickerPage {
   borrowers: Borrower[] = [];
   searchResults: Borrower[] = [];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController) {
   }
 
   ionViewDidLoad() {
@@ -46,6 +47,11 @@ export class BorrowerPickerPage {
     } else {
       this.searchResults = this.borrowers;
     }
+  }
+
+  openBorrowerEditor(){
+    let borrowerEditorModal = this.modalCtrl.create(BorrowerEditorPage);
+    borrowerEditorModal.present();
   }
 
   dismiss() {
