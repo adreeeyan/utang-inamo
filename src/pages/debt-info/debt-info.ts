@@ -17,8 +17,29 @@ export class DebtInfoPage {
     console.log('ionViewDidLoad DebtInfoPage');
   }
 
-  goToDebtEditor(debt: Debt){
+  goToDebtEditor(debt: Debt) {
     this.navCtrl.push(DebtEditorPage, debt);
+  }
+
+  openMessenger() {
+    window.open("https://m.me/john.doe", "_system");
+  }
+
+  openSkype() {
+    window.open("skype:kddp.adrian?chat", "_system");
+  }
+
+  openSMS() {
+    window.open("sms://09424238867", "_system");
+  }
+
+  openMap() {
+    const isApp = document.URL.indexOf("http") !== 0;
+    if (isApp) {
+      window.open("geo:0,0?q=compostela+cebu", "_system");
+    } else {
+      window.open("https://www.google.com/maps/dir/?api=1&destination=compostela%20%cebu", "_system");
+    }
   }
 
 }

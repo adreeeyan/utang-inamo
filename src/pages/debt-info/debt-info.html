@@ -34,25 +34,25 @@
         <button ion-item mode="md" class="sms">
           <ion-icon name="text" item-start></ion-icon>
           09xxxxxxxx
-          <ion-badge item-end>Text now ></ion-badge>
+          <ion-badge item-end (click)="openSMS()">Text now ></ion-badge>
         </button>
     
         <button ion-item mode="md" class="facebook">
           <ion-icon name="logo-facebook" item-start></ion-icon>
           user.id
-          <ion-badge item-end>PM now ></ion-badge>
+          <ion-badge item-end (click)="openMessenger()">PM now ></ion-badge>
         </button>
     
         <button ion-item mode="md" class="skype">
           <ion-icon name="logo-skype" item-start></ion-icon>
           user.id
-          <ion-badge item-end>DM now ></ion-badge>
+          <ion-badge item-end (click)="openSkype()">DM now ></ion-badge>
         </button>
         
         <button ion-item mode="md">
           <ion-icon name="navigate" item-start></ion-icon>
           Where...
-          <ion-badge item-end>Find now ></ion-badge>
+          <ion-badge item-end (click)="openMap()">Find now ></ion-badge>
         </button>
       </ion-list>
     </div>
