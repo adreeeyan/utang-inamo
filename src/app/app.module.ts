@@ -10,8 +10,6 @@ import { BorrowerEditorPageModule } from '../pages/borrower-editor/borrower-edit
 import { DashboardPageModule } from '../pages/dashboard/dashboard.module';
 import { TabsPageModule } from '../pages/tabs/tabs.module';
 import { DebtInfoPage } from '../pages/debt-info/debt-info';
-import { BorrowerEditorPage } from '../pages/borrower-editor/borrower-editor';
-import { BorrowerPickerPage } from '../pages/borrower-picker/borrower-picker';
 import { DashboardPage } from '../pages/dashboard/dashboard';
 import { DebtEditorPage } from '../pages/debt-editor/debt-editor';
 import { DebtListingPage } from '../pages/debt-listing/debt-listing';
