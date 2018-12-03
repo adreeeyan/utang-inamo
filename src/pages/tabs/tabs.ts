@@ -1,7 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
 
-import { AboutPage } from '../about/about';
-import { ContactPage } from '../contact/contact';
 import { HomePage } from '../home/home';
 import { NavController, Tabs, NavParams, App } from 'ionic-angular';
 import { DebtListingPage } from '../debt-listing/debt-listing';
