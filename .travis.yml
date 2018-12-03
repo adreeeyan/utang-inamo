@@ -1,0 +1,21 @@
+language: node_js
+cache:
+  directories:
+  - node_modules
+before_install:
+- nvm install 8
+- npm install -g ionic
+script:
+  - npm install
+  - bash ./travis/deploy-to-gh-pages.sh
+env:
+  global:
+    - GITHUB_REPO: "adrianonrails/utang-inamo"
+deploy:
+  provider: pages
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN
+  keep-history: true
+  local-dir: www/
+  on:
+    branch: master
