@@ -1,9 +1,9 @@
-<ion-tabs #theTabs tabsLayout="icon-start" [selectedIndex]="selectedTab">
+<ion-tabs #theTabs tabsLayout="icon-start" [selectedIndex]="selectedTab" [class.hideme]="!isHomeTabShown">
   <ion-tab [root]="tab1Root" [rootParams]="tab1RootParams" tabTitle="Payables" tabIcon="sad"></ion-tab>
-  <ion-tab [root]="tab2Root"></ion-tab>
+  <ion-tab [root]="tab2Root" tabTitle="Dashboard"></ion-tab>
   <ion-tab [root]="tab3Root" [rootParams]="tab3RootParams" tabTitle="Receivables" tabIcon="logo-freebsd-devil"></ion-tab>
 </ion-tabs>
 
-<ion-fab center bottom class="home-fab" *ngIf="isHomeTabShown">
+<ion-fab center bottom class="home-fab" [hidden]="!isHomeTabShown">
   <button ion-fab (click)="goToHomeTab()"><ion-icon name="home"></ion-icon></button>
 </ion-fab>

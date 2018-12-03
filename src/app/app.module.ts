@@ -23,15 +23,13 @@ import { TabsPage } from '../pages/tabs/tabs';
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp, { tabsHideOnSubPages: true, pageTransition: "ios-transition" }, {
+    IonicModule.forRoot(MyApp, { pageTransition: "ios-transition" }, {
       links: [
-        { component: BorrowerEditorPage, name: "borrower-editor", segment: "borrower-editor/:id", defaultHistory: [TabsPage] },
-        { component: BorrowerPickerPage, name: "borrower-picker", segment: "borrower-picker", defaultHistory: [TabsPage] },
-        { component: DashboardPage, name: "dashboard", segment: "dashboard/:id",  defaultHistory: [TabsPage] },
-        { component: DebtEditorPage, name: "debt-editor", segment: "debt-editor/:id", defaultHistory: [TabsPage] },
-        { component: DebtInfoPage, name: "debt-info", segment: "debt-info/:id", defaultHistory: [TabsPage] },
-        { component: DebtListingPage, name: "debt-list", segment: "debt-list", defaultHistory: [TabsPage] },
-        { component: TabsPage, name: "home", segment: "home", }
+        { component: DashboardPage, name: "dashboard", segment: "dashboard" },
+        { component: DebtEditorPage, name: "debt-editor", segment: "debt-editor/:id", defaultHistory: [DebtListingPage] },
+        { component: DebtInfoPage, name: "debt-info", segment: "debt-info/:id", defaultHistory: [DebtListingPage] },
+        { component: DebtListingPage, name: "debt-list", segment: "debt-list" },
+        { component: TabsPage, name: "tabs", segment: "tab" }
       ]
     }),
     DebtListingPageModule,

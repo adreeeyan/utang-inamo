@@ -1,9 +1,21 @@
-.tabbar{
-    height: 45px;
-}
+ion-tabs {
+    &.hideme {
+        .tabbar {
+            display: none;
+        }
+    }
 
-.home-fab button {
-    $primary: map-get($colors, secondary);
-    $lighter-primary: lighten($primary, 20%);
-    background: linear-gradient(200deg, $primary 23%, $lighter-primary 100%) !important;
+    .tabbar{
+        height: 45px;
+
+        > a:nth-child(2) {
+            display: none !important;
+        }
+    }
+
+    .home-fab button {
+        $primary: map-get($colors, secondary);
+        $lighter-primary: lighten($primary, 20%);
+        background: linear-gradient(200deg, $primary 23%, $lighter-primary 100%) !important;
+    }
 }

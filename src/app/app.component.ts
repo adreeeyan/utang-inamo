@@ -1,10 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
-import { Platform, Nav, IonicApp, ToastController } from 'ionic-angular';
+import { Platform, Nav, IonicApp, ToastController, IonicPage } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { TabsPage } from '../pages/tabs/tabs';
 
+@IonicPage()
 @Component({
   templateUrl: 'app.html'
 })
@@ -26,6 +27,9 @@ export class MyApp {
 
       // Register back button
       this.registerBackButtonHandler();
+
+      // This is for PWA back button
+      this.backButtonListener();
     });
   }
 
@@ -44,7 +48,7 @@ export class MyApp {
       //activePortal is the active overlay like a modal,toast,etc
       if (activePortal) {
         activePortal.dismiss();
-        return
+        return;
       }
 
       let view = this.nav.getActive(); // As none of the above have occurred, its either a page pushed from menu or tab
@@ -67,5 +71,21 @@ export class MyApp {
         }
       }
     }, 0);
+  }
+
+  private backButtonListener() {
+    // Taken from here: https://github.com/ionic-team/ionic/issues/13964#issuecomment-363453732
+    // Still an issue in ionic
+    window.onpopstate = (evt) => {
+      // Close any active modals or overlays
+      let activePortal = this.ionicApp._loadingPortal.getActive() ||
+        this.ionicApp._modalPortal.getActive() ||
+        this.ionicApp._toastPortal.getActive() ||
+        this.ionicApp._overlayPortal.getActive();
+      if (activePortal) {
+        activePortal.dismiss();
+        return;
+      }
+    }
   }
 }

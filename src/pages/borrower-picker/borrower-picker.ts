@@ -14,6 +14,9 @@ export class BorrowerPickerPage {
   searchResults: Borrower[] = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController) {
+    // A hack from ionic: https://github.com/ionic-team/ionic/issues/13964#issuecomment-363453732
+    const foo = { foo: true };
+    history.pushState(foo, "anything", " "); // Put something to history for back button
   }
 
   ionViewDidLoad() {
