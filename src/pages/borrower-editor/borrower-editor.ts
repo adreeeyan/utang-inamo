@@ -8,7 +8,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class BorrowerEditorPage {
 
-  image: string = "http://www.sunprairiebep.com/assets/img/profile-placeholder.gif";
+  image: string = "assets/imgs/user-placeholder.jpg";
   @ViewChild("imageFile")
   imageFile: any;
 
@@ -32,7 +32,7 @@ export class BorrowerEditorPage {
   }
 
   get backgroundImage(){
-    if(this.image != "http://www.sunprairiebep.com/assets/img/profile-placeholder.gif"){
+    if(this.image != "assets/imgs/user-placeholder.jpg"){
       return 'url(' + this.image + ')';
     }else{
       return "";
@@ -40,7 +40,7 @@ export class BorrowerEditorPage {
   }
 
   get backgroundInfo(){
-    if(this.image != "http://www.sunprairiebep.com/assets/img/profile-placeholder.gif"){
+    if(this.image != "assets/imgs/user-placeholder.jpg"){
       const options = {
         backgroundImage: `url(${this.image})`,
         filter: "blur(5px)"
