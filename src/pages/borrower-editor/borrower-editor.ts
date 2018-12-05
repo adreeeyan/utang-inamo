@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { AuthProvider } from '../../providers/auth/auth';
 
 @IonicPage()
 @Component({
@@ -12,10 +13,14 @@ export class BorrowerEditorPage {
   @ViewChild("imageFile")
   imageFile: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private authProvider: AuthProvider) {
     // A hack from ionic: https://github.com/ionic-team/ionic/issues/13964#issuecomment-363453732
     const foo = { foo: true };
     history.pushState(foo, "anything", " "); // Put something to history for back button
+  }
+
+  ionViewCanEnter(): Promise<any> {
+    return this.authProvider.isAuthenticated();
   }
 
   ionViewDidLoad() {

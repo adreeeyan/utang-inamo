@@ -16,6 +16,12 @@ page-dashboard {
             background-color: map-get($colors, danger);
             position: relative;
 
+            .logout {
+                position: absolute;
+                top: 0;
+                right: 0;
+            }
+
             .image {
                 margin-top: 20px;
                 img {

@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
+import { AuthProvider } from '../../providers/auth/auth';
 
 @IonicPage()
 @Component({
@@ -8,11 +10,31 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class DashboardPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  user: any;
+
+  constructor(public navCtrl: NavController,
+    public navParams: NavParams,
+    private storage: Storage,
+    private authProvider: AuthProvider) {
+  }
+
+  async ionViewCanEnter() {
+    return await this.authProvider.isAuthenticated();
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad DashboardPage');
+
+    // Retrieve user from storage
+    this.storage.get("user").then(user => {
+      if (user == null) {
+        user = {};
+      }
+      this.user = {
+        name: user.firstName || "Hooman",
+        picture: user.picture || "assets/imgs/user-placeholder.jpg"
+      };
+    });
   }
 
   openPayablesPage() {
@@ -21,6 +43,10 @@ export class DashboardPage {
 
   openReceivablesPage() {
     this.navCtrl.parent.select(2);
+  }
+
+  logout() {
+    this.authProvider.logout();
   }
 
 }

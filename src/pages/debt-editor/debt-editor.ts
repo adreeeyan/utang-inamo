@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { AmountEditorComponent } from '../../components/amount-editor/amount-editor';
 import { BorrowerPickerPage } from '../borrower-picker/borrower-picker';
+import { AuthProvider } from '../../providers/auth/auth';
 
 @IonicPage()
 @Component({
@@ -10,7 +11,14 @@ import { BorrowerPickerPage } from '../borrower-picker/borrower-picker';
 })
 export class DebtEditorPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController) {
+  constructor(public navCtrl: NavController,
+    public navParams: NavParams,
+    public modalCtrl: ModalController,
+    private authProvider: AuthProvider) {
+  }
+
+  ionViewCanEnter(): Promise<any> {
+    return this.authProvider.isAuthenticated();
   }
 
   ionViewDidLoad() {

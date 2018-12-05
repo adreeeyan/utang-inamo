@@ -1,10 +1,15 @@
 <ion-content>
   <div class="dashboard">
     <div class="top">
-      <div class="image">
-        <img src="assets/imgs/user-placeholder.jpg">
+      <div class="logout">
+        <button ion-button icon-only clear (click)="logout()">
+          <ion-icon name="log-out"></ion-icon>
+        </button>
       </div>
-      <div class="greetings">Hello Hooman!</div>
+      <div class="image" *ngIf="user != null">
+        <img [src]="user.picture">
+      </div>
+      <div class="greetings">Hello {{user?.name}}!</div>
     </div>
 
     <div class="info">

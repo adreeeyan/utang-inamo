@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { Borrower } from '../../models/borrower';
 import { BorrowerEditorPage } from '../borrower-editor/borrower-editor';
+import { AuthProvider } from '../../providers/auth/auth';
 
 @IonicPage()
 @Component({
@@ -13,10 +14,14 @@ export class BorrowerPickerPage {
   borrowers: Borrower[] = [];
   searchResults: Borrower[] = [];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, private authProvider: AuthProvider) {
     // A hack from ionic: https://github.com/ionic-team/ionic/issues/13964#issuecomment-363453732
     const foo = { foo: true };
     history.pushState(foo, "anything", " "); // Put something to history for back button
+  }
+
+  ionViewCanEnter(): Promise<any> {
+    return this.authProvider.isAuthenticated();
   }
 
   ionViewDidLoad() {

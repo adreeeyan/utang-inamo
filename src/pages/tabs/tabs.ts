@@ -23,7 +23,9 @@ export class TabsPage {
 
   @ViewChild('theTabs') tabRef: Tabs;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public app: App) {
+  constructor(public navCtrl: NavController,
+    public navParams: NavParams,
+    public app: App) {
 
     this.app.viewWillEnter.subscribe(viewCtrl => {
       // Hide the home tab if current view is neither of these

@@ -1,9 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
-import { Platform, Nav, IonicApp, ToastController, IonicPage } from 'ionic-angular';
+import { Platform, Nav, IonicApp, ToastController, IonicPage, App, LoadingController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
+import { SignInPage } from '../pages/sign-in/sign-in';
 import { TabsPage } from '../pages/tabs/tabs';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { Storage } from '@ionic/storage';
 
 @IonicPage()
 @Component({
@@ -17,8 +20,12 @@ export class MyApp {
   constructor(public platform: Platform,
     statusBar: StatusBar,
     splashScreen: SplashScreen,
+    private angularFireAuth: AngularFireAuth,
+    private app: App,
     private ionicApp: IonicApp,
-    private toastCtrl: ToastController) {
+    private toastCtrl: ToastController,
+    private storage: Storage,
+    private loadingCtrl: LoadingController) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -30,6 +37,27 @@ export class MyApp {
 
       // This is for PWA back button
       this.backButtonListener();
+    });
+
+    let loading = this.loadingCtrl.create({
+      content: "Checking for signed in user..."
+    });
+
+    loading.present();
+
+    // Authentication
+    this.angularFireAuth.auth.onAuthStateChanged(user => {
+      // also check if there is a user data in the storage
+      this.storage.get("user").then(responseUser => {
+        if (user && (responseUser != null)) {
+          console.log("signed in");
+          loading.dismiss();
+        } else {
+          console.log("not signed in");
+          loading.dismiss();
+          this.app.getActiveNav().setRoot(SignInPage);
+        }
+      });
     });
   }
 

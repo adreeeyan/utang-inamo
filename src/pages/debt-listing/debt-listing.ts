@@ -4,6 +4,7 @@ import { Debt, DebtType, DebtStatus } from '../../models/debt';
 import { Borrower } from '../../models/borrower';
 import { DebtInfoPage } from '../debt-info/debt-info';
 import { DebtEditorPage } from '../debt-editor/debt-editor';
+import { AuthProvider } from '../../providers/auth/auth';
 
 @IonicPage()
 @Component({
@@ -17,7 +18,13 @@ export class DebtListingPage {
   isPaid: string = "unpaid";
   debts: Debt[] = [];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController,
+    public navParams: NavParams,
+    private authProvider: AuthProvider) {
+  }
+
+  ionViewCanEnter(): Promise<any> {
+    return this.authProvider.isAuthenticated();
   }
 
   ionViewDidLoad() {
