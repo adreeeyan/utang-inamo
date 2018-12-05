@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, ToastController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { AuthProvider } from '../../providers/auth/auth';
 import { TabsPage } from '../tabs/tabs';
@@ -15,7 +15,8 @@ export class SignInPage {
     public navParams: NavParams,
     private authProvider: AuthProvider,
     private loadingCtrl: LoadingController,
-    private storage: Storage) {
+    private storage: Storage,
+    private toastCtrl: ToastController) {
   }
 
   ionViewDidLoad() {
@@ -37,6 +38,7 @@ export class SignInPage {
 
       // Save to storage
       await this.storage.set("user", {
+        isLocal: false,
         name: response.user.displayName,
         firstName: response.additionalUserInfo.profile.given_name,
         lastName: response.additionalUserInfo.profile.family_name,
@@ -49,15 +51,26 @@ export class SignInPage {
     }
     catch (e) {
       console.log("Error logging in.", e);
+      this.toastCtrl.create({
+        message: "Cannot login, please try again.",
+        duration: 2000
+      }).present();
     }
     finally {
       loading.dismiss();
     }
   }
 
-  async logout() {
-    await this.storage.remove("user");
-    this.authProvider.logout();
+  async directUse() {
+    await this.storage.set("user", {
+      isLocal: true,
+      name: "Hooman",
+      firstName: "Hooman",
+      lastName: "Hooman",
+      picture: "assets/imgs/user-placeholder.jpg"
+    });
+
+    this.goToHomePage();
   }
 
   goToHomePage() {

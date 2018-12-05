@@ -7,6 +7,7 @@ import { SignInPage } from '../pages/sign-in/sign-in';
 import { TabsPage } from '../pages/tabs/tabs';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Storage } from '@ionic/storage';
+import { AuthProvider } from '../providers/auth/auth';
 
 @IonicPage()
 @Component({
@@ -25,7 +26,8 @@ export class MyApp {
     private ionicApp: IonicApp,
     private toastCtrl: ToastController,
     private storage: Storage,
-    private loadingCtrl: LoadingController) {
+    private loadingCtrl: LoadingController,
+    private authProvider: AuthProvider) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -47,15 +49,23 @@ export class MyApp {
 
     // Authentication
     this.angularFireAuth.auth.onAuthStateChanged(user => {
+      this.authProvider.fastIsLoggedIn = user != null;
+
       // also check if there is a user data in the storage
       this.storage.get("user").then(responseUser => {
         if (user && (responseUser != null)) {
           console.log("signed in");
           loading.dismiss();
         } else {
-          console.log("not signed in");
           loading.dismiss();
-          this.app.getActiveNav().setRoot(SignInPage);
+
+          // check if local usage
+          if (responseUser && responseUser.isLocal) {
+            console.log("signed in locally");
+          } else {
+            console.log("not signed in");
+            this.app.getActiveNav().setRoot(SignInPage);
+          }
         }
       });
     });

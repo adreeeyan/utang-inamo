@@ -11,6 +11,9 @@ import { Storage } from '@ionic/storage';
 @Injectable()
 export class AuthProvider {
 
+  private _fastHasCachedUser: boolean = false;
+  fastIsLoggedIn: boolean = false; // use this after firebase check
+
   constructor(public http: HttpClient,
     private angularFireAuth: AngularFireAuth,
     private googlePlus: GooglePlus,
@@ -19,16 +22,22 @@ export class AuthProvider {
     console.log('Hello AuthProvider Provider');
   }
 
-  async isAuthenticated(): Promise<any> {
+  async hasCachedUser(): Promise<any> {
     try
     {
       const user = await this.storage.get("user");
-      return Promise.resolve(user != null);
+      this._fastHasCachedUser = user != null;
+      return Promise.resolve(this._fastHasCachedUser);
     }
     catch(e)
     {
+      this._fastHasCachedUser = false;
       return Promise.reject(false);
     }
+  }
+
+  get fastHasCachedUser() {
+    return this._fastHasCachedUser;
   }
 
   googleLogin(): Promise<any> {

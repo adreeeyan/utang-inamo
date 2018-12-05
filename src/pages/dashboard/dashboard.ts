@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { AuthProvider } from '../../providers/auth/auth';
+import { SignInPage } from '../sign-in/sign-in';
 
 @IonicPage()
 @Component({
@@ -19,7 +20,7 @@ export class DashboardPage {
   }
 
   async ionViewCanEnter() {
-    return await this.authProvider.isAuthenticated();
+    return await this.authProvider.hasCachedUser();
   }
 
   ionViewDidLoad() {
@@ -45,8 +46,24 @@ export class DashboardPage {
     this.navCtrl.parent.select(2);
   }
 
-  logout() {
-    this.authProvider.logout();
+  async logout() {
+    try
+    {
+      await this.storage.remove("user");
+      this.authProvider.logout();
+    }
+    catch(e)
+    {
+      console.log("Problem logging out.", e);
+    }
+    finally
+    {
+      this.navCtrl.setRoot(SignInPage);
+    }    
+  }
+
+  get isLoggedIn() {
+    return this.authProvider.fastIsLoggedIn;
   }
 
 }

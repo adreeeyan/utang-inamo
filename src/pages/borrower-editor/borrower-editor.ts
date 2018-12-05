@@ -20,7 +20,7 @@ export class BorrowerEditorPage {
   }
 
   ionViewCanEnter(): Promise<any> {
-    return this.authProvider.isAuthenticated();
+    return this.authProvider.hasCachedUser();
   }
 
   ionViewDidLoad() {

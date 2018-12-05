@@ -3,7 +3,7 @@
     <div class="top">
       <div class="logout">
         <button ion-button icon-only clear (click)="logout()">
-          <ion-icon name="log-out"></ion-icon>
+          <ion-icon name="exit" color="dark"></ion-icon>
         </button>
       </div>
       <div class="image" *ngIf="user != null">
@@ -33,7 +33,7 @@
       </ion-card>
     </div>
 
-    <div class="alert">
+    <div class="alert" *ngIf="!isLoggedIn">
       <ion-card color="realdanger">
         <ion-card-content>
           You are not signed in.<br /><br />
