@@ -7,12 +7,14 @@ import { ViewController } from 'ionic-angular';
 })
 export class AmountEditorComponent {
 
+  amount: any = 1000;
+
   constructor(public viewCtrl: ViewController) {
     console.log('Hello AmountEditorComponent Component');
   }
 
   accept() {
-    this.viewCtrl.dismiss();
+    this.viewCtrl.dismiss(this.amount);
   }
 
 }

@@ -1,4 +1,4 @@
-<ion-content>
+<ion-content *ngIf="borrower">
   <div class="header-container">
     <div class="background" [ngStyle]="backgroundInfo"></div>
     <div class="action-buttons">
@@ -7,7 +7,7 @@
       </button>
     </div>
     <div class="image">
-      <img (click)="pickImage()" [src]="image">
+      <img (click)="pickImage()" [src]="borrower.image">
       <input class="hide" type="file" name="image" #imageFile (change)="changeImage(imageFile.files)">
     </div>
   </div>
@@ -21,10 +21,10 @@
     </div>
     <ion-list mode="md">
       <ion-item mode="md">
-        <ion-input type="text" placeholder="First"></ion-input>
+        <ion-input type="text" placeholder="First" [(ngModel)]="borrower.firstName"></ion-input>
       </ion-item>
       <ion-item mode="md">
-        <ion-input type="text" placeholder="Last"></ion-input>
+        <ion-input type="text" placeholder="Last" [(ngModel)]="borrower.lastName"></ion-input>
       </ion-item>
     </ion-list>
     <div class="sub-info-header">
@@ -37,28 +37,28 @@
       <ion-item mode="md" class="sms">
         <ion-icon name="text" item-start></ion-icon>
         <ion-label>Cell #</ion-label>
-        <ion-input type="text"></ion-input>
+        <ion-input type="text" [(ngModel)]="borrower.cellNumber"></ion-input>
       </ion-item>
       <ion-item mode="md" class="facebook">
         <ion-icon name="logo-facebook" item-start></ion-icon>
         <ion-label>Messenger</ion-label>
-        <ion-input type="text"></ion-input>
+        <ion-input type="text" [(ngModel)]="borrower.messengerId"></ion-input>
       </ion-item>
       <ion-item mode="md" class="skype">
         <ion-icon name="logo-skype" item-start></ion-icon>
         <ion-label>Skype</ion-label>
-        <ion-input type="text"></ion-input>
+        <ion-input type="text" [(ngModel)]="borrower.skypeId"></ion-input>
       </ion-item>
       <ion-item mode="md">
         <ion-icon name="navigate" item-start></ion-icon>
         <ion-label>Address</ion-label>
-        <ion-textarea></ion-textarea>
+        <ion-textarea [(ngModel)]="borrower.address"></ion-textarea>
       </ion-item>
     </ion-list>
   </div>
 
   <ion-fab bottom right>
-    <button ion-fab navPop>
+    <button ion-fab (click)="saveBorrower()">
       <ion-icon name="checkmark"></ion-icon>
     </button>
   </ion-fab>

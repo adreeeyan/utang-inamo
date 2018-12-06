@@ -15,7 +15,7 @@
 <ion-content>
 
   <ion-list class="results">
-    <button ion-item *ngFor="let borrower of searchResults" (click)="dismiss()">
+    <button ion-item *ngFor="let borrower of searchResults" (click)="select(borrower)">
       <ion-avatar item-start>
         <img src="assets/imgs/user-placeholder.jpg">
       </ion-avatar>

@@ -14,6 +14,6 @@ export class Borrower {
     }
 
     get name(){
-        return `${this.firstName} ${this.middleName} ${this.lastName}`;
+        return `${this.firstName} ${this.lastName}`;
     }
 }

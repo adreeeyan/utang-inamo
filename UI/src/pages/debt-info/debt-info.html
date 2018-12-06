@@ -1,15 +1,15 @@
-<ion-content>
+<ion-content *ngIf="debt">
   <div class="header-container">
     <div class="action-buttons">
       <button navPop ion-button icon-only class="back">
         <ion-icon name="arrow-back"></ion-icon>
       </button>
-      <button ion-button icon-only class="edit" (click)="goToDebtEditor(null)">
+      <button ion-button icon-only class="edit" (click)="goToDebtEditor()">
         <ion-icon name="md-create"></ion-icon>
       </button>
     </div>
     <div class="amount">
-      ₱1,000.00
+      {{debt.amount | formatCurrency}}
     </div>
     <button ion-button color="danger" round>SET AS PAID</button>
   </div>
@@ -19,8 +19,8 @@
         <img src="assets/imgs/user-placeholder.jpg">
       </div>
       <div class="right">
-        <h3 class="name">John Doe</h3>
-        <h5 class="duedate">Due on August 29, 2018</h5>
+        <h3 class="name">{{debt.borrower?.name}}</h3>
+        <h5 class="duedate">Due on {{debt.dueDateString}}</h5>
       </div>
     </div>
     <div class="contact-part">
@@ -33,25 +33,25 @@
       <ion-list mode="md">
         <button ion-item mode="md" class="sms">
           <ion-icon name="text" item-start></ion-icon>
-          09xxxxxxxx
+          {{debt.borrower?.cellNumber}}
           <ion-badge item-end (click)="openSMS()">Text now ></ion-badge>
         </button>
     
         <button ion-item mode="md" class="facebook">
           <ion-icon name="logo-facebook" item-start></ion-icon>
-          user.id
+          {{debt.borrower?.messengerId}}
           <ion-badge item-end (click)="openMessenger()">PM now ></ion-badge>
         </button>
     
         <button ion-item mode="md" class="skype">
           <ion-icon name="logo-skype" item-start></ion-icon>
-          user.id
+          {{debt.borrower?.skypeId}}
           <ion-badge item-end (click)="openSkype()">DM now ></ion-badge>
         </button>
         
         <button ion-item mode="md">
           <ion-icon name="navigate" item-start></ion-icon>
-          Where...
+          {{debt.borrower?.address}}
           <ion-badge item-end (click)="openMap()">Find now ></ion-badge>
         </button>
       </ion-list>
@@ -65,11 +65,11 @@
       </div>
       <ion-list mode="md">
         <ion-item mode="md">
-          Date of debt: August 21, 2018
+          Date of debt: {{debt.borrowedDateString}}
         </ion-item>
         
         <ion-item mode="md">
-          Interest: 10%
+          Interest: {{debt.interest}}
         </ion-item>
       </ion-list>
     </div>

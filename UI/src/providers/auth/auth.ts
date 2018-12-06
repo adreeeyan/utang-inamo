@@ -96,13 +96,7 @@ export class AuthProvider {
       password: password
     };
 
-    this.http.post("http://localhost:3000/auth/login", JSON.stringify(credentials), { headers: headers })
-      .toPromise()
-      .then(res => {
-        this.debtsProvider.init(res);
-      }, (err) => {
-        console.log(err);
-      });
+    return this.http.post("http://localhost:3000/auth/login", credentials, { headers: headers }).toPromise();
   }
 
   register(username, email, password, confirmPassword) {

@@ -14,15 +14,40 @@ export class Debt {
 
     constructor(init?: Partial<Debt>) {
         Object.assign(this, init);
+
+        if (init.borrower) {
+            this.borrower = new Borrower(init.borrower);
+        }
     }
 
     get total() {
-        return (this.amount * this.interest) + this.amount;
+        return (this.amount * (this.interest / 100)) + this.amount;
     }
 
     get dueDateString() {
-        let options = {  year: "numeric", month: "long", day: "numeric" };
-        return this.dueDate.toLocaleDateString("en-US", options);
+        let options = { year: "numeric", month: "long", day: "numeric" };
+        let useDate = this.dueDate;
+        if(!useDate){
+            return "";
+        }
+
+        if (typeof useDate == "string") {
+            useDate = new Date(useDate);
+        }
+        return useDate.toLocaleDateString("en-US", options);
+    }
+
+    get borrowedDateString() {
+        let options = { year: "numeric", month: "long", day: "numeric" };
+        let useDate = this.borrowedDate;
+        if(!useDate){
+            return "";
+        }
+        
+        if (typeof useDate == "string") {
+            useDate = new Date(useDate);
+        }
+        return useDate.toLocaleDateString("en-US", options);
     }
 }
 

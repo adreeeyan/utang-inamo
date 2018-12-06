@@ -14,7 +14,7 @@ import { AuthProvider } from '../providers/auth/auth';
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage: any = TabsPage;
+  rootPage: any = SignInPage;
   @ViewChild(Nav) nav: Nav;
   overallPages: Array<any>;
 
@@ -41,34 +41,34 @@ export class MyApp {
       this.backButtonListener();
     });
 
-    let loading = this.loadingCtrl.create({
-      content: "Checking for signed in user..."
-    });
+    // let loading = this.loadingCtrl.create({
+    //   content: "Checking for signed in user..."
+    // });
 
-    loading.present();
+    // loading.present();
 
     // Authentication
-    this.angularFireAuth.auth.onAuthStateChanged(user => {
-      this.authProvider.fastIsLoggedIn = user != null;
+    // this.angularFireAuth.auth.onAuthStateChanged(user => {
+    //   this.authProvider.fastIsLoggedIn = user != null;
 
-      // also check if there is a user data in the storage
-      this.storage.get("user").then(responseUser => {
-        if (user && (responseUser != null)) {
-          console.log("signed in");
-          loading.dismiss();
-        } else {
-          loading.dismiss();
+    //   // also check if there is a user data in the storage
+    //   this.storage.get("user").then(responseUser => {
+    //     if (user && (responseUser != null)) {
+    //       console.log("signed in");
+    //       loading.dismiss();
+    //     } else {
+    //       loading.dismiss();
 
-          // check if local usage
-          if (responseUser && responseUser.isLocal) {
-            console.log("signed in locally");
-          } else {
-            console.log("not signed in");
-            this.app.getActiveNav().setRoot(SignInPage);
-          }
-        }
-      });
-    });
+    //       // check if local usage
+    //       if (responseUser && responseUser.isLocal) {
+    //         console.log("signed in locally");
+    //       } else {
+    //         console.log("not signed in");
+    //         this.app.getActiveNav().setRoot(SignInPage);
+    //       }
+    //     }
+    //   });
+    // });
   }
 
   private registerBackButtonHandler() {

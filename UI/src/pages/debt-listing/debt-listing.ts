@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, ToastController } from 'ionic-angular';
 import { Debt, DebtType, DebtStatus } from '../../models/debt';
 import { Borrower } from '../../models/borrower';
 import { DebtInfoPage } from '../debt-info/debt-info';
 import { DebtEditorPage } from '../debt-editor/debt-editor';
 import { AuthProvider } from '../../providers/auth/auth';
+import { DebtsProvider } from '../../providers/debts/debts';
 
 @IonicPage()
 @Component({
@@ -20,60 +21,82 @@ export class DebtListingPage {
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
-    private authProvider: AuthProvider) {
+    private authProvider: AuthProvider,
+    private debtsProvider: DebtsProvider,
+    private loadingCtrl: LoadingController,
+    private toastCtrl: ToastController) {
   }
 
-  ionViewCanEnter(): Promise<any> {
-    return this.authProvider.hasCachedUser();
-  }
+  // ionViewCanEnter(): Promise<any> {
+  //   return this.authProvider.hasCachedUser();
+  // }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad DebtListingPage');
+  async ionViewDidEnter() {
+    console.log('ionViewDidEnter DebtListingPage');
     this.debtType = this.navParams.get("type");
     this.isPaid = "unpaid";
-    this.debts = this.debtType == DebtType.PAYABLE ? this.getPayables() : this.getReceivables();
+    this.debts = this.debtType == DebtType.PAYABLE ? await this.getPayables() : await this.getReceivables();
   }
 
-  getPayables() {
-    let list = [];
-    for (let x = 0; x < 30; x++) {
-      let dueDate = new Date();
-      dueDate.setDate(dueDate.getDay() + (Math.random() * 30))
-
-      list.push(new Debt({
-        type: DebtType.PAYABLE,
-        borrower: new Borrower({
-          lastName: `${x}`,
-          firstName: "Person"
-        }),
-        amount: Math.random() * 3000,
-        dueDate: dueDate,
-        status: (Math.round(Math.random() * 1 % 2) == 0) ? DebtStatus.PAID : DebtStatus.UNPAID
-      }));
+  async getPayables() {
+    let payables = [];
+    try {
+      const debts: Debt[] = await this.debtsProvider.getDebts();
+      payables = debts.filter(debt => debt.type == DebtType.PAYABLE);
     }
+    catch (e) {
+      console.log("Issue while retrieving payables.", e);
+    }
+    return payables;
 
-    return list;
+    // let list = [];
+    // for (let x = 0; x < 30; x++) {
+    //   let dueDate = new Date();
+    //   dueDate.setDate(dueDate.getDay() + (Math.random() * 30))
+
+    //   list.push(new Debt({
+    //     type: DebtType.PAYABLE,
+    //     borrower: new Borrower({
+    //       lastName: `${x}`,
+    //       firstName: "Person"
+    //     }),
+    //     amount: Math.random() * 3000,
+    //     dueDate: dueDate,
+    //     status: (Math.round(Math.random() * 1 % 2) == 0) ? DebtStatus.PAID : DebtStatus.UNPAID
+    //   }));
+    // }
+
+    // return list;
   }
 
-  getReceivables() {
-    let list = [];
-    for (let x = 0; x < 30; x++) {
-      let dueDate = new Date();
-      dueDate.setDate(dueDate.getDay() + (Math.random() * 30))
-
-      list.push(new Debt({
-        type: DebtType.RECEIVABLE,
-        borrower: new Borrower({
-          lastName: `${x}`,
-          firstName: "Person"
-        }),
-        amount: Math.random() * 3000,
-        dueDate: dueDate,
-        status: (Math.round(Math.random() * 1 % 2) == 0) ? DebtStatus.PAID : DebtStatus.UNPAID
-      }));
+  async getReceivables() {
+    let receivables = [];
+    try {
+      const debts: Debt[] = await this.debtsProvider.getDebts();
+      receivables = debts.filter(debt => debt.type == DebtType.RECEIVABLE);
     }
+    catch (e) {
+      console.log("Issue while retrieving receivables.", e);
+    }
+    return receivables;
+    // let list = [];
+    // for (let x = 0; x < 30; x++) {
+    //   let dueDate = new Date();
+    //   dueDate.setDate(dueDate.getDay() + (Math.random() * 30))
 
-    return list;
+    //   list.push(new Debt({
+    //     type: DebtType.RECEIVABLE,
+    //     borrower: new Borrower({
+    //       lastName: `${x}`,
+    //       firstName: "Person"
+    //     }),
+    //     amount: Math.random() * 3000,
+    //     dueDate: dueDate,
+    //     status: (Math.round(Math.random() * 1 % 2) == 0) ? DebtStatus.PAID : DebtStatus.UNPAID
+    //   }));
+    // }
+
+    // return list;
   }
 
   get title() {
@@ -97,11 +120,15 @@ export class DebtListingPage {
   }
 
   goToDebtInfo(debt: Debt) {
-    this.navCtrl.push(DebtInfoPage, { id: "1" });
+    this.navCtrl.push(DebtInfoPage, { id: debt.id });
   }
 
   goToDebtEditor(debt: Debt) {
-    this.navCtrl.push(DebtEditorPage, { id: "1" });
+    if (debt) {
+      this.navCtrl.push(DebtEditorPage, { id: debt.id });
+    } else {
+      this.navCtrl.push(DebtEditorPage);
+    }
   }
 
   openSkype() {

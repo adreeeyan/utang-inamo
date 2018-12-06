@@ -4,6 +4,7 @@ import { Storage } from '@ionic/storage';
 import { AuthProvider } from '../../providers/auth/auth';
 import { TabsPage } from '../tabs/tabs';
 import { SignUpPage } from '../sign-up/sign-up';
+import { DebtsProvider } from '../../providers/debts/debts';
 
 @IonicPage()
 @Component({
@@ -12,16 +13,43 @@ import { SignUpPage } from '../sign-up/sign-up';
 })
 export class SignInPage {
 
+  username: any = "adrian";
+  password: any = "password";
+
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private authProvider: AuthProvider,
     private loadingCtrl: LoadingController,
     private storage: Storage,
-    private toastCtrl: ToastController) {
+    private toastCtrl: ToastController,
+    private debtsProvider: DebtsProvider) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SignInPage');
+  }
+
+  async directLogin() {
+    let loading = this.loadingCtrl.create({
+      content: "Logging in..."
+    });
+    loading.present();
+
+    try {
+      const res = await this.authProvider.login(this.username, this.password);
+      this.debtsProvider.init(res);
+      this.navCtrl.setRoot(TabsPage);
+    }
+    catch (e) {
+      console.log("Problem encountered while logging in.", e);
+      this.toastCtrl.create({
+        message: this.concatValidationErrors(e) || "Cannot login, check your username and password.",
+        duration: 3000
+      }).present();
+    }
+    finally {
+      loading.dismiss();
+    }
   }
 
   async googleLogin() {
@@ -96,5 +124,22 @@ export class SignInPage {
       xhr.responseType = "blob";
       xhr.send();
     });
+  }
+
+  concatValidationErrors(err) {
+    if (!err.error) {
+      return;
+    }
+
+    let validations = err.error.validationErrors;
+    let errors = [];
+    if (validations) {
+      for (let key in validations) {
+        errors = errors.concat(validations[key].flatMap(x => x));
+      }
+      return errors.join(".\n");
+    }
+
+    return;
   }
 }

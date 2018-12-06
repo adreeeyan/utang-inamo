@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, ToastController } from 'ionic-angular';
 import { DebtEditorPage } from '../debt-editor/debt-editor';
 import { Debt } from '../../models/debt';
 import { AuthProvider } from '../../providers/auth/auth';
+import { DebtsProvider } from '../../providers/debts/debts';
 
 @IonicPage()
 @Component({
@@ -11,21 +12,35 @@ import { AuthProvider } from '../../providers/auth/auth';
 })
 export class DebtInfoPage {
 
+  debt: Debt;
+
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
-    private authProvider: AuthProvider) {
+    private authProvider: AuthProvider,
+    private debtsProvider: DebtsProvider,
+    private loadingCtrl: LoadingController,
+    private toastCtrl: ToastController) {
   }
 
-  ionViewCanEnter(): Promise<any> {
-    return this.authProvider.hasCachedUser();
+  async ionViewDidEnter() {
+    console.log('ionViewDidEnter DebtInfoPage');
+    this.debt = new Debt(await this.getDebt(this.navParams.get("id")));
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad DebtInfoPage');
+  async getDebt(id) {
+    let debt = null;
+    try {
+      debt = await this.debtsProvider.getDebt(id);
+    }
+    catch (e) {
+      console.log("Issue while retrieving debt.", e);
+    }
+
+    return Promise.resolve(debt);
   }
 
-  goToDebtEditor(debt: Debt) {
-    this.navCtrl.push(DebtEditorPage, { id: "1" });
+  goToDebtEditor() {
+    this.navCtrl.push(DebtEditorPage, { id: this.debt.id });
   }
 
   openMessenger() {

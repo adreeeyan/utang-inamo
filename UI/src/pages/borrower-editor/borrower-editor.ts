@@ -1,6 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, ToastController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
+import { Borrower } from '../../models/borrower';
+import { DebtsProvider } from '../../providers/debts/debts';
 
 @IonicPage()
 @Component({
@@ -9,22 +11,37 @@ import { AuthProvider } from '../../providers/auth/auth';
 })
 export class BorrowerEditorPage {
 
-  image: string = "assets/imgs/user-placeholder.jpg";
   @ViewChild("imageFile")
   imageFile: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private authProvider: AuthProvider) {
+  borrower: Borrower;
+
+  constructor(private navCtrl: NavController,
+    private navParams: NavParams,
+    private authProvider: AuthProvider,
+    private debtsProvider: DebtsProvider,
+    private loadingCtrl: LoadingController,
+    private toastCtrl: ToastController) {
     // A hack from ionic: https://github.com/ionic-team/ionic/issues/13964#issuecomment-363453732
     const foo = { foo: true };
     history.pushState(foo, "anything", " "); // Put something to history for back button
   }
 
-  ionViewCanEnter(): Promise<any> {
-    return this.authProvider.hasCachedUser();
-  }
+  // ionViewCanEnter(): Promise<any> {
+  //   return this.authProvider.hasCachedUser();
+  // }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad BorrowerEditorPage');
+    this.borrower = new Borrower({
+      address: "addresstest",
+      cellNumber: "1111",
+      firstName: "first1",
+      lastName: "last1",
+      messengerId: "rawr",
+      skypeId: "rawr",
+      image: "assets/imgs/user-placeholder.jpg"
+    });
   }
 
   pickImage() {
@@ -34,28 +51,45 @@ export class BorrowerEditorPage {
   changeImage(files) {
     const reader = new FileReader();
     reader.onload = (e: any) => {
-      this.image = e.target.result;
+      this.borrower.image = e.target.result;
     };
     reader.readAsDataURL(files[0]);
   }
 
-  get backgroundImage(){
-    if(this.image != "assets/imgs/user-placeholder.jpg"){
-      return 'url(' + this.image + ')';
-    }else{
+  get backgroundImage() {
+    if (this.borrower.image != "assets/imgs/user-placeholder.jpg") {
+      return 'url(' + this.borrower.image + ')';
+    } else {
       return "";
     }
   }
 
-  get backgroundInfo(){
-    if(this.image != "assets/imgs/user-placeholder.jpg"){
+  get backgroundInfo() {
+    if (this.borrower != null && this.borrower.image != "assets/imgs/user-placeholder.jpg") {
       const options = {
-        backgroundImage: `url(${this.image})`,
+        backgroundImage: `url(${this.borrower.image})`,
         filter: "blur(5px)"
       };
       return options;
-    }else{
+    } else {
       return "";
     }
+  }
+
+  async saveBorrower() {
+    let loading = this.loadingCtrl.create();
+    loading.present();
+
+    try {
+      await this.debtsProvider.createBorrower(this.borrower);
+      this.navCtrl.pop();
+    }
+    catch (e) {
+      console.log("Issue while creating borrower.", e);
+    }
+    finally {
+      loading.dismiss();
+    }
+
   }
 }

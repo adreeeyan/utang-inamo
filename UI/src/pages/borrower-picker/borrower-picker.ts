@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, LoadingController, ToastController, ViewController } from 'ionic-angular';
 import { Borrower } from '../../models/borrower';
 import { BorrowerEditorPage } from '../borrower-editor/borrower-editor';
 import { AuthProvider } from '../../providers/auth/auth';
+import { DebtsProvider } from '../../providers/debts/debts';
 
 @IonicPage()
 @Component({
@@ -14,33 +15,56 @@ export class BorrowerPickerPage {
   borrowers: Borrower[] = [];
   searchResults: Borrower[] = [];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, private authProvider: AuthProvider) {
+  constructor(private navCtrl: NavController,
+    private navParams: NavParams,
+    private viewCtrl: ViewController,
+    private modalCtrl: ModalController,
+    private authProvider: AuthProvider,
+    private loadingCtrl: LoadingController,
+    private toastCtrl: ToastController,
+    private debtsProvider: DebtsProvider) {
     // A hack from ionic: https://github.com/ionic-team/ionic/issues/13964#issuecomment-363453732
     const foo = { foo: true };
     history.pushState(foo, "anything", " "); // Put something to history for back button
   }
 
-  ionViewCanEnter(): Promise<any> {
-    return this.authProvider.hasCachedUser();
-  }
+  // ionViewCanEnter(): Promise<any> {
+  //   return this.authProvider.hasCachedUser();
+  // }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad BorrowerPickerPage');
-    this.borrowers = this.getBorrowers();
+  async ionViewDidEnter() {
+    console.log('ionViewDidEnter BorrowerPickerPage');
+    this.borrowers = await this.getBorrowers();
     this.searchResults = this.borrowers;
   }
 
-  getBorrowers() {
+  async getBorrowers() {
+    let loading = this.loadingCtrl.create();
+    loading.present();
+
     let borrowers = [];
-    for (let x = 0; x < 20; x++) {
-      borrowers.push(new Borrower({
-        id: `${x}`,
-        firstName: "John",
-        middleName: `${x}`,
-        lastName: "Doe",
-      }));
+    try {
+      borrowers = await this.debtsProvider.getBorrowers();
     }
+    catch (e) {
+      console.log("Issue while retrieving borrowers.", e);
+    }
+    finally {
+      loading.dismiss();
+    }
+
     return borrowers;
+
+    // let borrowers = [];
+    // for (let x = 0; x < 20; x++) {
+    //   borrowers.push(new Borrower({
+    //     id: `${x}`,
+    //     firstName: "John",
+    //     middleName: `${x}`,
+    //     lastName: "Doe",
+    //   }));
+    // }
+    // return borrowers;
   }
 
   search(ev: any) {
@@ -57,13 +81,13 @@ export class BorrowerPickerPage {
     }
   }
 
-  openBorrowerEditor(){
+  openBorrowerEditor() {
     let borrowerEditorModal = this.modalCtrl.create(BorrowerEditorPage);
     borrowerEditorModal.present();
   }
 
-  dismiss() {
-    this.navCtrl.pop();
+  select(borrower) {
+    this.viewCtrl.dismiss(borrower);
   }
 
 }
