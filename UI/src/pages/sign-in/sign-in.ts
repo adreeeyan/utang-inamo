@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, LoadingController, ToastController
 import { Storage } from '@ionic/storage';
 import { AuthProvider } from '../../providers/auth/auth';
 import { TabsPage } from '../tabs/tabs';
+import { SignUpPage } from '../sign-up/sign-up';
 
 @IonicPage()
 @Component({
@@ -71,6 +72,10 @@ export class SignInPage {
     });
 
     this.goToHomePage();
+  }
+
+  goToSignUpPage() {
+    this.navCtrl.setRoot(SignUpPage);
   }
 
   goToHomePage() {

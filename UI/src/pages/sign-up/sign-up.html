@@ -1,0 +1,38 @@
+<ion-content>
+  <div class="sign-up">
+    <div class="logo">
+      <img src="assets/imgs/logo-with-text.png" alt="Logo">
+    </div>
+    <div class="fields">
+      <ion-list>
+        <ion-item>
+            <ion-input type="text" placeholder="Username" [(ngModel)]="username"></ion-input>
+          </ion-item>
+
+        <ion-item>
+          <ion-input type="text" placeholder="Email address" [(ngModel)]="email"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input type="password" placeholder="Password" [(ngModel)]="password"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input type="password" placeholder="Confirm password" [(ngModel)]="confirmPassword"></ion-input>
+        </ion-item>
+      </ion-list>
+      <div class="field-buttons">
+        <button ion-button outline icon-start color="danger" (click)="register()">
+          <ion-icon name="person-add"></ion-icon>
+          Register
+        </button>
+      </div>
+    </div>
+    <div class="buttons">
+      <button ion-button round icon-start color="realdanger" (click)="goToSignInPage()">
+        <ion-icon name="log-in"></ion-icon>
+        Back to Login Page
+      </button>
+    </div>
+  </div>
+</ion-content>

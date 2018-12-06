@@ -23,6 +23,8 @@ import { SignInPageModule } from '../pages/sign-in/sign-in.module';
 import { AuthProvider } from '../providers/auth/auth';
 import { environment } from '../environments/debug.environment';
 import { DebtsProvider } from '../providers/debts/debts';
+import { SignUpPageModule } from '../pages/sign-up/sign-up.module';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,7 @@ import { DebtsProvider } from '../providers/debts/debts';
   imports: [
     BrowserModule,
     HttpClientModule,
+    FormsModule,
     IonicModule.forRoot(MyApp, { pageTransition: "ios-transition" }, {
       links: [
         { component: DashboardPage, name: "dashboard", segment: "dashboard" },
@@ -47,7 +50,8 @@ import { DebtsProvider } from '../providers/debts/debts';
     BorrowerEditorPageModule,
     DashboardPageModule,
     TabsPageModule,
-    SignInPageModule
+    SignInPageModule,
+    SignUpPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

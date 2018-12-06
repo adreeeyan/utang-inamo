@@ -17,6 +17,7 @@
     "http": "0.0.0",
     "method-override": "^2.3.6",
     "morgan": "^1.7.0",
-    "superlogin": "^0.6.1"
+    "superlogin": "^0.6.1",
+    "couch-pwd": "zemirco/couch-pwd"
   }
 }

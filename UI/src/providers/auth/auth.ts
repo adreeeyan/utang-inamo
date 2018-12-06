@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import * as firebase from 'firebase/app';
@@ -7,6 +7,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { environment } from '../../environments/debug.environment';
 import { Platform } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
+import { DebtsProvider } from '../debts/debts';
 
 @Injectable()
 export class AuthProvider {
@@ -18,19 +19,18 @@ export class AuthProvider {
     private angularFireAuth: AngularFireAuth,
     private googlePlus: GooglePlus,
     private platform: Platform,
-    private storage: Storage) {
+    private storage: Storage,
+    private debtsProvider: DebtsProvider) {
     console.log('Hello AuthProvider Provider');
   }
 
   async hasCachedUser(): Promise<any> {
-    try
-    {
+    try {
       const user = await this.storage.get("user");
       this._fastHasCachedUser = user != null;
       return Promise.resolve(this._fastHasCachedUser);
     }
-    catch(e)
-    {
+    catch (e) {
       this._fastHasCachedUser = false;
       return Promise.reject(false);
     }
@@ -85,6 +85,39 @@ export class AuthProvider {
 
   logout(): Promise<any> {
     return this.angularFireAuth.auth.signOut();
+  }
+
+  login(username, password) {
+    let headers = new HttpHeaders();
+    headers.set("Content-Type", "application/json");
+
+    let credentials = {
+      username: username,
+      password: password
+    };
+
+    this.http.post("http://localhost:3000/auth/login", JSON.stringify(credentials), { headers: headers })
+      .toPromise()
+      .then(res => {
+        this.debtsProvider.init(res);
+      }, (err) => {
+        console.log(err);
+      });
+  }
+
+  register(username, email, password, confirmPassword) {
+    let headers = new HttpHeaders();
+    headers.set("Content-Type", "application/json");
+
+    let user = {
+      name: username,
+      username: username,
+      email: email,
+      password: password,
+      confirmPassword: confirmPassword
+    };
+
+    return this.http.post("http://localhost:3000/auth/register", user, { headers: headers }).toPromise();
   }
 
 }
