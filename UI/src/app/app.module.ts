@@ -22,6 +22,7 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { SignInPageModule } from '../pages/sign-in/sign-in.module';
 import { AuthProvider } from '../providers/auth/auth';
 import { environment } from '../environments/debug.environment';
+import { DebtsProvider } from '../providers/debts/debts';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { environment } from '../environments/debug.environment';
     StatusBar,
     SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
-    AuthProvider
+    AuthProvider,
+    DebtsProvider
   ]
 })
 export class AppModule { }

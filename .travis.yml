@@ -3,6 +3,7 @@ cache:
   directories:
   - node_modules
 before_install:
+- cd UI
 - nvm install 8
 - npm install -g ionic
 script:
