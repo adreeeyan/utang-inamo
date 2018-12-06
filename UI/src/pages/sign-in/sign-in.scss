@@ -18,15 +18,65 @@ page-sign-in {
             justify-content: center;
             align-items: center;
             align-content: center;
+
+            img {
+                height: 100%;
+            }
+        }
+
+        .fields {
+            width: 80vw;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            justify-content: center;
+
+            .list {
+                border: 1px solid gainsboro;
+                border-radius: 2px;
+                margin-bottom: 5px;
+            }
+
+            .item {
+                background: transparent;
+                padding: 0;
+            }
+
+            .text-input {
+                color: white;
+
+                &::placeholder {
+                    color: gainsboro;
+                }
+            }
+
+            .field-buttons {
+                display: flex;
+                justify-content: space-between;
+
+                button {
+                    width: 100%;
+
+                    &:first-of-type {
+                        margin-left: 0;
+                    }
+
+                    &:last-of-type {
+                        margin-right: 0;
+                    }
+                }
+            }
         }
 
         .buttons {
             flex: 1;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-end;
             align-items: center;
             align-content: center;
+            padding-bottom: 20px;
 
             button {
                 width: 70vw;

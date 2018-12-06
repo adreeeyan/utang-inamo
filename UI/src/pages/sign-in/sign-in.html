@@ -3,6 +3,27 @@
     <div class="logo">
       <img src="assets/imgs/logo-with-text.png" alt="Logo">
     </div>
+    <div class="fields">
+      <ion-list>
+        <ion-item>
+          <ion-input type="text" placeholder="Username"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input type="password" placeholder="Password"></ion-input>
+        </ion-item>
+      </ion-list>
+      <div class="field-buttons">
+        <button ion-button outline icon-start color="danger" (click)="goToRegisterPage()">
+          <ion-icon name="person-add"></ion-icon>
+          Register
+        </button>
+        <button ion-button outline icon-start color="danger" (click)="login()">
+          <ion-icon name="log-in"></ion-icon>
+          Login
+        </button>
+      </div>
+    </div>
     <div class="buttons">
       <button ion-button round icon-start class="google" (click)="googleLogin()">
         <ion-icon name="logo-googleplus"></ion-icon>
@@ -11,10 +32,6 @@
       <button ion-button round icon-start class="facebook">
         <ion-icon name="logo-facebook"></ion-icon>
         Login via Facebook
-      </button>
-      <button ion-button round icon-start color="primary" (click)="directUse()">
-        <ion-icon name="fastforward"></ion-icon>
-        Use app directly
       </button>
     </div>
   </div>
