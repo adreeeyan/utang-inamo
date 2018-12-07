@@ -23,9 +23,6 @@ export class BorrowerPickerPage {
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController,
     private debtsProvider: DebtsProvider) {
-    // A hack from ionic: https://github.com/ionic-team/ionic/issues/13964#issuecomment-363453732
-    const foo = { foo: true };
-    history.pushState(foo, "anything", " "); // Put something to history for back button
   }
 
   // ionViewCanEnter(): Promise<any> {

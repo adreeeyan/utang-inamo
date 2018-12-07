@@ -83,7 +83,7 @@ export class DebtsProvider {
       const allDocs: any[] = await this.getDocs();
       const allDebts = allDocs.filter(doc => doc.borrower != null);
       const allDebtsWithBorrower = allDebts.map(debt => {
-        const borrower = allDocs.find(doc => doc._id == debt.borrower.id);
+        const borrower = allDocs.find(doc => doc._id == debt.borrower);
         return new Debt({
           ...debt,
           borrower: borrower
@@ -115,6 +115,10 @@ export class DebtsProvider {
   }
 
   updateDebt(debt) {
+    debt = {
+      ...debt,
+      borrower: debt.borrower._id
+    }
     this.db.put(debt).catch((err) => {
       console.log(err);
     });

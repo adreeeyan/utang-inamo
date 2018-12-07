@@ -5,6 +5,7 @@ import { AuthProvider } from '../../providers/auth/auth';
 import { SignInPage } from '../sign-in/sign-in';
 import { DebtsProvider } from '../../providers/debts/debts';
 import { DebtStatus, DebtType } from '../../models/debt';
+import { DebtListingPage } from '../debt-listing/debt-listing';
 
 @IonicPage()
 @Component({
@@ -78,11 +79,11 @@ export class DashboardPage {
 
 
   openPayablesPage() {
-    this.navCtrl.parent.select(0);
+    this.navCtrl.push(DebtListingPage, { type: DebtType.PAYABLE });
   }
 
   openReceivablesPage() {
-    this.navCtrl.parent.select(2);
+    this.navCtrl.push(DebtListingPage, { type: DebtType.RECEIVABLE });
   }
 
   async logout() {
