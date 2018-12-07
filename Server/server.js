@@ -3,6 +3,8 @@ let bodyParser = require("body-parser");
 let logger = require("morgan");
 let cors = require("cors");
 let SuperLogin = require("superlogin");
+let GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
+let FacebookStrategy = require('passport-facebook');
 
 let app = express();
 app.set("port", process.env.PORT || 3000);
@@ -54,12 +56,32 @@ let config = {
         }
     },
     providers: {
-        local: true
+        local: true,
+        facebook: {
+            credentials: {
+                clientID: "111111111111111111111",
+                clientSecret: "11111111111111111"
+            },
+            options: {
+                scope: ["email"]
+            }
+        },
+        google: {
+            credentials: {
+                clientID: "111111111111111111111111111111111111111111",
+                clientSecret: "22222222222222222222222222222222222"
+            },
+            options: {
+                scope: ["profile", "email"]
+            }
+        }
     }
 }
 
 // Initialize SuperLogin
 let superlogin = new SuperLogin(config);
+superlogin.registerOAuth2("google", GoogleStrategy);
+superlogin.registerOAuth2("facebook", FacebookStrategy);
 
 // Mount SuperLogin"s routes to our app
 app.use("/auth", superlogin.router);

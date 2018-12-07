@@ -6,6 +6,8 @@ import { TabsPage } from '../tabs/tabs';
 import { SignUpPage } from '../sign-up/sign-up';
 import { DebtsProvider } from '../../providers/debts/debts';
 
+import superlogin from 'superlogin-client';
+
 @IonicPage()
 @Component({
   selector: 'page-sign-in',
@@ -52,43 +54,43 @@ export class SignInPage {
     }
   }
 
-  async googleLogin() {
+  // async googleLogin() {
 
-    let loading = this.loadingCtrl.create({
-      content: "Signing in via Google..."
-    });
+  //   let loading = this.loadingCtrl.create({
+  //     content: "Signing in via Google..."
+  //   });
 
-    try {
-      loading.present();
-      const response = await this.authProvider.googleLogin();
+  //   try {
+  //     loading.present();
+  //     const response = await this.authProvider.googleLogin();
 
-      // convert the image to base64
-      const picture = await this.toDataURL(response.user.photoURL);
+  //     // convert the image to base64
+  //     const picture = await this.toDataURL(response.user.photoURL);
 
-      // Save to storage
-      await this.storage.set("user", {
-        isLocal: false,
-        name: response.user.displayName,
-        firstName: response.additionalUserInfo.profile.given_name,
-        lastName: response.additionalUserInfo.profile.family_name,
-        picture: picture
-      });
+  //     // Save to storage
+  //     await this.storage.set("user", {
+  //       isLocal: false,
+  //       name: response.user.displayName,
+  //       firstName: response.additionalUserInfo.profile.given_name,
+  //       lastName: response.additionalUserInfo.profile.family_name,
+  //       picture: picture
+  //     });
 
-      console.log("Successfully logged in.", response);
+  //     console.log("Successfully logged in.", response);
 
-      this.goToHomePage();
-    }
-    catch (e) {
-      console.log("Error logging in.", e);
-      this.toastCtrl.create({
-        message: "Cannot login, please try again.",
-        duration: 2000
-      }).present();
-    }
-    finally {
-      loading.dismiss();
-    }
-  }
+  //     this.goToHomePage();
+  //   }
+  //   catch (e) {
+  //     console.log("Error logging in.", e);
+  //     this.toastCtrl.create({
+  //       message: "Cannot login, please try again.",
+  //       duration: 2000
+  //     }).present();
+  //   }
+  //   finally {
+  //     loading.dismiss();
+  //   }
+  // }
 
   async directUse() {
     await this.storage.set("user", {
@@ -124,6 +126,30 @@ export class SignInPage {
       xhr.responseType = "blob";
       xhr.send();
     });
+  }
+
+  loginGoogle() {
+    // window.open("http://localhost:3000/auth/google", "_system", "scrollbars=yes,menubar=no,width=500, resizable=yes,toolbar=no,location=no,status=no");
+    // try {
+    //   let response = await superlogin.socialAuth("google");
+    //   console.log("response", response);
+    // }
+    // catch (e) {
+    //   console.log("shit happens while logging in via google", e);
+    // }
+
+    superlogin.socialAuth("google")
+      .then((response) => {
+        console.log("oraaaayts", response);
+      })
+      .catch((e) => {
+        console.log("shit happens while logging in via google", e);
+      });
+  }
+
+  loginFacebook() {
+    //window.open("/auth/google", "_system", "scrollbars=yes,menubar=no,width=500, resizable=yes,toolbar=no,location=no,status=no");
+    superlogin.socialAuth("facebook");
   }
 
   concatValidationErrors(err) {

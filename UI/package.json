@@ -43,6 +43,7 @@
     "pouchdb": "^7.0.0",
     "promise-polyfill": "^8.1.0",
     "rxjs": "5.5.11",
+    "superlogin-client": "^0.8.0",
     "sw-toolbox": "3.6.0",
     "zone.js": "0.8.26"
   },

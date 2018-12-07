@@ -5,7 +5,6 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { SignInPage } from '../pages/sign-in/sign-in';
 import { TabsPage } from '../pages/tabs/tabs';
-import { AngularFireAuth } from '@angular/fire/auth';
 import { Storage } from '@ionic/storage';
 import { AuthProvider } from '../providers/auth/auth';
 
@@ -21,7 +20,6 @@ export class MyApp {
   constructor(public platform: Platform,
     statusBar: StatusBar,
     splashScreen: SplashScreen,
-    private angularFireAuth: AngularFireAuth,
     private app: App,
     private ionicApp: IonicApp,
     private toastCtrl: ToastController,

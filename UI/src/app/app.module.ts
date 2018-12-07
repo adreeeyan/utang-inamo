@@ -1,13 +1,13 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
-import { AngularFireModule } from '@angular/fire';
-import { AngularFireAuthModule } from '@angular/fire/auth';
 import { GooglePlus } from '@ionic-native/google-plus';
 import { HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+//import superlogin from "superlogin-client";
+const superlogin = require('superlogin-client').default;
 
 import { MyApp } from './app.component';
 import { DebtListingPageModule } from '../pages/debt-listing/debt-listing.module';
@@ -25,6 +25,9 @@ import { environment } from '../environments/debug.environment';
 import { DebtsProvider } from '../providers/debts/debts';
 import { SignUpPageModule } from '../pages/sign-up/sign-up.module';
 import { FormsModule } from '@angular/forms';
+
+
+superlogin.configure(environment.superlogin);
 
 @NgModule({
   declarations: [
@@ -44,8 +47,6 @@ import { FormsModule } from '@angular/forms';
       ]
     }),
     IonicStorageModule.forRoot(),
-    AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFireAuthModule,
     DebtListingPageModule,
     BorrowerEditorPageModule,
     DashboardPageModule,
@@ -59,7 +60,6 @@ import { FormsModule } from '@angular/forms';
   ],
   providers: [
     HttpClientModule,
-    GooglePlus,
     StatusBar,
     SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler },

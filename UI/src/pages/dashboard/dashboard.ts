@@ -93,7 +93,7 @@ export class DashboardPage {
     try
     {
       await this.storage.remove("user");
-      this.authProvider.logout();
+      // this.authProvider.logout();
     }
     catch(e)
     {
