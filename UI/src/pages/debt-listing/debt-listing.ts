@@ -131,16 +131,16 @@ export class DebtListingPage {
     }
   }
 
-  openSkype() {
-    window.open("skype:kddp.adrian?chat", "_system");
+  openSkype(borrower: Borrower) {
+    window.open(`skype:${borrower.skypeId}?chat`, "_system");
   }
 
-  openSMS() {
-    window.open("sms://09424238867", "_system");
+  openSMS(borrower: Borrower) {
+    window.open(`sms://${borrower.cellNumber}`, "_system");
   }
 
-  openMessenger() {
-    window.open("https://m.me/john.doe", "_system");
+  openMessenger(borrower: Borrower) {
+    window.open(`https://m.me/${borrower.messengerId}`, "_system");
   }
 
 }

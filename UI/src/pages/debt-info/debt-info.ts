@@ -43,16 +43,16 @@ export class DebtInfoPage {
     this.navCtrl.push(DebtEditorPage, { id: this.debt.id });
   }
 
-  openMessenger() {
-    window.open("https://m.me/john.doe", "_system");
-  }
-
   openSkype() {
-    window.open("skype:kddp.adrian?chat", "_system");
+    window.open(`skype:${this.debt.borrower.skypeId}?chat`, "_system");
   }
 
   openSMS() {
-    window.open("sms://09424238867", "_system");
+    window.open(`sms://${this.debt.borrower.cellNumber}`, "_system");
+  }
+
+  openMessenger() {
+    window.open(`https://m.me/${this.debt.borrower.messengerId}`, "_system");
   }
 
   openMap() {
