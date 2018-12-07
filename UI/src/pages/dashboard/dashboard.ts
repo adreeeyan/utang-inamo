@@ -54,8 +54,11 @@ export class DashboardPage {
     try {
       const debts = await this.debtsProvider.getDebts();
       const unpaid = debts.filter(p => p.status == DebtStatus.UNPAID && p.type == DebtType.PAYABLE);
-      unpaidAmount = unpaid.reduce((accumulator, currentValue) => accumulator + currentValue.total, 0);
-      return Promise.resolve(unpaidAmount);
+      unpaidAmount = unpaid.reduce((accumulator, currentValue) => 
+      {
+        return accumulator + currentValue.total;
+      }, 0);
+      return Promise.resolve(unpaidAmount || 0);
     }
     catch (e) {
       console.log("Issue while retrieving total payables.", e);
@@ -69,7 +72,7 @@ export class DashboardPage {
       const debts = await this.debtsProvider.getDebts();
       const unpaid = debts.filter(p => p.status == DebtStatus.UNPAID && p.type == DebtType.RECEIVABLE);
       receivableAmount = unpaid.reduce((accumulator, currentValue) => accumulator + currentValue.total, 0);
-      return Promise.resolve(receivableAmount);
+      return Promise.resolve(receivableAmount || 0);
     }
     catch (e) {
       console.log("Issue while retrieving total receivables.", e);

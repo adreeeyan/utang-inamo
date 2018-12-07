@@ -21,7 +21,7 @@ export class Debt {
     }
 
     get total() {
-        return (this.amount * (this.interest / 100)) + this.amount;
+        return this.amount + (this.amount * (this.interest / 100));
     }
 
     get dueDateString() {

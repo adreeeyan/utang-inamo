@@ -9,7 +9,7 @@
       </button>
     </div>
     <div class="amount">
-      {{debt.amount | formatCurrency}}
+      {{debt.total | formatCurrency}}
     </div>
     <button ion-button color="danger" round>SET AS PAID</button>
   </div>
@@ -36,19 +36,19 @@
           {{debt.borrower?.cellNumber}}
           <ion-badge item-end (click)="openSMS()">Text now ></ion-badge>
         </button>
-    
+
         <button ion-item mode="md" class="facebook">
           <ion-icon name="logo-facebook" item-start></ion-icon>
           {{debt.borrower?.messengerId}}
           <ion-badge item-end (click)="openMessenger()">PM now ></ion-badge>
         </button>
-    
+
         <button ion-item mode="md" class="skype">
           <ion-icon name="logo-skype" item-start></ion-icon>
           {{debt.borrower?.skypeId}}
           <ion-badge item-end (click)="openSkype()">DM now ></ion-badge>
         </button>
-        
+
         <button ion-item mode="md">
           <ion-icon name="navigate" item-start></ion-icon>
           {{debt.borrower?.address}}
@@ -67,7 +67,11 @@
         <ion-item mode="md">
           Date of debt: {{debt.borrowedDateString}}
         </ion-item>
-        
+
+        <ion-item mode="md">
+          Amount: {{debt.amount | formatCurrency}}
+        </ion-item>
+
         <ion-item mode="md">
           Interest: {{debt.interest}}
         </ion-item>

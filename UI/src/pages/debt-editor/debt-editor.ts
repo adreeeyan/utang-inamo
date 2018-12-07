@@ -34,6 +34,7 @@ export class DebtEditorPage {
     console.log('ionViewDidLoad DebtEditorPage');
 
     const debtId = this.navParams.get("id");
+    console.log("debtId", debtId);
     if (debtId) {
       // This is an edit
       this.isEdit = true;
