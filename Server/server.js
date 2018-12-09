@@ -30,7 +30,7 @@ let config = {
         password: process.env.DB_PASS,
         // automatically detect if the host is Cloudant
         cloudant: process.env.DB_HOST && process.env.DB_HOST.search(/\.cloudant\.com$/) > -1,
-        userDB: "sl-users",
+        userDB: "utanginamo-users",
         couchAuthDB: "_users"
     },
     mailer: {
