@@ -1,8 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import superlogin from 'superlogin-client';
 
-import * as firebase from 'firebase/app';
-import { environment } from '../../environments/debug.environment';
 import { Platform } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { DebtsProvider } from '../debts/debts';
@@ -92,7 +91,13 @@ export class AuthProvider {
       password: password
     };
 
-    return this.http.post("http://localhost:3000/auth/login", credentials, { headers: headers }).toPromise();
+    return this.http.post("http://localhost:3000/auth/login", credentials, { headers: headers }).toPromise()
+      .then((session: any) => {
+        // save the sesison to the storage
+        // this should be handled directly by superlogin-client...
+        superlogin.setSession(session);
+        return session;
+      });
   }
 
   register(username, email, password, confirmPassword) {
