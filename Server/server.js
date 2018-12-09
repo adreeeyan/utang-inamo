@@ -22,10 +22,12 @@ app.use((req, res, next) => {
 
 let config = {
     dbServer: {
-        protocol: "http://",
-        host: "localhost:5984",
-        user: "admin",
-        password: "admin",
+        protocol: process.env.DB_HOST ? "https://" : "http://",
+        host: process.env.DB_HOST || "localhost:5984",
+        user: process.env.DB_USER,
+        password: process.env.DB_PASS,
+        // automatically detect if the host is Cloudant
+        cloudant: process.env.DB_HOST && process.env.DB_HOST.search(/\.cloudant\.com$/) > -1,
         userDB: "sl-users",
         couchAuthDB: "_users"
     },
@@ -68,8 +70,8 @@ let config = {
         },
         google: {
             credentials: {
-                clientID: "111111111111111111111111111111111111111111",
-                clientSecret: "22222222222222222222222222222222222"
+                clientID: "113008889190-2ld9cfnl4l7j2tkuq3hi5b72ef77qnj3.apps.googleusercontent.com",
+                clientSecret: "TwhtTnYJVw87HWUOJk8ic5k0"
             },
             options: {
                 scope: ["profile", "email"]
