@@ -15,7 +15,7 @@ export class Debt {
     constructor(init?: Partial<Debt>) {
         Object.assign(this, init);
 
-        if (init.borrower) {
+        if (init && init.borrower) {
             this.borrower = new Borrower(init.borrower);
         }
     }

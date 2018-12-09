@@ -86,9 +86,9 @@ export class DebtListingPage {
 
   goToDebtEditor(debt: Debt) {
     if (debt) {
-      this.navCtrl.push(DebtEditorPage, { id: debt.id });
+      this.navCtrl.push(DebtEditorPage, { id: debt.id, type: this.debtType });
     } else {
-      this.navCtrl.push(DebtEditorPage);
+      this.navCtrl.push(DebtEditorPage, { type: this.debtType });
     }
   }
 

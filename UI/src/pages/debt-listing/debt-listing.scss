@@ -40,7 +40,8 @@ page-debt-listing {
                 text-overflow: ellipsis;
             }
             .duedate {
-                color: map-get($colors, light);
+                color: gray;
+                font-size: 1.1rem;
             }
         }
 

@@ -5,6 +5,7 @@
         <ion-icon name="arrow-back"></ion-icon>
       </button>
     </div>
+    <div class="title">{{title}}</div>
     <div class="detail">Amount</div>
     <div class="amount" (tap)="openAmountEditor()">
       {{debt.amount | formatCurrency}}

@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams, ModalController, ViewController } 
 import { AmountEditorComponent } from '../../components/amount-editor/amount-editor';
 import { BorrowerPickerPage } from '../borrower-picker/borrower-picker';
 import { DebtsProvider } from '../../providers/debts/debts';
-import { Debt } from '../../models/debt';
+import { Debt, DebtType } from '../../models/debt';
 
 import superlogin from 'superlogin-client';
 
@@ -32,7 +32,7 @@ export class DebtEditorPage {
     console.log('ionViewDidLoad DebtEditorPage');
 
     const debtId = this.navParams.get("id");
-    console.log("debtId", debtId);
+    const debtType = this.navParams.get("type");
     if (debtId) {
       // This is an edit
       this.isEdit = true;
@@ -43,7 +43,8 @@ export class DebtEditorPage {
       this.isEdit = false;
 
       this.debt = new Debt({
-        amount: 0
+        amount: 0,
+        type: debtType
       });
     }
   }
@@ -106,6 +107,13 @@ export class DebtEditorPage {
     catch (e) {
       console.log("Issue while creating debt.", e);
     }
+  }
+
+  get title() {
+    if(this.debt.type == DebtType.PAYABLE){
+      return this.isEdit ? "Edit Payable" : "Add Payable";
+    }
+    return this.isEdit ? "Edit Receivable" : "Add Receivable"; 
   }
 
 }

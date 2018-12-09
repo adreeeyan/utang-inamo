@@ -26,6 +26,15 @@ page-debt-editor {
             }
         }
 
+        .title {
+            position: absolute;
+            top: 0;
+            margin-top: 15px;
+            font-size: 1.7rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
         .detail {
             font-size: 1.1em;
             text-transform: uppercase;
