@@ -43,8 +43,9 @@ export class SignInPage {
     catch (e) {
       console.log("Problem encountered while logging in.", e);
       this.toastCtrl.create({
-        message: this.concatValidationErrors(e) || "Cannot login, check your username and password.",
-        duration: 3000
+        message: e || "Cannot login, check your username and password.",
+        duration: 3000,
+        showCloseButton: true
       }).present();
     }
     finally {
@@ -53,12 +54,26 @@ export class SignInPage {
   }
 
   async loginViaProvider(provider) {
+    let loading = this.loadingCtrl.create({
+      content: `Signing in via ${provider}`
+    });
+    loading.present();
+
     try {
       let response = await superlogin.socialAuth(provider);
-      console.log("response", response);
+      this.debtsProvider.init(response);
+      this.navCtrl.setRoot(TabsPage);
     }
     catch (e) {
       console.log(`shit happens while logging in via ${provider}`, e);
+      this.toastCtrl.create({
+        message: e || `Problem while signing in via ${provider}`,
+        duration: 3000,
+        showCloseButton: true
+      }).present();
+    }
+    finally {
+      loading.dismiss();
     }
   }
 
@@ -84,22 +99,5 @@ export class SignInPage {
       xhr.responseType = "blob";
       xhr.send();
     });
-  }
-
-  concatValidationErrors(err) {
-    if (!err.error) {
-      return;
-    }
-
-    let validations = err.error.validationErrors;
-    let errors = [];
-    if (validations) {
-      for (let key in validations) {
-        errors = errors.concat(validations[key].flatMap(x => x));
-      }
-      return errors.join(".\n");
-    }
-
-    return;
   }
 }
