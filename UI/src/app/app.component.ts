@@ -47,10 +47,10 @@ export class MyApp {
         console.log("user not authenticated");
         this.nav.setRoot(SignInPage);
       }
-
-      // Save image
-      this.registerProfileImageCache();
     });
+
+    // Save image
+    this.registerProfileImageCache();
   }
 
   private registerBackButtonHandler() {

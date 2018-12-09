@@ -38,7 +38,10 @@ export class SignUpPage {
     try {
       const res = await this.authProvider.register(this.username, this.email, this.password, this.confirmPassword);
       this.debtsProvider.init(res);
-      this.navCtrl.setRoot(TabsPage);
+      setTimeout(() => {
+        loading.dismiss();
+        this.navCtrl.setRoot(TabsPage);
+      }, 1500);
     }
     catch (e) {
       console.log("Problem encountered on registration.", e);
@@ -46,8 +49,6 @@ export class SignUpPage {
         message: this.concatValidationErrors(e) || "Cannot register, check your inputs and try again.",
         duration: 3000
       }).present();
-    }
-    finally {
       loading.dismiss();
     }
 
@@ -58,11 +59,11 @@ export class SignUpPage {
   }
 
   concatValidationErrors(err) {
-    if (!err.error) {
+    if (!err.validationErrors) {
       return;
     }
 
-    let validations = err.error.validationErrors;
+    let validations = err.validationErrors;
     let errors = [];
     if (validations) {
       for (let key in validations) {

@@ -79,12 +79,10 @@ export class DashboardPage {
   async logout() {
     try {
       await this.authProvider.logout();
+      this.navCtrl.setRoot(SignInPage);
     }
     catch (e) {
       console.log("Problem logging out.", e);
-    }
-    finally {
-      this.navCtrl.setRoot(SignInPage);
     }
   }
 }

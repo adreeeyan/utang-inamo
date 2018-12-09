@@ -32,13 +32,16 @@ export class DebtsProvider {
 
   }
 
-  logout() {
-
-    this.data = null;
-
-    this.db.destroy().then(() => {
+  async logout(): Promise<any> {
+    try {
+      this.data = null;
+      await this.db.destroy();
       console.log("database removed");
-    });
+      return Promise.resolve(true);
+    }
+    catch (e) {
+      return Promise.reject(e);
+    }
   }
 
   getDocs() {
