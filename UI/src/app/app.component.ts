@@ -3,17 +3,20 @@ import { Platform, Nav, IonicApp, ToastController, IonicPage, App, LoadingContro
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
+import superlogin from 'superlogin-client';
+
 import { SignInPage } from '../pages/sign-in/sign-in';
 import { TabsPage } from '../pages/tabs/tabs';
 import { Storage } from '@ionic/storage';
 import { AuthProvider } from '../providers/auth/auth';
+import { DebtsProvider } from '../providers/debts/debts';
 
 @IonicPage()
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage: any = SignInPage;
+  rootPage: any = TabsPage;
   @ViewChild(Nav) nav: Nav;
   overallPages: Array<any>;
 
@@ -25,7 +28,8 @@ export class MyApp {
     private toastCtrl: ToastController,
     private storage: Storage,
     private loadingCtrl: LoadingController,
-    private authProvider: AuthProvider) {
+    private authProvider: AuthProvider,
+    private debtsProvider: DebtsProvider) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -46,6 +50,15 @@ export class MyApp {
     // loading.present();
 
     // Authentication
+    console.log("trying the authentication");
+    const session = superlogin.getSession();
+    if (session) {
+      this.debtsProvider.init(session);
+      console.log("user authenticated");
+    } else {
+      console.log("user not authenticated");
+      this.app.getActiveNav().setRoot(SignInPage);
+    }
     // this.angularFireAuth.auth.onAuthStateChanged(user => {
     //   this.authProvider.fastIsLoggedIn = user != null;
 
