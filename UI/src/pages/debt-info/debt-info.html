@@ -11,7 +11,8 @@
     <div class="amount">
       {{debt.total | formatCurrency}}
     </div>
-    <button ion-button color="danger" round>SET AS PAID</button>
+    <button ion-button color="realdanger" round *ngIf="isDebtPaid" (click)="setDebtAsUnpaid()">SET AS UNPAID</button>
+    <button ion-button color="danger" round *ngIf="!isDebtPaid" (click)="setDebtAsPaid()">SET AS PAID</button>
   </div>
   <div class="borrower-info" padding>
     <div class="name-part">

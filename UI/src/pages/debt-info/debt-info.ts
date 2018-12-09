@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { DebtEditorPage } from '../debt-editor/debt-editor';
-import { Debt } from '../../models/debt';
+import { Debt, DebtStatus } from '../../models/debt';
 import { DebtsProvider } from '../../providers/debts/debts';
 
 import superlogin from 'superlogin-client';
@@ -39,6 +39,20 @@ export class DebtInfoPage {
     }
 
     return Promise.resolve(debt);
+  }
+
+  setDebtAsPaid() {
+    this.debt.status = DebtStatus.PAID;
+    this.debtsProvider.updateDebt(this.debt);
+  }
+
+  setDebtAsUnpaid() {
+    this.debt.status = DebtStatus.UNPAID;
+    this.debtsProvider.updateDebt(this.debt);
+  }
+
+  get isDebtPaid() {
+    return this.debt.status == DebtStatus.PAID;
   }
 
   goToDebtEditor() {
