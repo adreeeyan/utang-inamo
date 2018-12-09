@@ -7,6 +7,7 @@ import { DebtStatus, DebtType } from '../../models/debt';
 import { DebtListingPage } from '../debt-listing/debt-listing';
 
 import superlogin from 'superlogin-client';
+import { AuthProvider } from '../../providers/auth/auth';
 
 @IonicPage()
 @Component({
@@ -22,7 +23,8 @@ export class DashboardPage {
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private storage: Storage,
-    private debtsProvider: DebtsProvider) {
+    private debtsProvider: DebtsProvider,
+    private authProvider: AuthProvider) {
   }
 
   ionViewCanEnter() {
@@ -88,8 +90,7 @@ export class DashboardPage {
 
   async logout() {
     try {
-      await this.storage.remove("user");
-      // this.authProvider.logout();
+      await this.authProvider.logout();
     }
     catch (e) {
       console.log("Problem logging out.", e);
