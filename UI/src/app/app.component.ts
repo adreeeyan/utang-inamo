@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Platform, Nav, IonicApp, ToastController, IonicPage } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { Storage } from '@ionic/storage';
 
 import superlogin from 'superlogin-client';
 
@@ -23,7 +24,8 @@ export class MyApp {
     splashScreen: SplashScreen,
     private ionicApp: IonicApp,
     private toastCtrl: ToastController,
-    private debtsProvider: DebtsProvider) {
+    private debtsProvider: DebtsProvider,
+    private storage: Storage) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -37,15 +39,17 @@ export class MyApp {
       this.backButtonListener();
 
       // Authentication
-      console.log("trying the authentication");
       const session = superlogin.getSession();
       if (session) {
         this.debtsProvider.init(session);
-        console.log("user authenticated");
+        console.log("user authenticated", session);
       } else {
         console.log("user not authenticated");
         this.nav.setRoot(SignInPage);
       }
+
+      // Save image
+      this.registerProfileImageCache();
     });
   }
 
@@ -103,5 +107,30 @@ export class MyApp {
         return;
       }
     }
+  }
+
+  private registerProfileImageCache() {
+    superlogin.authenticate().then(async (session) => {
+      if (session.profile && session.profile.image) {
+        const base64 = await this.toDataURL(session.profile.image);
+        this.storage.set("image", base64);
+      }
+    });
+  }
+
+  private toDataURL(url) {
+    return new Promise(resolve => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = () => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          resolve(reader.result);
+        }
+        reader.readAsDataURL(xhr.response);
+      };
+      xhr.open("GET", url);
+      xhr.responseType = "blob";
+      xhr.send();
+    });
   }
 }

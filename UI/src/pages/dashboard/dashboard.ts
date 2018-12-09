@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { Storage } from '@ionic/storage';
 import { SignInPage } from '../sign-in/sign-in';
 import { DebtsProvider } from '../../providers/debts/debts';
 import { DebtStatus, DebtType } from '../../models/debt';
@@ -22,7 +21,6 @@ export class DashboardPage {
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
-    private storage: Storage,
     private debtsProvider: DebtsProvider,
     private authProvider: AuthProvider) {
   }
@@ -34,17 +32,7 @@ export class DashboardPage {
   async ionViewDidEnter() {
     console.log('ionViewDidEnter DashboardPage');
 
-    // Retrieve user from storage
-    this.storage.get("user").then(user => {
-      if (user == null) {
-        user = {};
-      }
-      this.user = {
-        name: user.firstName || "Hooman",
-        picture: user.picture || "assets/imgs/user-placeholder.jpg"
-      };
-    });
-
+    this.user = await this.authProvider.getInfo();
     this.totalPayables = await this.getTotalPayables();
     this.totalReceivables = await this.getTotalReceivables();
   }

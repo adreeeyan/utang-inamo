@@ -1,11 +1,11 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Storage } from '@ionic/storage';
 import superlogin from 'superlogin-client';
 
 @Injectable()
 export class AuthProvider {
 
-  constructor(public http: HttpClient) {
+  constructor(private storage: Storage) {
     console.log('Hello AuthProvider Provider');
   }
 
@@ -32,6 +32,20 @@ export class AuthProvider {
 
   logout() {
     return superlogin.logout();
+  }
+
+  async getInfo() {
+    try {
+      let session = superlogin.getSession();
+      const image = await this.storage.get("image");
+      return Promise.resolve({
+        name: session.user_id,
+        image: image
+      });
+    }
+    catch (e) {
+      return Promise.reject(e);
+    }
   }
 
 }

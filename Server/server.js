@@ -44,7 +44,6 @@ let config = {
         }
     },
     security: {
-        maxFailedLogins: 3,
         lockoutTime: 600,
         tokenLife: 86400,
         loginOnRegistration: true,
@@ -63,8 +62,8 @@ let config = {
         local: true,
         facebook: {
             credentials: {
-                clientID: "111111111111111111111",
-                clientSecret: "11111111111111111"
+                clientID: process.env.FACEBOOK_CLIENTID,
+                clientSecret: process.env.FACEBOOK_CLIENTSECRET
             },
             options: {
                 scope: ["email"]
@@ -72,13 +71,16 @@ let config = {
         },
         google: {
             credentials: {
-                clientID: "113008889190-2ld9cfnl4l7j2tkuq3hi5b72ef77qnj3.apps.googleusercontent.com",
-                clientSecret: "TwhtTnYJVw87HWUOJk8ic5k0"
+                clientID: process.env.GOOGLE_CLIENTID,
+                clientSecret: process.env.GOOGLE_CLIENTSECRET
             },
             options: {
                 scope: ["profile", "email"]
             }
         }
+    },
+    userModel: {
+        whitelist: ["picture"]
     }
 }
 
@@ -89,6 +91,22 @@ superlogin.registerOAuth2("facebook", FacebookStrategy);
 
 // Mount SuperLogin"s routes to our app
 app.use("/auth", superlogin.router);
+
+// Add additional fields for the user
+superlogin.onCreate(function (userDoc, provider) {
+    if (userDoc.profile === undefined) {
+        userDoc.profile = {};
+    }
+    if (provider !== "local") {
+        const image = userDoc[provider].profile.photos[0].value;
+        if (image) {
+            // remove the sz query
+            const cleanUrl = image.replace(/\?sz=\d+/g, "");
+            userDoc.profile.image = cleanUrl;
+        }
+    }
+    return Promise.resolve(userDoc);
+})
 
 
 app.use("*", function (req, res) {
