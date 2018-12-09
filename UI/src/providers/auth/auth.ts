@@ -30,4 +30,8 @@ export class AuthProvider {
     return superlogin.register(user);
   }
 
+  logout() {
+    return superlogin.logout();
+  }
+
 }
