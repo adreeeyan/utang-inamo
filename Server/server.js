@@ -2,15 +2,17 @@ let express = require("express");
 let bodyParser = require("body-parser");
 let logger = require("morgan");
 let cors = require("cors");
+let path = require("path");
 let SuperLogin = require("superlogin");
 let GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
-let FacebookStrategy = require('passport-facebook');
+let FacebookStrategy = require("passport-facebook");
 
 let app = express();
 app.set("port", process.env.PORT || 3000);
 app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, "../UI/www")));
 app.use(cors());
 
 app.use((req, res, next) => {
@@ -87,6 +89,42 @@ superlogin.registerOAuth2("facebook", FacebookStrategy);
 
 // Mount SuperLogin"s routes to our app
 app.use("/auth", superlogin.router);
+
+
+app.use("*", function (req, res) {
+    res.sendFile("index.html", { root: path.join(__dirname, "../UI/www") });
+});
+
+// catch 404 and forward to error handler
+app.use(function (req, res, next) {
+    var err = new Error("Not Found");
+    err.status = 404;
+    next(err);
+});
+
+// error handlers
+
+// development error handler
+// will print stacktrace
+if (app.get("env") === "development") {
+    app.use(function (err, req, res, next) {
+        res.status(err.status || 500);
+        res.render("error", {
+            message: err.message,
+            error: err
+        });
+    });
+}
+
+// production error handler
+// no stacktraces leaked to user
+app.use(function (err, req, res, next) {
+    res.status(err.status || 500);
+    res.render("error", {
+        message: err.message,
+        error: {}
+    });
+});
 
 app.listen(app.get("port"));
 console.log("App listening on " + app.get("port"));
