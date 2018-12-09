@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Debt, DebtType, DebtStatus } from '../../models/debt';
 import { Borrower } from '../../models/borrower';
 import { DebtInfoPage } from '../debt-info/debt-info';
 import { DebtEditorPage } from '../debt-editor/debt-editor';
-import { AuthProvider } from '../../providers/auth/auth';
 import { DebtsProvider } from '../../providers/debts/debts';
+
+import superlogin from 'superlogin-client';
 
 @IonicPage()
 @Component({
@@ -21,15 +22,12 @@ export class DebtListingPage {
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
-    private authProvider: AuthProvider,
-    private debtsProvider: DebtsProvider,
-    private loadingCtrl: LoadingController,
-    private toastCtrl: ToastController) {
+    private debtsProvider: DebtsProvider) {
   }
 
-  // ionViewCanEnter(): Promise<any> {
-  //   return this.authProvider.hasCachedUser();
-  // }
+  ionViewCanEnter() {
+    return superlogin.authenticated();
+  }
 
   async ionViewDidEnter() {
     console.log('ionViewDidEnter DebtListingPage');
@@ -48,25 +46,6 @@ export class DebtListingPage {
       console.log("Issue while retrieving payables.", e);
     }
     return payables;
-
-    // let list = [];
-    // for (let x = 0; x < 30; x++) {
-    //   let dueDate = new Date();
-    //   dueDate.setDate(dueDate.getDay() + (Math.random() * 30))
-
-    //   list.push(new Debt({
-    //     type: DebtType.PAYABLE,
-    //     borrower: new Borrower({
-    //       lastName: `${x}`,
-    //       firstName: "Person"
-    //     }),
-    //     amount: Math.random() * 3000,
-    //     dueDate: dueDate,
-    //     status: (Math.round(Math.random() * 1 % 2) == 0) ? DebtStatus.PAID : DebtStatus.UNPAID
-    //   }));
-    // }
-
-    // return list;
   }
 
   async getReceivables() {
@@ -79,24 +58,6 @@ export class DebtListingPage {
       console.log("Issue while retrieving receivables.", e);
     }
     return receivables;
-    // let list = [];
-    // for (let x = 0; x < 30; x++) {
-    //   let dueDate = new Date();
-    //   dueDate.setDate(dueDate.getDay() + (Math.random() * 30))
-
-    //   list.push(new Debt({
-    //     type: DebtType.RECEIVABLE,
-    //     borrower: new Borrower({
-    //       lastName: `${x}`,
-    //       firstName: "Person"
-    //     }),
-    //     amount: Math.random() * 3000,
-    //     dueDate: dueDate,
-    //     status: (Math.round(Math.random() * 1 % 2) == 0) ? DebtStatus.PAID : DebtStatus.UNPAID
-    //   }));
-    // }
-
-    // return list;
   }
 
   get title() {

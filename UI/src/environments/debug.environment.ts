@@ -2,10 +2,7 @@ export const environment = {
     superlogin: {
         // An optional URL to API server, by default a current window location is used.
         // The base URL for the SuperLogin routes with leading and trailing slashes (defaults to "/auth")
-        baseUrl: "http://localhost:3000/auth/",
-        // A list of API endpoints to automatically add the Authorization header to
-        // By default the host the browser is pointed to will be added automatically
-        endpoints: ["localhost:3000"],
+        baseUrl: "/auth/",
         // Where to save your session token: localStorage ("local") or sessionStorage ("session"), default: "local"
         storage: "local",
         // The authentication providers that are supported by your SuperLogin host

@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { DebtEditorPage } from '../debt-editor/debt-editor';
 import { Debt } from '../../models/debt';
-import { AuthProvider } from '../../providers/auth/auth';
 import { DebtsProvider } from '../../providers/debts/debts';
+
+import superlogin from 'superlogin-client';
 
 @IonicPage()
 @Component({
@@ -16,10 +17,11 @@ export class DebtInfoPage {
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
-    private authProvider: AuthProvider,
-    private debtsProvider: DebtsProvider,
-    private loadingCtrl: LoadingController,
-    private toastCtrl: ToastController) {
+    private debtsProvider: DebtsProvider) {
+  }
+
+  ionViewCanEnter() {
+    return superlogin.authenticated();
   }
 
   async ionViewDidEnter() {

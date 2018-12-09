@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, ToastController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
-import { DebtsProvider } from '../../providers/debts/debts';
 import { SignInPage } from '../sign-in/sign-in';
+import { DebtsProvider } from '../../providers/debts/debts';
+import { TabsPage } from '../tabs/tabs';
 
 @IonicPage()
 @Component({
@@ -36,7 +37,8 @@ export class SignUpPage {
 
     try {
       const res = await this.authProvider.register(this.username, this.email, this.password, this.confirmPassword);
-      //this.debtsProvider.init(res);
+      this.debtsProvider.init(res);
+      this.navCtrl.setRoot(TabsPage);
     }
     catch (e) {
       console.log("Problem encountered on registration.", e);

@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
-import { AuthProvider } from '../../providers/auth/auth';
 import { SignInPage } from '../sign-in/sign-in';
 import { DebtsProvider } from '../../providers/debts/debts';
 import { DebtStatus, DebtType } from '../../models/debt';
 import { DebtListingPage } from '../debt-listing/debt-listing';
+
+import superlogin from 'superlogin-client';
 
 @IonicPage()
 @Component({
@@ -21,15 +22,12 @@ export class DashboardPage {
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private storage: Storage,
-    private authProvider: AuthProvider,
-    private debtsProvider: DebtsProvider,
-    private loadingCtrl: LoadingController,
-    private toastCtrl: ToastController) {
+    private debtsProvider: DebtsProvider) {
   }
 
-  // async ionViewCanEnter() {
-  //   return await this.authProvider.hasCachedUser();
-  // }
+  ionViewCanEnter() {
+    return superlogin.authenticated();
+  }
 
   async ionViewDidEnter() {
     console.log('ionViewDidEnter DashboardPage');
@@ -54,8 +52,7 @@ export class DashboardPage {
     try {
       const debts = await this.debtsProvider.getDebts();
       const unpaid = debts.filter(p => p.status == DebtStatus.UNPAID && p.type == DebtType.PAYABLE);
-      unpaidAmount = unpaid.reduce((accumulator, currentValue) => 
-      {
+      unpaidAmount = unpaid.reduce((accumulator, currentValue) => {
         return accumulator + currentValue.total;
       }, 0);
       return Promise.resolve(unpaidAmount || 0);
@@ -90,23 +87,15 @@ export class DashboardPage {
   }
 
   async logout() {
-    try
-    {
+    try {
       await this.storage.remove("user");
       // this.authProvider.logout();
     }
-    catch(e)
-    {
+    catch (e) {
       console.log("Problem logging out.", e);
     }
-    finally
-    {
+    finally {
       this.navCtrl.setRoot(SignInPage);
-    }    
+    }
   }
-
-  get isLoggedIn() {
-    return this.authProvider.fastIsLoggedIn;
-  }
-
 }

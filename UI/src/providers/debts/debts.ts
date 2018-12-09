@@ -1,4 +1,3 @@
-import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import PouchDB from "pouchdb";
 import { Debt } from "../../models/debt";
@@ -11,7 +10,7 @@ export class DebtsProvider {
   private db: any;
   private remote: any;
 
-  constructor(private http: HttpClient) {
+  constructor() {
     console.log("Hello DebtsProvider Provider");
   }
 

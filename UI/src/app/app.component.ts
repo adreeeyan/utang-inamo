@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Platform, Nav, IonicApp, ToastController, IonicPage, App, LoadingController } from 'ionic-angular';
+import { Platform, Nav, IonicApp, ToastController, IonicPage } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -7,8 +7,6 @@ import superlogin from 'superlogin-client';
 
 import { SignInPage } from '../pages/sign-in/sign-in';
 import { TabsPage } from '../pages/tabs/tabs';
-import { Storage } from '@ionic/storage';
-import { AuthProvider } from '../providers/auth/auth';
 import { DebtsProvider } from '../providers/debts/debts';
 
 @IonicPage()
@@ -23,12 +21,8 @@ export class MyApp {
   constructor(public platform: Platform,
     statusBar: StatusBar,
     splashScreen: SplashScreen,
-    private app: App,
     private ionicApp: IonicApp,
     private toastCtrl: ToastController,
-    private storage: Storage,
-    private loadingCtrl: LoadingController,
-    private authProvider: AuthProvider,
     private debtsProvider: DebtsProvider) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
@@ -41,45 +35,18 @@ export class MyApp {
 
       // This is for PWA back button
       this.backButtonListener();
+
+      // Authentication
+      console.log("trying the authentication");
+      const session = superlogin.getSession();
+      if (session) {
+        this.debtsProvider.init(session);
+        console.log("user authenticated");
+      } else {
+        console.log("user not authenticated");
+        this.nav.setRoot(SignInPage);
+      }
     });
-
-    // let loading = this.loadingCtrl.create({
-    //   content: "Checking for signed in user..."
-    // });
-
-    // loading.present();
-
-    // Authentication
-    console.log("trying the authentication");
-    const session = superlogin.getSession();
-    if (session) {
-      this.debtsProvider.init(session);
-      console.log("user authenticated");
-    } else {
-      console.log("user not authenticated");
-      this.app.getActiveNav().setRoot(SignInPage);
-    }
-    // this.angularFireAuth.auth.onAuthStateChanged(user => {
-    //   this.authProvider.fastIsLoggedIn = user != null;
-
-    //   // also check if there is a user data in the storage
-    //   this.storage.get("user").then(responseUser => {
-    //     if (user && (responseUser != null)) {
-    //       console.log("signed in");
-    //       loading.dismiss();
-    //     } else {
-    //       loading.dismiss();
-
-    //       // check if local usage
-    //       if (responseUser && responseUser.isLocal) {
-    //         console.log("signed in locally");
-    //       } else {
-    //         console.log("not signed in");
-    //         this.app.getActiveNav().setRoot(SignInPage);
-    //       }
-    //     }
-    //   });
-    // });
   }
 
   private registerBackButtonHandler() {

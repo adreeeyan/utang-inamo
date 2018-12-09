@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, LoadingController, ToastController, ViewController } from 'ionic-angular';
+import { IonicPage, ModalController, LoadingController, ViewController } from 'ionic-angular';
 import { Borrower } from '../../models/borrower';
 import { BorrowerEditorPage } from '../borrower-editor/borrower-editor';
-import { AuthProvider } from '../../providers/auth/auth';
 import { DebtsProvider } from '../../providers/debts/debts';
+
+import superlogin from 'superlogin-client';
 
 @IonicPage()
 @Component({
@@ -15,19 +16,15 @@ export class BorrowerPickerPage {
   borrowers: Borrower[] = [];
   searchResults: Borrower[] = [];
 
-  constructor(private navCtrl: NavController,
-    private navParams: NavParams,
-    private viewCtrl: ViewController,
+  constructor(private viewCtrl: ViewController,
     private modalCtrl: ModalController,
-    private authProvider: AuthProvider,
     private loadingCtrl: LoadingController,
-    private toastCtrl: ToastController,
     private debtsProvider: DebtsProvider) {
   }
 
-  // ionViewCanEnter(): Promise<any> {
-  //   return this.authProvider.hasCachedUser();
-  // }
+  ionViewCanEnter() {
+    return superlogin.authenticated();
+  }
 
   async ionViewDidEnter() {
     console.log('ionViewDidEnter BorrowerPickerPage');
@@ -51,17 +48,6 @@ export class BorrowerPickerPage {
     }
 
     return borrowers;
-
-    // let borrowers = [];
-    // for (let x = 0; x < 20; x++) {
-    //   borrowers.push(new Borrower({
-    //     id: `${x}`,
-    //     firstName: "John",
-    //     middleName: `${x}`,
-    //     lastName: "Doe",
-    //   }));
-    // }
-    // return borrowers;
   }
 
   search(ev: any) {

@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, LoadingController, ToastController, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, ViewController } from 'ionic-angular';
 import { AmountEditorComponent } from '../../components/amount-editor/amount-editor';
 import { BorrowerPickerPage } from '../borrower-picker/borrower-picker';
-import { AuthProvider } from '../../providers/auth/auth';
 import { DebtsProvider } from '../../providers/debts/debts';
 import { Debt } from '../../models/debt';
+
+import superlogin from 'superlogin-client';
 
 @IonicPage()
 @Component({
@@ -20,15 +21,12 @@ export class DebtEditorPage {
     private viewCtrl: ViewController,
     public navParams: NavParams,
     public modalCtrl: ModalController,
-    private authProvider: AuthProvider,
-    private debtsProvider: DebtsProvider,
-    private loadingCtrl: LoadingController,
-    private toastCtrl: ToastController) {
+    private debtsProvider: DebtsProvider) {
   }
 
-  // ionViewCanEnter(): Promise<any> {
-  //   return this.authProvider.hasCachedUser();
-  // }
+  ionViewCanEnter() {
+    return superlogin.authenticated();
+  }
 
   async ionViewDidLoad() {
     console.log('ionViewDidLoad DebtEditorPage');

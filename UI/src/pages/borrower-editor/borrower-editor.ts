@@ -1,8 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, ToastController } from 'ionic-angular';
-import { AuthProvider } from '../../providers/auth/auth';
+import { IonicPage, NavController, LoadingController } from 'ionic-angular';
 import { Borrower } from '../../models/borrower';
 import { DebtsProvider } from '../../providers/debts/debts';
+
+import superlogin from 'superlogin-client';
 
 @IonicPage()
 @Component({
@@ -17,19 +18,13 @@ export class BorrowerEditorPage {
   borrower: Borrower;
 
   constructor(private navCtrl: NavController,
-    private navParams: NavParams,
-    private authProvider: AuthProvider,
     private debtsProvider: DebtsProvider,
-    private loadingCtrl: LoadingController,
-    private toastCtrl: ToastController) {
-    // A hack from ionic: https://github.com/ionic-team/ionic/issues/13964#issuecomment-363453732
-    const foo = { foo: true };
-    history.pushState(foo, "anything", " "); // Put something to history for back button
+    private loadingCtrl: LoadingController) {
   }
 
-  // ionViewCanEnter(): Promise<any> {
-  //   return this.authProvider.hasCachedUser();
-  // }
+  ionViewCanEnter() {
+    return superlogin.authenticated();
+  }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad BorrowerEditorPage');
