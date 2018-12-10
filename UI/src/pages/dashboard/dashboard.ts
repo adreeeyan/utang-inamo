@@ -14,8 +14,8 @@ import { AuthProvider } from '../../providers/auth/auth';
 export class DashboardPage {
 
   user: any;
-  totalPayables: any;
-  totalReceivables: any;
+  totalPayables: any = 0;
+  totalReceivables: any = 0;
 
   constructor(private debtsProvider: DebtsProvider,
     private authProvider: AuthProvider,

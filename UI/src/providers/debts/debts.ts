@@ -65,7 +65,9 @@ export class DebtsProvider {
       return Promise.resolve(this.data);
     }
 
-    return new Promise(resolve => {
+    return new Promise(async (resolve) => {
+
+      await this.IsInitizialized();
 
       this.db.allDocs({
 

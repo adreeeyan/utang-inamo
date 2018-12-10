@@ -38,10 +38,7 @@ export class SignInPage {
     try {
       const res = await this.authProvider.login(this.username, this.password);
       this.debtsProvider.init(res);
-      setTimeout(() => {
-        loading.dismiss();
-        this.navCtrl.setRoot(TabsPage);
-      }, 1500);
+      this.navCtrl.setRoot(TabsPage);
     }
     catch (e) {
       console.log("Problem encountered while logging in.", e);
@@ -50,6 +47,8 @@ export class SignInPage {
         duration: 3000,
         showCloseButton: true
       }).present();
+    }
+    finally {
       loading.dismiss();
     }
   }
@@ -63,10 +62,7 @@ export class SignInPage {
     try {
       let response = await superlogin.socialAuth(provider);
       this.debtsProvider.init(response);
-      setTimeout(() => {
-        loading.dismiss();
-        this.navCtrl.setRoot(TabsPage);
-      }, 1500);
+      this.navCtrl.setRoot(TabsPage);
     }
     catch (e) {
       console.log(`shit happens while logging in via ${provider}`, e);
@@ -75,6 +71,8 @@ export class SignInPage {
         duration: 3000,
         showCloseButton: true
       }).present();
+    }
+    finally {
       loading.dismiss();
     }
   }
