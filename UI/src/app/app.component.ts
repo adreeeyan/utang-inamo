@@ -19,18 +19,29 @@ export class MyApp {
   overallPages: Array<any>;
 
   constructor(public platform: Platform,
-    statusBar: StatusBar,
-    splashScreen: SplashScreen,
+    private statusBar: StatusBar,
+    private splashScreen: SplashScreen,
     private ionicApp: IonicApp,
     private toastCtrl: ToastController,
     private debtsProvider: DebtsProvider,
     private storage: Storage) {
-    platform.ready().then(() => {
+
+    this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      statusBar.overlaysWebView(false);
-      statusBar.backgroundColorByHexString("#077187");
-      splashScreen.hide();
+      this.statusBar.overlaysWebView(false);
+      this.statusBar.backgroundColorByHexString("#077187");
+
+      // Authentication
+      console.log("trying to authenticate");
+      const session = superlogin.getSession();
+      if (session) {
+        this.debtsProvider.init(session);
+        console.log("user authenticated", session);
+      } else {
+        console.log("user not authenticated");
+        this.nav.setRoot(SignInPage);
+      }
 
       if (this.platform.is("core") || this.platform.is("mobileweb")) {
         // This is for PWA back button
@@ -40,19 +51,12 @@ export class MyApp {
         this.registerBackButtonHandler();
       }
 
-      // Authentication
-      const session = superlogin.getSession();
-      if (session) {
-        this.debtsProvider.init(session);
-        console.log("user authenticated", session);
-      } else {
-        console.log("user not authenticated");
-        this.nav.setRoot(SignInPage);
-      }
+      // Save image
+      this.registerProfileImageCache();
+
+      this.splashScreen.hide();
     });
 
-    // Save image
-    this.registerProfileImageCache();
   }
 
   private registerBackButtonHandler() {

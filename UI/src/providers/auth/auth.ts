@@ -17,7 +17,10 @@ export class AuthProvider {
       password: password
     };
 
-    return superlogin.login(credentials);
+    return superlogin.login(credentials).then((res) => {
+      superlogin.setSession(res);
+      return res;
+    });
   }
 
   register(username, email, password, confirmPassword) {
@@ -41,6 +44,9 @@ export class AuthProvider {
   async getInfo() {
     try {
       let session: any = superlogin.getSession();
+      if (session == null) {
+        return Promise.reject("No session");
+      }
       const imageInCache = await this.storage.get("image");
       let imageInSession = "assets/imgs/user-placeholder.jpg";
       if (session.profile && session.profile.image) {

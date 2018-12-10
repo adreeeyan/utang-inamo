@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, LoadingController, ToastController } from 'ionic-angular';
-import { SignInPage } from '../sign-in/sign-in';
+import { IonicPage, LoadingController, ToastController, Events } from 'ionic-angular';
 import { DebtsProvider } from '../../providers/debts/debts';
 import { DebtStatus, DebtType } from '../../models/debt';
-import { DebtListingPage } from '../debt-listing/debt-listing';
 
 import superlogin from 'superlogin-client';
 import { AuthProvider } from '../../providers/auth/auth';
@@ -19,14 +17,16 @@ export class DashboardPage {
   totalPayables: any;
   totalReceivables: any;
 
-  constructor(private navCtrl: NavController,
-    private debtsProvider: DebtsProvider,
+  constructor(private debtsProvider: DebtsProvider,
     private authProvider: AuthProvider,
     private loadingCtrl: LoadingController,
-    private toastCtrl: ToastController) {
+    private toastCtrl: ToastController,
+    private events: Events) {
   }
 
   ionViewCanEnter() {
+    console.log("authenticating");
+    console.log(superlogin.authenticated());
     return superlogin.authenticated();
   }
 
@@ -36,10 +36,17 @@ export class DashboardPage {
 
   async ionViewDidEnter() {
     console.log('ionViewDidEnter DashboardPage');
-
-    this.user = await this.authProvider.getInfo();
-    this.totalPayables = await this.getTotalPayables();
-    this.totalReceivables = await this.getTotalReceivables();
+    try
+    {
+      this.user = await this.authProvider.getInfo();
+      this.totalPayables = await this.getTotalPayables();
+      this.totalReceivables = await this.getTotalReceivables();
+    }
+    catch(e)
+    {
+      console.log("Shit happened while loading the dashboard", e);
+      this.logout();
+    }    
   }
 
   async getTotalPayables() {
@@ -74,11 +81,11 @@ export class DashboardPage {
 
 
   openPayablesPage() {
-    this.navCtrl.push(DebtListingPage, { type: DebtType.PAYABLE }, { animation: "md-transition" });
+    this.events.publish("tab:selectPayables");
   }
 
   openReceivablesPage() {
-    this.navCtrl.push(DebtListingPage, { type: DebtType.RECEIVABLE }, { animation: "md-transition" });
+    this.events.publish("tab:selectReceivables");
   }
 
   async logout() {
@@ -89,10 +96,10 @@ export class DashboardPage {
 
     try {
       await this.authProvider.logout();
-      this.navCtrl.setRoot(SignInPage);
+      this.events.publish("user:logout");
     }
     catch (e) {
-      console.log("Problem logging out.", e);
+      console.log("Problem logging out.", JSON.stringify(e));
       this.toastCtrl.create({
         message: "Hold on tight, there's an issue logging out.",
         duration: 3000,
