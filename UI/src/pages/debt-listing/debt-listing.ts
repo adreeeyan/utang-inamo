@@ -33,6 +33,14 @@ export class DebtListingPage {
   async ionViewDidEnter() {
     console.log('ionViewDidEnter DebtListingPage');
     this.debtType = this.navParams.get("type");
+    if(this.debtType == null){
+      // then user navigated here directly via url
+      // get type via url
+      this.debtType = window.location.hash.includes("payables") ||
+                      window.location.hash.includes("dashboard")
+                      ? DebtType.PAYABLE : DebtType.RECEIVABLE;
+    }
+
     this.isPaid = "unpaid";
     this.debts = this.debtType == DebtType.PAYABLE ? await this.getPayables() : await this.getReceivables();
   }
