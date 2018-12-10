@@ -95,6 +95,14 @@ $colors: (
   overflow: auto !important;
 }
 
+// an ionic bug, keyboard disrupts the layout
+.app-root {
+  min-height: 600px;
+  .scroll-content {
+    padding-bottom: 0 !important;
+  }
+}
+
 .item-block:last-child, .list-ios > .item-wrapper:last-child .item-block {
   border-bottom: 0 !important;
 }

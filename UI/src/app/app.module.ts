@@ -24,6 +24,7 @@ import { environment } from '../environments/debug.environment';
 import { DebtsProvider } from '../providers/debts/debts';
 import { SignUpPageModule } from '../pages/sign-up/sign-up.module';
 import { FormsModule } from '@angular/forms';
+import { Keyboard } from '@ionic-native/keyboard';
 
 
 superlogin.configure(environment.superlogin);
@@ -36,15 +37,24 @@ superlogin.configure(environment.superlogin);
     BrowserModule,
     HttpClientModule,
     FormsModule,
-    IonicModule.forRoot(MyApp, { pageTransition: "ios-transition" }, {
-      links: [
-        { component: DashboardPage, name: "dashboard", segment: "dashboard" },
-        { component: DebtEditorPage, name: "debt-editor", segment: "debt-editor/:id", defaultHistory: [DebtListingPage] },
-        { component: DebtInfoPage, name: "debt-info", segment: "debt-info/:id", defaultHistory: [DebtListingPage] },
-        { component: DebtListingPage, name: "debt-list", segment: "debt-list" },
-        { component: TabsPage, name: "tabs", segment: "tab" }
-      ]
-    }),
+    IonicModule.forRoot(MyApp,
+      {
+        pageTransition: "ios-transition",
+        scrollAssist: false,
+        scrollPadding: true,
+        autoFocusAssist: true
+      },
+      {
+        links:
+          [
+            { component: DashboardPage, name: "dashboard", segment: "dashboard" },
+            { component: DebtEditorPage, name: "debt-editor", segment: "debt-editor/:id", defaultHistory: [DebtListingPage] },
+            { component: DebtInfoPage, name: "debt-info", segment: "debt-info/:id", defaultHistory: [DebtListingPage] },
+            { component: DebtListingPage, name: "debt-list", segment: "debt-list" },
+            { component: TabsPage, name: "tabs", segment: "tab" }
+          ]
+      }
+    ),
     IonicStorageModule.forRoot(),
     DebtListingPageModule,
     BorrowerEditorPageModule,
@@ -60,7 +70,8 @@ superlogin.configure(environment.superlogin);
   providers: [
     HttpClientModule,
     StatusBar,
-    SplashScreen,
+    SplashScreen,,
+    Keyboard,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     AuthProvider,
     DebtsProvider

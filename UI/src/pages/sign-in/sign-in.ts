@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, ToastController } from 'ionic-angular';
+import { Keyboard } from '@ionic-native/keyboard';
 import { AuthProvider } from '../../providers/auth/auth';
 import { TabsPage } from '../tabs/tabs';
 import { SignUpPage } from '../sign-up/sign-up';
@@ -22,7 +23,8 @@ export class SignInPage {
     private authProvider: AuthProvider,
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController,
-    private debtsProvider: DebtsProvider) {
+    private debtsProvider: DebtsProvider,
+    private keyboard: Keyboard) {
   }
 
   ionViewDidLoad() {

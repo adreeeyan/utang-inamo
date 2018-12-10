@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { AmountEditorComponent } from '../../components/amount-editor/amount-editor';
 import { BorrowerPickerPage } from '../borrower-picker/borrower-picker';
 import { DebtsProvider } from '../../providers/debts/debts';
@@ -18,7 +18,6 @@ export class DebtEditorPage {
   private isEdit: boolean = false;
 
   constructor(public navCtrl: NavController,
-    private viewCtrl: ViewController,
     public navParams: NavParams,
     public modalCtrl: ModalController,
     private debtsProvider: DebtsProvider) {

@@ -8,6 +8,7 @@ import superlogin from 'superlogin-client';
 import { SignInPage } from '../pages/sign-in/sign-in';
 import { TabsPage } from '../pages/tabs/tabs';
 import { DebtsProvider } from '../providers/debts/debts';
+import { Keyboard } from '@ionic-native/keyboard';
 
 @IonicPage()
 @Component({
@@ -24,13 +25,15 @@ export class MyApp {
     private ionicApp: IonicApp,
     private toastCtrl: ToastController,
     private debtsProvider: DebtsProvider,
-    private storage: Storage) {
+    private storage: Storage,
+    private keyboard: Keyboard) {
 
     this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       this.statusBar.overlaysWebView(false);
       this.statusBar.backgroundColorByHexString("#077187");
+      this.keyboard.setResizeMode("body");
 
       // Authentication
       console.log("trying to authenticate");
