@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, ToastController } from 'ionic-angular';
 import { SignInPage } from '../sign-in/sign-in';
 import { DebtsProvider } from '../../providers/debts/debts';
 import { DebtStatus, DebtType } from '../../models/debt';
@@ -19,10 +19,11 @@ export class DashboardPage {
   totalPayables: any;
   totalReceivables: any;
 
-  constructor(public navCtrl: NavController,
-    public navParams: NavParams,
+  constructor(private navCtrl: NavController,
     private debtsProvider: DebtsProvider,
-    private authProvider: AuthProvider) {
+    private authProvider: AuthProvider,
+    private loadingCtrl: LoadingController,
+    private toastCtrl: ToastController, ) {
   }
 
   ionViewCanEnter() {
@@ -77,12 +78,25 @@ export class DashboardPage {
   }
 
   async logout() {
+    let loading = this.loadingCtrl.create({
+      content: "Logging out..."
+    });
+    loading.present();
+
     try {
       await this.authProvider.logout();
       this.navCtrl.setRoot(SignInPage);
     }
     catch (e) {
       console.log("Problem logging out.", e);
+      this.toastCtrl.create({
+        message: "Hold on tight, there's an issue logging out.",
+        duration: 3000,
+        showCloseButton: true
+      }).present();
+    }
+    finally {
+      loading.dismiss();
     }
   }
 }
