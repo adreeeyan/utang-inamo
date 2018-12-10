@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { Debt, DebtType, DebtStatus } from '../../models/debt';
 import { Borrower } from '../../models/borrower';
 import { DebtInfoPage } from '../debt-info/debt-info';
@@ -22,7 +22,8 @@ export class DebtListingPage {
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
-    private debtsProvider: DebtsProvider) {
+    private debtsProvider: DebtsProvider,
+    private modalCtrl: ModalController) {
   }
 
   ionViewCanEnter() {
@@ -81,15 +82,20 @@ export class DebtListingPage {
   }
 
   goToDebtInfo(debt) {
-    this.navCtrl.push(DebtInfoPage, { id: debt.id || debt._id });
+    let debtEditorModal = this.modalCtrl.create(DebtInfoPage, { id: debt.id || debt._id });
+    debtEditorModal.present();
   }
 
   goToDebtEditor(debt) {
+    let debtEditorModal;
+    
     if (debt) {
-      this.navCtrl.push(DebtEditorPage, { id: debt.id || debt._id, type: this.debtType });
+      debtEditorModal = this.modalCtrl.create(DebtEditorPage, { id: debt.id || debt._id, type: this.debtType });
     } else {
-      this.navCtrl.push(DebtEditorPage, { type: this.debtType });
+      debtEditorModal = this.modalCtrl.create(DebtEditorPage, { type: this.debtType });
     }
+
+    debtEditorModal.present();
   }
 
   openSkype(borrower: Borrower) {

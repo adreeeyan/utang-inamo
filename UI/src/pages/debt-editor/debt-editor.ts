@@ -102,7 +102,7 @@ export class DebtEditorPage {
       } else {
         await this.debtsProvider.createDebt(this.debt);
       }
-      this.viewCtrl.dismiss();
+      this.navCtrl.pop();
     }
     catch (e) {
       console.log("Issue while creating debt.", e);

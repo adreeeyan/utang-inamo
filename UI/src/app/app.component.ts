@@ -3,7 +3,6 @@ import { Platform, Nav, IonicApp, ToastController, IonicPage } from 'ionic-angul
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Storage } from '@ionic/storage';
-
 import superlogin from 'superlogin-client';
 
 import { SignInPage } from '../pages/sign-in/sign-in';
@@ -29,14 +28,17 @@ export class MyApp {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      statusBar.styleDefault();
+      statusBar.overlaysWebView(false);
+      statusBar.backgroundColorByHexString("#077187");
       splashScreen.hide();
 
-      // Register back button
-      this.registerBackButtonHandler();
-
-      // This is for PWA back button
-      this.backButtonListener();
+      if (this.platform.is("core") || this.platform.is("mobileweb")) {
+        // This is for PWA back button
+        this.backButtonListener();
+      } else {
+        // Register back button for mobile app
+        this.registerBackButtonHandler();
+      }
 
       // Authentication
       const session = superlogin.getSession();
@@ -63,6 +65,7 @@ export class MyApp {
     this.platform.registerBackButtonAction(() => {
       let activePortal = this.ionicApp._loadingPortal.getActive() ||
         this.ionicApp._modalPortal.getActive() ||
+        this.ionicApp._toastPortal.getActive() ||
         this.ionicApp._overlayPortal.getActive();
 
       //activePortal is the active overlay like a modal,toast,etc
