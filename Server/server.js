@@ -24,8 +24,8 @@ app.use((req, res, next) => {
 
 let config = {
     dbServer: {
-        protocol: process.env.DB_HOST ? "https://" : "http://",
-        host: process.env.DB_HOST || "localhost:5984",
+        protocol: process.env.HTTP_PROTOCOL || "http://",
+        host: process.env.DB_HOST || "192.168.254.19:5984",
         user: process.env.DB_USER,
         password: process.env.DB_PASS,
         // automatically detect if the host is Cloudant
