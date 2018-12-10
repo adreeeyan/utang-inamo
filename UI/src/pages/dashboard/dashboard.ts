@@ -23,11 +23,15 @@ export class DashboardPage {
     private debtsProvider: DebtsProvider,
     private authProvider: AuthProvider,
     private loadingCtrl: LoadingController,
-    private toastCtrl: ToastController, ) {
+    private toastCtrl: ToastController) {
   }
 
   ionViewCanEnter() {
     return superlogin.authenticated();
+  }
+
+  ionViewWillEnter() {
+    this.user = null;
   }
 
   async ionViewDidEnter() {
@@ -70,11 +74,11 @@ export class DashboardPage {
 
 
   openPayablesPage() {
-    this.navCtrl.push(DebtListingPage, { type: DebtType.PAYABLE });
+    this.navCtrl.push(DebtListingPage, { type: DebtType.PAYABLE }, { animation: "md-transition" });
   }
 
   openReceivablesPage() {
-    this.navCtrl.push(DebtListingPage, { type: DebtType.RECEIVABLE });
+    this.navCtrl.push(DebtListingPage, { type: DebtType.RECEIVABLE }, { animation: "md-transition" });
   }
 
   async logout() {

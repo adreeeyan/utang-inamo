@@ -1,12 +1,12 @@
 <ion-content>
-  <div class="dashboard">
+  <div class="dashboard" *ngIf="user != null">
     <div class="top">
       <div class="logout">
         <button ion-button icon-only clear (click)="logout()">
           <ion-icon name="exit" color="dark"></ion-icon>
         </button>
       </div>
-      <div class="image" *ngIf="user != null">
+      <div class="image">
         <img [src]="user.image">
       </div>
       <div class="greetings">Hello {{user?.name}}!</div>
