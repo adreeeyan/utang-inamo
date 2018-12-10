@@ -80,13 +80,13 @@ export class DebtListingPage {
     return this.unpaid.reduce((accumulator, currentValue) => accumulator + currentValue.total, 0);
   }
 
-  goToDebtInfo(debt: Debt) {
-    this.navCtrl.push(DebtInfoPage, { id: debt.id });
+  goToDebtInfo(debt) {
+    this.navCtrl.push(DebtInfoPage, { id: debt.id || debt._id });
   }
 
-  goToDebtEditor(debt: Debt) {
+  goToDebtEditor(debt) {
     if (debt) {
-      this.navCtrl.push(DebtEditorPage, { id: debt.id, type: this.debtType });
+      this.navCtrl.push(DebtEditorPage, { id: debt.id || debt._id, type: this.debtType });
     } else {
       this.navCtrl.push(DebtEditorPage, { type: this.debtType });
     }
