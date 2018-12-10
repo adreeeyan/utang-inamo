@@ -9,7 +9,7 @@ export const environment = {
         providers: ["google", "facebook"],
         // Sets when to check if the session is expired during the setup.
         // false by default.
-        checkExpired: "stateChange",
+        checkExpired: false,
         // A float that determines the percentage of a session duration, after which SuperLogin will automatically refresh the
         // token. For example if a token was issued at 1pm and expires at 2pm, and the threshold is 0.5, the token will
         // automatically refresh after 1:30pm. When authenticated, the token expiration is automatically checked on every

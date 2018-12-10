@@ -10,8 +10,11 @@ export class DebtsProvider {
   private db: any;
   private remote: any;
 
+  private isFinishInitializing: boolean = false;
+
   constructor() {
     console.log("Hello DebtsProvider Provider");
+    this.isFinishInitializing = false;
   }
 
   init(details) {
@@ -27,9 +30,21 @@ export class DebtsProvider {
     };
 
     this.db.sync(this.remote, options);
+    this.isFinishInitializing = true;
 
     console.log(this.db);
 
+  }
+
+  IsInitizialized() {
+    return new Promise(resolve => {
+      let initializeCheckerInterval = setInterval(() => {
+        if (this.isFinishInitializing) {
+          clearInterval(initializeCheckerInterval);
+          resolve(true);
+        }
+      }, 500);
+    });
   }
 
   async logout(): Promise<any> {

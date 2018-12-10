@@ -43,6 +43,7 @@ export class AuthProvider {
 
   async getInfo() {
     try {
+      await this.debtsProvider.IsInitizialized();
       let session: any = superlogin.getSession();
       if (session == null) {
         return Promise.reject("No session");
