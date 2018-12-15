@@ -12,6 +12,7 @@
   "dependencies": {
     "body-parser": "^1.15.2",
     "cors": "^2.8.0",
+    "couch-pwd": "github:zemirco/couch-pwd",
     "del": "2.2.0",
     "express": "^4.14.0",
     "http": "0.0.0",
@@ -19,7 +20,6 @@
     "morgan": "^1.7.0",
     "passport-facebook": "^2.1.1",
     "passport-google-oauth": "^1.0.0",
-    "pouchdb": "5.4.5",
-    "superlogin": "github:colinskow/superlogin"
+    "superlogin": "0.6.1"
   }
 }
