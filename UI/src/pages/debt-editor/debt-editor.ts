@@ -69,7 +69,7 @@ export class DebtEditorPage {
 
   openAmountEditor() {
     try {
-      const amountEditorModal = this.modalCtrl.create(AmountEditorComponent);
+      const amountEditorModal = this.modalCtrl.create(AmountEditorComponent, { amount: this.debt.amount });
       amountEditorModal.onDidDismiss(amount => this.debt.amount = amount);
       amountEditorModal.present();
     }
@@ -109,10 +109,10 @@ export class DebtEditorPage {
   }
 
   get title() {
-    if(this.debt.type == DebtType.PAYABLE){
+    if (this.debt.type == DebtType.PAYABLE) {
       return this.isEdit ? "Edit Payable" : "Add Payable";
     }
-    return this.isEdit ? "Edit Receivable" : "Add Receivable"; 
+    return this.isEdit ? "Edit Receivable" : "Add Receivable";
   }
 
 }

@@ -6,7 +6,9 @@ amount-editor {
     }
 
     .total-part {
+        position: relative;
         height: 30%;
+        padding: 20px;
         background-color: #282728;
         color: white;
         display: flex;
@@ -19,7 +21,8 @@ amount-editor {
         }
 
         .accept {
-            margin-top: 10px;
+            position: absolute;
+            bottom: 20px;
             color: lightgray;
         }
     }
