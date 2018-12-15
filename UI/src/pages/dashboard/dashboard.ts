@@ -25,8 +25,6 @@ export class DashboardPage {
   }
 
   ionViewCanEnter() {
-    console.log("authenticating");
-    console.log(superlogin.authenticated());
     return superlogin.authenticated();
   }
 

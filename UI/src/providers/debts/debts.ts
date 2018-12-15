@@ -31,9 +31,6 @@ export class DebtsProvider {
 
     this.db.sync(this.remote, options);
     this.isFinishInitializing = true;
-
-    console.log(this.db);
-
   }
 
   IsInitizialized() {
