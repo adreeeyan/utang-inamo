@@ -4,5 +4,8 @@
   "description": "Auth manager for UtangInamo",
   "scripts": {
     "postinstall": "npm install --prefix Server && npm install --prefix UI"
+  },
+  "engines": {
+    "node": "8.11.2"
   }
 }
