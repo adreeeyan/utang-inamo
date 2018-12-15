@@ -13,7 +13,13 @@ app.set("port", process.env.PORT || 3000);
 app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, "../UI/www")));
+
+let htmlDir = path.join(__dirname, "../UI/www");
+if(!fs.existsSync(htmlDir)){
+    htmlDir = path.join(__dirname, "UI/www");
+}
+
+app.use(express.static(htmlDir));
 app.use(cors());
 
 app.use((req, res, next) => {
@@ -111,10 +117,6 @@ superlogin.onCreate(function (userDoc, provider) {
 
 
 app.use("*", function (req, res) {
-    let htmlDir = path.join(__dirname, "../UI/www");
-    if(!fs.existsSync(htmlDir)){
-        htmlDir = path.join(__dirname, "UI/www");
-    }
     res.sendFile("index.html", { root: htmlDir });
 });
 
