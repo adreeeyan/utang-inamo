@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Auth manager for UtangInamo",
   "engines": {
-    "node": "5.9.1"
+    "node": "8.11.2"
   },
   "main": "server.js",
   "scripts": {
