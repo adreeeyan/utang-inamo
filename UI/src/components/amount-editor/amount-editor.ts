@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { ViewController } from 'ionic-angular';
+import { ViewController, NavParams } from 'ionic-angular';
 import fitty from "fitty";
 
 @Component({
@@ -12,12 +12,13 @@ export class AmountEditorComponent {
 
   amount: string = "";
 
-  constructor(public viewCtrl: ViewController) {
+  constructor(private viewCtrl: ViewController,
+    private navParams: NavParams) {
     console.log('Hello AmountEditorComponent Component');
   }
 
   ionViewDidLoad() {
-    this.amount = this.viewCtrl.data ? this.viewCtrl.data.amount.toString() : "";
+    this.amount = this.navParams.get("amount").toString() || "";
 
     // this makes the amount font size flexible
     fitty(this.totalDiv.nativeElement, { maxSize: 64, minSize: 20, multiLine: true });
@@ -41,7 +42,7 @@ export class AmountEditorComponent {
 
   accept() {
     this.calculate();
-    this.viewCtrl.dismiss(this.amount);
+    this.viewCtrl.dismiss(parseFloat(this.amount) || 0);
   }
 
   addKey(key) {
@@ -71,7 +72,7 @@ export class AmountEditorComponent {
 
   calculate() {
     try {
-      this.amount = eval(`${this.amount}`).toString();
+      this.amount = eval(`${this.amount}`).toFixed(2).toString();
     } catch{
       this.amount = "";
     }

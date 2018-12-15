@@ -6,27 +6,32 @@
       </button>
     </div>
     <div class="title">{{title}}</div>
-    <div class="detail">Amount</div>
+    <div class="detail">Total Amount</div>
     <div class="amount" (tap)="openAmountEditor()">
-      {{debt.amount | formatCurrency}}
+      {{debt.total | formatCurrency}}
     </div>
   </div>
   <div class="info-part">
     <ion-list mode="md">
+      <ion-item mode="md">
+        <ion-icon name="cash" item-start></ion-icon>
+        <ion-label>Amount</ion-label>
+        <ion-input type="text" [readonly]="true" (tap)="openAmountEditor()" value="{{debt.amount | formatCurrency}}"></ion-input>
+      </ion-item>
       <ion-item mode="md">
         <ion-icon name="contact" item-start></ion-icon>
         <ion-label>Borrower</ion-label>
         <ion-input type="text" [readonly]="true" (tap)="openBorrowerPicker()" [(ngModel)]="borrowerName"></ion-input>
       </ion-item>
       <ion-item mode="md">
-        <ion-icon name="calendar" item-start></ion-icon>
-        <ion-label>Due date</ion-label>
-        <ion-input type="date" [(ngModel)]="debt.dueDate"></ion-input>
-      </ion-item>
-      <ion-item mode="md">
         <ion-icon name="calculator" item-start></ion-icon>
         <ion-label>Interest (%)</ion-label>
         <ion-input type="number" [(ngModel)]="debt.interest"></ion-input>
+      </ion-item>
+      <ion-item mode="md">
+        <ion-icon name="calendar" item-start></ion-icon>
+        <ion-label>Due date</ion-label>
+        <ion-input type="date" [(ngModel)]="debt.dueDate"></ion-input>
       </ion-item>
     </ion-list>
   </div>
