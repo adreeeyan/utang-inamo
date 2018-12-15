@@ -1,1 +1,1 @@
-web: node Server/server.js
+web: npm start --prefix Server

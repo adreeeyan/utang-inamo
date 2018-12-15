@@ -1,0 +1,8 @@
+{
+  "name": "utanginamo-main",
+  "version": "0.0.1",
+  "description": "Auth manager for UtangInamo",
+  "scripts": {
+    "postinstall": "npm install --prefix Server && npm install --prefix UI"
+  }
+}
