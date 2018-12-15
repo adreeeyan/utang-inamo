@@ -1,3 +1,4 @@
+let fs = require("fs");
 let express = require("express");
 let bodyParser = require("body-parser");
 let logger = require("morgan");
@@ -110,7 +111,11 @@ superlogin.onCreate(function (userDoc, provider) {
 
 
 app.use("*", function (req, res) {
-    res.sendFile("index.html", { root: path.join(__dirname, "../UI/www") });
+    let htmlDir = path.join(__dirname, "../UI/www");
+    if(!fs.existsSync(htmlDir)){
+        htmlDir = path.join(__dirname, "UI/www");
+    }
+    res.sendFile("index.html", { root: htmlDir });
 });
 
 // catch 404 and forward to error handler

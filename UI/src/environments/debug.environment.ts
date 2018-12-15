@@ -2,7 +2,7 @@ export const environment = {
     superlogin: {
         // An optional URL to API server, by default a current window location is used.
         // The base URL for the SuperLogin routes with leading and trailing slashes (defaults to "/auth")
-        baseUrl: "http://192.168.254.19:3000/auth/",
+        baseUrl: "https://polar-ocean-92021.herokuapp.com/auth/",
         // Where to save your session token: localStorage ("local") or sessionStorage ("session"), default: "local"
         storage: "local",
         // The authentication providers that are supported by your SuperLogin host
