@@ -25,6 +25,7 @@ matrix:
     - android-sdk-preview-license-.+
     - android-sdk-license-.+
     - android-sdk-license
+    - Android SDK Platform 26
     - Android SDK Platform 28
     - google-gdk-license-.+
 language: node_js
