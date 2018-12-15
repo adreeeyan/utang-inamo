@@ -144,5 +144,10 @@ app.use(function (err, req, res, next) {
     });
 });
 
-app.listen(app.get("port"));
-console.log("App listening on " + app.get("port"));
+let port = process.env.PORT;
+if (port == null || port == "") {
+  port = app.get("port");
+}
+
+app.listen(port);
+console.log("App listening on " + port);
