@@ -6,6 +6,6 @@
     "postinstall": "npm install --prefix Server && npm install --prefix UI"
   },
   "engines": {
-    "node": "5.9.1"
+    "node": "7.7.3"
   }
 }
