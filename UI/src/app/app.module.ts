@@ -70,7 +70,7 @@ superlogin.configure(environment.superlogin);
   providers: [
     HttpClientModule,
     StatusBar,
-    SplashScreen,,
+    SplashScreen,
     Keyboard,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     AuthProvider,
