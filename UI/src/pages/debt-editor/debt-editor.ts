@@ -84,7 +84,9 @@ export class DebtEditorPage {
       const borrowerPickerModal = this.modalCtrl.create(BorrowerPickerPage);
       borrowerPickerModal.onDidDismiss(borrower => {
         console.log("borrower", borrower);
-        this.debt.borrower = borrower;
+        if(borrower){
+          this.debt.borrower = borrower;
+        }
       });
       borrowerPickerModal.present();
     }

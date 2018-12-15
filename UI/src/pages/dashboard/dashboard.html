@@ -1,5 +1,5 @@
 <ion-content>
-  <div class="dashboard" *ngIf="user != null">
+  <div class="dashboard">
     <div class="top">
       <div class="logout">
         <button ion-button icon-only clear (click)="logout()">
@@ -7,12 +7,13 @@
         </button>
       </div>
       <div class="image">
-        <img [src]="user.image">
+        <img *ngIf="!user" src="assets/imgs/user-placeholder.jpg">
+        <img *ngIf="user" [src]="user?.image">
       </div>
-      <div class="greetings">Hello {{user?.name}}!</div>
+      <div class="greetings" *ngIf="user">Hello {{user?.name}}!</div>
     </div>
 
-    <div class="info">
+    <div class="info" *ngIf="user">
       <ion-card color="primary">
         <ion-card-header class="header">
           Collectibles
