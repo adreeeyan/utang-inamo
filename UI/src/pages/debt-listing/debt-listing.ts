@@ -93,7 +93,7 @@ export class DebtListingPage {
   }
 
   goToDebtInfo(debt) {
-    let debtInfoModal = this.modalCtrl.create(DebtInfoPage, { id: debt.id || debt._id });
+    let debtInfoModal = this.modalCtrl.create(DebtInfoPage, { id: debt.id || debt._id, type: this.debtType });
 
     debtInfoModal.onDidDismiss(async () => {
       await this.refresh();

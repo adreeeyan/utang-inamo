@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { DebtEditorPage } from '../debt-editor/debt-editor';
-import { Debt, DebtStatus } from '../../models/debt';
+import { Debt, DebtStatus, DebtType } from '../../models/debt';
 import { DebtsProvider } from '../../providers/debts/debts';
 
 import superlogin from 'superlogin-client';
@@ -14,6 +14,7 @@ import superlogin from 'superlogin-client';
 export class DebtInfoPage {
 
   debt: Debt;
+  debtType: DebtType;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -27,6 +28,15 @@ export class DebtInfoPage {
   async ionViewDidEnter() {
     console.log('ionViewDidEnter DebtInfoPage');
     this.debt = new Debt(await this.getDebt(this.navParams.get("id")));
+
+    this.debtType = this.navParams.get("type");
+    if (this.debtType == null) {
+      // then user navigated here directly via url
+      // get type via url
+      this.debtType = window.location.hash.includes("payables") ||
+        window.location.hash.includes("dashboard")
+        ? DebtType.PAYABLE : DebtType.RECEIVABLE;
+    }
   }
 
   async getDebt(id) {
@@ -56,7 +66,7 @@ export class DebtInfoPage {
   }
 
   goToDebtEditor() {
-    this.navCtrl.push(DebtEditorPage, { id: this.debt.id });
+    this.navCtrl.push(DebtEditorPage, { id: this.debt.id, type: this.debtType });
   }
 
   openSkype() {
