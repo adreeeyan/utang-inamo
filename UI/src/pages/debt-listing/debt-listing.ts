@@ -30,18 +30,21 @@ export class DebtListingPage {
     return superlogin.authenticated();
   }
 
-  async ionViewDidEnter() {
-    console.log('ionViewDidEnter DebtListingPage');
+  async ionViewDidLoad() {
+    console.log('ionViewDidLoad DebtListingPage');
+    await this.refresh();
+  }
+
+  async refresh() {
     this.debtType = this.navParams.get("type");
-    if(this.debtType == null){
+    if (this.debtType == null) {
       // then user navigated here directly via url
       // get type via url
       this.debtType = window.location.hash.includes("payables") ||
-                      window.location.hash.includes("dashboard")
-                      ? DebtType.PAYABLE : DebtType.RECEIVABLE;
+        window.location.hash.includes("dashboard")
+        ? DebtType.PAYABLE : DebtType.RECEIVABLE;
     }
 
-    this.isPaid = "unpaid";
     this.debts = this.debtType == DebtType.PAYABLE ? await this.getPayables() : await this.getReceivables();
   }
 
@@ -90,19 +93,26 @@ export class DebtListingPage {
   }
 
   goToDebtInfo(debt) {
-    let debtEditorModal = this.modalCtrl.create(DebtInfoPage, { id: debt.id || debt._id });
-    debtEditorModal.present();
+    let debtInfoModal = this.modalCtrl.create(DebtInfoPage, { id: debt.id || debt._id });
+
+    debtInfoModal.onDidDismiss(async () => {
+      await this.refresh();
+    });
+    debtInfoModal.present();
   }
 
   goToDebtEditor(debt) {
     let debtEditorModal;
-    
+
     if (debt) {
       debtEditorModal = this.modalCtrl.create(DebtEditorPage, { id: debt.id || debt._id, type: this.debtType });
     } else {
       debtEditorModal = this.modalCtrl.create(DebtEditorPage, { type: this.debtType });
     }
 
+    debtEditorModal.onDidDismiss(async () => {
+      await this.refresh();
+    });
     debtEditorModal.present();
   }
 
