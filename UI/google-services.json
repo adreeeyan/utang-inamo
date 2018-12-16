@@ -23,6 +23,30 @@
           }
         },
         {
+          "client_id": "113008889190-upu7q78nl65oj1bv8cgjd2g53aoek6hc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.baruchempire.utanginamo",
+            "certificate_hash": "c24f33864a13d9a9fdea6422d7105c99e18b9944"
+          }
+        },
+        {
+          "client_id": "113008889190-ft4o54avfkl1supufitgn4k78rnsb1rv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.baruchempire.utanginamo",
+            "certificate_hash": "0cb97ecf98f11af4280481a5c73c4aaf7a29aa48"
+          }
+        },
+        {
+          "client_id": "113008889190-c13608len4jig0ackq4nsj2so12urte3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.baruchempire.utanginamo",
+            "certificate_hash": "335cb3164f2ffd52605236f311c25ea9647a1e54"
+          }
+        },
+        {
           "client_id": "113008889190-2ld9cfnl4l7j2tkuq3hi5b72ef77qnj3.apps.googleusercontent.com",
           "client_type": 3
         }

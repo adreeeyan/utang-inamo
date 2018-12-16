@@ -36,8 +36,8 @@ export class SignInPage {
     loading.present();
 
     try {
-      const res = await this.authProvider.login(this.username, this.password);
-      this.debtsProvider.init(res);
+      const response = await this.authProvider.login(this.username, this.password);
+      this.debtsProvider.init(response);
       this.navCtrl.setRoot(TabsPage);
     }
     catch (e) {
@@ -60,14 +60,15 @@ export class SignInPage {
     loading.present();
 
     try {
-      let response = await superlogin.socialAuth(provider);
+      let response = await this.authProvider.loginViaProvider(provider);
+      console.log("response", response);
       this.debtsProvider.init(response);
       this.navCtrl.setRoot(TabsPage);
     }
     catch (e) {
       console.log(`shit happens while logging in via ${provider}`, e);
       this.toastCtrl.create({
-        message: e || `Problem while signing in via ${provider}`,
+        message: e.error || `Problem while signing in via ${provider}`,
         duration: 3000,
         showCloseButton: true
       }).present();

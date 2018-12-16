@@ -2,12 +2,16 @@ import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import superlogin from 'superlogin-client';
 import { DebtsProvider } from '../debts/debts';
+import { Platform } from 'ionic-angular';
+import { GooglePlus } from '@ionic-native/google-plus';
 
 @Injectable()
 export class AuthProvider {
 
-  constructor(private storage: Storage,
-    private debtsProvider: DebtsProvider) {
+  constructor(private platform: Platform,
+    private storage: Storage,
+    private debtsProvider: DebtsProvider,
+    private googlePlus: GooglePlus) {
     console.log('Hello AuthProvider Provider');
   }
 
@@ -21,6 +25,21 @@ export class AuthProvider {
       superlogin.setSession(res);
       return res;
     });
+  }
+
+  async loginViaProvider(provider) {
+    if (this.platform.is("core") || this.platform.is("mobileweb")) {
+      // This is for PWA
+      return superlogin.socialAuth(provider);
+    } else {
+      // This is for the mobile app
+      if (provider.toLowerCase() == "google") {
+        const response = await this.googlePlus.login({});
+        console.log("rawr", response.accessToken);
+        return superlogin.tokenSocialAuth(provider, response.accessToken);
+      }
+    }
+
   }
 
   register(username, email, password, confirmPassword) {

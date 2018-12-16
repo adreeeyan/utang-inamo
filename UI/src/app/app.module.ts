@@ -25,6 +25,7 @@ import { DebtsProvider } from '../providers/debts/debts';
 import { SignUpPageModule } from '../pages/sign-up/sign-up.module';
 import { FormsModule } from '@angular/forms';
 import { Keyboard } from '@ionic-native/keyboard';
+import { GooglePlus } from '@ionic-native/google-plus';
 
 
 superlogin.configure(environment.superlogin);
@@ -72,6 +73,7 @@ superlogin.configure(environment.superlogin);
     StatusBar,
     SplashScreen,
     Keyboard,
+    GooglePlus,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     AuthProvider,
     DebtsProvider

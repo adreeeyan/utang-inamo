@@ -19,7 +19,7 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
   overallPages: Array<any>;
 
-  constructor(public platform: Platform,
+  constructor(private platform: Platform,
     private statusBar: StatusBar,
     private splashScreen: SplashScreen,
     private ionicApp: IonicApp,
