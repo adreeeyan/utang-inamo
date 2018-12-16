@@ -115,8 +115,8 @@ superlogin.onCreate(function (userDoc, provider) {
                 const cleanUrl = image.replace(/\?sz=\d+/g, "");
                 userDoc.profile.image = cleanUrl;
             }
-        } catch {
-            console.log("I cannot retrieve the picture :(");
+        } catch (e) {
+            console.log("I cannot retrieve the picture :(", e);
         }
 
     }
