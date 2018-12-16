@@ -107,12 +107,13 @@ superlogin.onCreate(function (userDoc, provider) {
         userDoc.profile = {};
     }
     if (provider !== "local") {
-        const image = userDoc[provider].profile.photos[0].value;
-        if (image) {
-            // remove the sz query
-            const cleanUrl = image.replace(/\?sz=\d+/g, "");
-            userDoc.profile.image = cleanUrl;
-        }
+        console.log("meow", userDoc[provider].profile, userDoc[provider]);
+        // const image = userDoc[provider].profile.photos[0].value;
+        // if (image) {
+        //     // remove the sz query
+        //     const cleanUrl = image.replace(/\?sz=\d+/g, "");
+        //     userDoc.profile.image = cleanUrl;
+        // }
     }
     return Promise.resolve(userDoc);
 })
