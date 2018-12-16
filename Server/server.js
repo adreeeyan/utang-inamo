@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 let htmlDir = path.join(__dirname, "../UI/www");
-if(!fs.existsSync(htmlDir)){
+if (!fs.existsSync(htmlDir)) {
     htmlDir = path.join(__dirname, "UI/www");
 }
 
@@ -107,13 +107,18 @@ superlogin.onCreate(function (userDoc, provider) {
         userDoc.profile = {};
     }
     if (provider !== "local") {
-        console.log("meow", userDoc[provider].profile, userDoc[provider]);
-        // const image = userDoc[provider].profile.photos[0].value;
-        // if (image) {
-        //     // remove the sz query
-        //     const cleanUrl = image.replace(/\?sz=\d+/g, "");
-        //     userDoc.profile.image = cleanUrl;
-        // }
+        try {
+            const prof = userDoc[provider].profile;
+            const image = prof._json.picture || prof.photos[0].value;
+            if (image) {
+                // remove the sz query
+                const cleanUrl = image.replace(/\?sz=\d+/g, "");
+                userDoc.profile.image = cleanUrl;
+            }
+        } catch {
+            console.log("I cannot retrieve the picture :(");
+        }
+
     }
     return Promise.resolve(userDoc);
 })
@@ -156,7 +161,7 @@ app.use(function (err, req, res, next) {
 
 let port = process.env.PORT;
 if (port == null || port == "") {
-  port = app.get("port");
+    port = app.get("port");
 }
 
 app.listen(port);
