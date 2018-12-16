@@ -6,6 +6,7 @@ let cors = require("cors");
 let path = require("path");
 let SuperLogin = require("superlogin");
 let GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
+let GoogleTokenStrategy = require("passport-google-token").Strategy;
 let FacebookStrategy = require("passport-facebook");
 
 let app = express();
@@ -94,6 +95,7 @@ let config = {
 // Initialize SuperLogin
 let superlogin = new SuperLogin(config);
 superlogin.registerOAuth2("google", GoogleStrategy);
+superlogin.registerTokenProvider("google", GoogleTokenStrategy);
 superlogin.registerOAuth2("facebook", FacebookStrategy);
 
 // Mount SuperLogin"s routes to our app
