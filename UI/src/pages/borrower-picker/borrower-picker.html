@@ -13,6 +13,11 @@
 </ion-header>
 
 <ion-content>
+  
+  <ion-refresher (ionRefresh)="doRefreshFromPull($event)">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh">
+    </ion-refresher-content>
+  </ion-refresher>
 
   <ion-list class="results">
     <button ion-item *ngFor="let borrower of searchResults" (click)="select(borrower)">

@@ -28,23 +28,29 @@ export class BorrowerPickerPage {
 
   async ionViewDidEnter() {
     console.log('ionViewDidEnter BorrowerPickerPage');
+    let loading = this.loadingCtrl.create();
+    loading.present();
+    await this.refresh();
+    loading.dismiss();
+  }
+
+  async refresh() {
     this.borrowers = await this.getBorrowers();
     this.searchResults = this.borrowers;
   }
 
-  async getBorrowers() {
-    let loading = this.loadingCtrl.create();
-    loading.present();
+  async doRefreshFromPull(refresher) {
+    await this.refresh();
+    refresher.complete();
+  }
 
+  async getBorrowers() {
     let borrowers = [];
     try {
       borrowers = await this.debtsProvider.getBorrowers();
     }
     catch (e) {
       console.log("Issue while retrieving borrowers.", e);
-    }
-    finally {
-      loading.dismiss();
     }
 
     return borrowers;

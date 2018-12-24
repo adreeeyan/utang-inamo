@@ -22,6 +22,11 @@
 
 <ion-content>
 
+  <ion-refresher (ionRefresh)="doRefreshFromPull($event)">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh">
+    </ion-refresher-content>
+  </ion-refresher>
+
   <div [ngSwitch]="isPaid">
     <ion-list *ngSwitchCase="'paid'">
       <ion-item-sliding *ngFor="let debt of paid">

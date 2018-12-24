@@ -48,6 +48,11 @@ export class DebtListingPage {
     this.debts = this.debtType == DebtType.PAYABLE ? await this.getPayables() : await this.getReceivables();
   }
 
+  async doRefreshFromPull(refresher) {
+    await this.refresh();
+    refresher.complete();
+  }
+
   async getPayables() {
     let payables = [];
     try {
