@@ -72,6 +72,7 @@ export class AuthProvider {
       if (session.profile && session.profile.image) {
         imageInSession = session.profile.image;
       }
+      console.log("Resolving with the user info...");
       return Promise.resolve({
         name: session.user_id,
         image: imageInCache || imageInSession

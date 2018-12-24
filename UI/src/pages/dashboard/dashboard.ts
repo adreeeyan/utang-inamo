@@ -16,6 +16,7 @@ export class DashboardPage {
   user: any;
   totalPayables: any = 0;
   totalReceivables: any = 0;
+  isRefreshing: boolean = false;
 
   constructor(private debtsProvider: DebtsProvider,
     private authProvider: AuthProvider,
@@ -36,15 +37,22 @@ export class DashboardPage {
     console.log('ionViewDidEnter DashboardPage');
     try
     {
-      this.user = await this.authProvider.getInfo();
-      this.totalPayables = await this.getTotalPayables();
-      this.totalReceivables = await this.getTotalReceivables();
+      await this.refresh();
+      console.log("Dashboard finished initializing...");
     }
     catch(e)
     {
       console.log("Shit happened while loading the dashboard", e);
       this.logout();
-    }    
+    }
+  }
+
+  async refresh() {
+    this.isRefreshing = true;
+    this.user = await this.authProvider.getInfo();
+    this.totalPayables = await this.getTotalPayables();
+    this.totalReceivables = await this.getTotalReceivables();
+    this.isRefreshing = false;
   }
 
   async getTotalPayables() {

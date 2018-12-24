@@ -23,14 +23,19 @@ export class DebtsProvider {
 
     this.remote = details.userDBs.utanginamo;
 
-    let options = {
-      live: true,
-      retry: true,
-      continuous: true
-    };
+    this.db.replicate.from(this.remote)
+      .on("complete", () => {
+        console.log("Shits finished syncing...");
+        this.isFinishInitializing = true;
 
-    this.db.sync(this.remote, options);
-    this.isFinishInitializing = true;
+        // Do some live syncing
+        let options = {
+          live: true,
+          retry: true,
+          continuous: true
+        };
+        this.db.sync(this.remote, options);
+      });
   }
 
   IsInitizialized() {
@@ -49,6 +54,7 @@ export class DebtsProvider {
       this.data = null;
       await this.db.destroy();
       console.log("database removed");
+      this.isFinishInitializing = false;
       return Promise.resolve(true);
     }
     catch (e) {
