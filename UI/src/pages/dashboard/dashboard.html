@@ -8,8 +8,9 @@
         </button>
       </div>
       <div class="image">
-        <img *ngIf="!user" src="assets/imgs/user-placeholder.jpg">
-        <img *ngIf="user" [src]="user?.image">
+        <img (click)="pickImage()" *ngIf="!user" src="assets/imgs/user-placeholder.jpg">
+        <img (click)="pickImage()" *ngIf="user" [src]="user?.image">
+        <input class="hide" type="file" name="image" #imageFile (change)="changeImage(imageFile.files)">
       </div>
       <div class="greetings" [style.visibility]="user != null ? 'visible' : 'hidden'">Hello {{user?.name}}!</div>
     </div>

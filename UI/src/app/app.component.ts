@@ -2,7 +2,6 @@ import { Component, ViewChild } from '@angular/core';
 import { Platform, Nav, IonicApp, ToastController, IonicPage, Events } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { Storage } from '@ionic/storage';
 import { fadeOutOnLeaveAnimation, bounceInUpOnEnterAnimation } from 'angular-animations';
 import superlogin from 'superlogin-client';
 
@@ -31,7 +30,6 @@ export class MyApp {
     private ionicApp: IonicApp,
     private toastCtrl: ToastController,
     private debtsProvider: DebtsProvider,
-    private storage: Storage,
     private keyboard: Keyboard,
     private events: Events) {
 
@@ -66,9 +64,6 @@ export class MyApp {
         // Register back button for mobile app
         this.registerBackButtonHandler();
       }
-
-      // Save image
-      this.registerProfileImageCache();
 
       this.splashScreen.hide();
     });
@@ -142,31 +137,6 @@ export class MyApp {
         return;
       }
     }
-  }
-
-  private registerProfileImageCache() {
-    superlogin.authenticate().then(async (session) => {
-      if (session.profile && session.profile.image) {
-        const base64 = await this.toDataURL(session.profile.image);
-        this.storage.set("image", base64);
-      }
-    });
-  }
-
-  private toDataURL(url) {
-    return new Promise(resolve => {
-      const xhr = new XMLHttpRequest();
-      xhr.onload = () => {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          resolve(reader.result);
-        }
-        reader.readAsDataURL(xhr.response);
-      };
-      xhr.open("GET", url);
-      xhr.responseType = "blob";
-      xhr.send();
-    });
   }
 }
 

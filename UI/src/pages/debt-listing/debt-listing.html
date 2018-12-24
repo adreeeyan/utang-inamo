@@ -32,7 +32,7 @@
       <ion-item-sliding *ngFor="let debt of paid">
         <button ion-item (click)="goToDebtInfo(debt)">
           <ion-avatar item-start>
-            <img src="assets/imgs/user-placeholder.jpg">
+            <img [src]="debt.borrower?.image">
           </ion-avatar>
           <div class="info">
             <div class="text">
@@ -50,7 +50,7 @@
       <ion-item-sliding *ngFor="let debt of unpaid">
         <button ion-item (click)="goToDebtInfo(debt)">
           <ion-avatar item-start>
-            <img src="assets/imgs/user-placeholder.jpg">
+            <img [src]="debt.borrower?.image">
           </ion-avatar>
           <div class="info">
             <div class="text">

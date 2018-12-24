@@ -73,14 +73,25 @@ export class AuthProvider {
         imageInSession = session.profile.image;
       }
       console.log("Resolving with the user info...");
-      return Promise.resolve({
+      const info = {
         name: session.user_id,
         image: imageInCache || imageInSession
-      });
+      };
+      // save to storage for caching
+      this.storage.set("image", info.image);
+      return Promise.resolve(info);
     }
     catch (e) {
       return Promise.reject(e);
     }
+  }
+
+  async updateUserPicture(id, image) {
+    const data = {
+      image: image
+    };
+    this.storage.set("image", image);
+    return superlogin.getHttp().put(`change-image/${id}`, data);
   }
 
 }

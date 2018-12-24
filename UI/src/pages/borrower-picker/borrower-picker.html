@@ -22,7 +22,7 @@
   <ion-list class="results">
     <button ion-item *ngFor="let borrower of searchResults" (click)="select(borrower)">
       <ion-avatar item-start>
-        <img src="assets/imgs/user-placeholder.jpg">
+        <img [src]="borrower.image">
       </ion-avatar>
       <h2>{{borrower.name}}</h2>
     </button>

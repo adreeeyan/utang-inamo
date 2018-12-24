@@ -88,7 +88,7 @@ let config = {
         }
     },
     userModel: {
-        whitelist: ["picture"]
+        whitelist: ["image"]
     }
 }
 
@@ -121,8 +121,15 @@ superlogin.onCreate(function (userDoc, provider) {
 
     }
     return Promise.resolve(userDoc);
-})
+});
 
+app.put("/change-image/:id", async function (req, res) {
+    console.log("userDb", superlogin.userDB);
+    const user = await superlogin.getUser(req.params.id);
+    user.profile.image = req.body.image;
+    await superlogin.userDB.put(user);
+    res.json({ status: "ok" });
+});
 
 app.use("*", function (req, res) {
     res.sendFile("index.html", { root: htmlDir });

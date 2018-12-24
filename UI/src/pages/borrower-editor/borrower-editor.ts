@@ -44,8 +44,8 @@ export class BorrowerEditorPage {
 
   changeImage(files) {
     const reader = new FileReader();
-    reader.onload = (e: any) => {
-      this.borrower.image = e.target.result;
+    reader.onload = async (e: any) => {
+      this.borrower.image = (await this.debtsProvider.resizedataURL(e.target.result, 150, 150)) as string;
     };
     reader.readAsDataURL(files[0]);
   }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { IonicPage, LoadingController, ToastController, Events } from 'ionic-angular';
 import { DebtsProvider } from '../../providers/debts/debts';
 import { DebtStatus, DebtType } from '../../models/debt';
@@ -13,6 +13,9 @@ import { AuthProvider } from '../../providers/auth/auth';
 })
 export class DashboardPage {
 
+  @ViewChild("imageFile")
+  imageFile: any;
+  
   user: any;
   totalPayables: any = 0;
   totalReceivables: any = 0;
@@ -86,6 +89,18 @@ export class DashboardPage {
     return Promise.resolve(receivableAmount);
   }
 
+  pickImage() {
+    this.imageFile.nativeElement.click();
+  }
+
+  changeImage(files) {
+    const reader = new FileReader();
+    reader.onload = async (e: any) => {
+      this.user.image = (await this.debtsProvider.resizedataURL(e.target.result, 150, 150)) as string;
+      await this.authProvider.updateUserPicture(this.user.name, this.user.image);
+    };
+    reader.readAsDataURL(files[0]);
+  }
 
   openPayablesPage() {
     this.events.publish("tab:selectPayables");
