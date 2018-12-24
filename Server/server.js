@@ -24,7 +24,7 @@ app.use(express.static(htmlDir));
 app.use(cors());
 
 app.use((req, res, next) => {
-    var allowedOrigins = [
+    let allowedOrigins = [
         "http://localhost:3000",
         "http://localhost:8000",
         "http://127.0.0.1:3000",
@@ -32,7 +32,8 @@ app.use((req, res, next) => {
         "herokuapp",
         "github"
     ];
-    var origin = req.headers.origin;
+    let origin = req.headers.origin;
+    console.log("the origin is", origin);
     if (allowedOrigins.indexOf(origin) > -1) {
         console.log("testing the origin", origin);
         res.header("Access-Control-Allow-Origin", origin);
