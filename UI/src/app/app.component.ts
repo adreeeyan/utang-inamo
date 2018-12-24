@@ -3,7 +3,7 @@ import { Platform, Nav, IonicApp, ToastController, IonicPage, Events } from 'ion
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Storage } from '@ionic/storage';
-import { fadeInOnEnterAnimation, fadeOutOnLeaveAnimation, bounceInUpOnEnterAnimation } from 'angular-animations';
+import { fadeOutOnLeaveAnimation, bounceInUpOnEnterAnimation } from 'angular-animations';
 import superlogin from 'superlogin-client';
 
 import { SignInPage } from '../pages/sign-in/sign-in';

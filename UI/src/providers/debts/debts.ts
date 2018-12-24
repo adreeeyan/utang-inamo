@@ -138,7 +138,7 @@ export class DebtsProvider {
       ...debt,
       borrower: debt.borrower._id
     }
-    this.db.post(debt);
+    return this.db.post(debt);
   }
 
   updateDebt(debt) {
@@ -146,13 +146,13 @@ export class DebtsProvider {
       ...debt,
       borrower: debt.borrower._id
     }
-    this.db.put(debt).catch((err) => {
+    return this.db.put(debt).catch((err) => {
       console.log(err);
     });
   }
 
   deleteDebt(debt) {
-    this.db.remove(debt).catch((err) => {
+    return this.db.remove(debt).catch((err) => {
       console.log(err);
     });
   }
@@ -214,7 +214,7 @@ export class DebtsProvider {
   }
 
   createBorrower(borrower) {
-    this.db.post(borrower);
+    return this.db.post(borrower);
   }
 
 }

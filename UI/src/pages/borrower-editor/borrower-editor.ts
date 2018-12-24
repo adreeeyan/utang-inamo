@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController } from 'ionic-angular';
 import { Borrower } from '../../models/borrower';
 import { DebtsProvider } from '../../providers/debts/debts';
 
@@ -18,8 +18,7 @@ export class BorrowerEditorPage {
   borrower: Borrower;
 
   constructor(private navCtrl: NavController,
-    private debtsProvider: DebtsProvider,
-    private loadingCtrl: LoadingController) {
+    private debtsProvider: DebtsProvider) {
   }
 
   ionViewCanEnter() {
@@ -72,9 +71,6 @@ export class BorrowerEditorPage {
   }
 
   async saveBorrower() {
-    let loading = this.loadingCtrl.create();
-    loading.present();
-
     try {
       await this.debtsProvider.createBorrower(this.borrower);
       this.navCtrl.pop();
@@ -82,9 +78,5 @@ export class BorrowerEditorPage {
     catch (e) {
       console.log("Issue while creating borrower.", e);
     }
-    finally {
-      loading.dismiss();
-    }
-
   }
 }
