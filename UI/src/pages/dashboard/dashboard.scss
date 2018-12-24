@@ -16,10 +16,14 @@ page-dashboard {
             background-color: map-get($colors, danger);
             position: relative;
 
+            > {
+            }
+
             .logout {
                 position: absolute;
                 top: 0;
                 right: 0;
+                z-index: 10;
             }
 
             .image {
@@ -30,6 +34,7 @@ page-dashboard {
                     border-radius: 50%;
                     border: 2px solid white;
                 }
+                z-index: 10;
             }
     
             .greetings {
@@ -37,6 +42,7 @@ page-dashboard {
                 font-weight: 400;
                 text-transform: uppercase;
                 text-align: center;
+                z-index: 10;
             }
 
             &:after {
@@ -47,16 +53,23 @@ page-dashboard {
                 right: 0;
                 bottom: 0;
                 left: 0;
-                height: calc(100% + 45px);
-                z-index: -1;
+                height: calc(100% + 60px);
+                z-index: 2;
                 background-color: map-get($colors, danger);
             }
         }        
 
         .info {
             width: 100%;
+            min-height: 50vh;
             max-width: 800px;
             margin-top: 10px;
+            z-index: 2;
+            background-color: transparent;
+
+            .card {
+                margin-top: 20px;
+            }
 
             .header {
                 text-align: center;
@@ -66,6 +79,10 @@ page-dashboard {
 
             .topay {
                 margin-right: 12px;
+            }
+
+            .scroll-content {
+                border-top: none;
             }
         }
         

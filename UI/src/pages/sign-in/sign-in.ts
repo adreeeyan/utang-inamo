@@ -5,8 +5,6 @@ import { TabsPage } from '../tabs/tabs';
 import { SignUpPage } from '../sign-up/sign-up';
 import { DebtsProvider } from '../../providers/debts/debts';
 
-import superlogin from 'superlogin-client';
-
 @IonicPage()
 @Component({
   selector: 'page-sign-in',

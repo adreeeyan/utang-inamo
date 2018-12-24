@@ -16,7 +16,6 @@ export class DashboardPage {
   user: any;
   totalPayables: any = 0;
   totalReceivables: any = 0;
-  isRefreshing: boolean = false;
 
   constructor(private debtsProvider: DebtsProvider,
     private authProvider: AuthProvider,
@@ -30,7 +29,6 @@ export class DashboardPage {
   }
 
   ionViewWillEnter() {
-    this.user = null;
   }
 
   async ionViewDidEnter() {
@@ -48,11 +46,14 @@ export class DashboardPage {
   }
 
   async refresh() {
-    this.isRefreshing = true;
     this.user = await this.authProvider.getInfo();
     this.totalPayables = await this.getTotalPayables();
     this.totalReceivables = await this.getTotalReceivables();
-    this.isRefreshing = false;
+  }
+
+  async doRefreshFromPull(refresher) {
+    await this.refresh();
+    refresher.complete();
   }
 
   async getTotalPayables() {

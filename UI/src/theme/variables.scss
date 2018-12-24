@@ -143,3 +143,7 @@ ion-item {
     box-shadow: unset !important;
   }
 }
+
+ion-refresher {
+  z-index: 1000000000 !important;
+}

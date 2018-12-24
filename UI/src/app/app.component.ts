@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Platform, Nav, IonicApp, ToastController, IonicPage } from 'ionic-angular';
+import { Platform, Nav, IonicApp, ToastController, IonicPage, Events } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Storage } from '@ionic/storage';
@@ -18,6 +18,7 @@ export class MyApp {
   rootPage: any = TabsPage;
   @ViewChild(Nav) nav: Nav;
   overallPages: Array<any>;
+  loadingState: LoadingState = LoadingState.NOTLOGGEDIN;
 
   constructor(private platform: Platform,
     private statusBar: StatusBar,
@@ -26,20 +27,27 @@ export class MyApp {
     private toastCtrl: ToastController,
     private debtsProvider: DebtsProvider,
     private storage: Storage,
-    private keyboard: Keyboard) {
+    private keyboard: Keyboard,
+    private events: Events) {
 
-    this.platform.ready().then(() => {
+    this.platform.ready().then(async () => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       this.statusBar.overlaysWebView(false);
       this.statusBar.backgroundColorByHexString("#077187");
       this.keyboard.setResizeMode("body");
 
+      // Subscriptions
+      this.events.subscribe("user:startsync", this.showStartSyncStatus.bind(this));
+      this.events.subscribe("user:endsync", this.showEndSyncStatus.bind(this));
+
       // Authentication
       console.log("trying to authenticate");
       const session = superlogin.getSession();
       if (session) {
+        // If there is a session then initiaze the shits
         this.debtsProvider.init(session);
+        await this.debtsProvider.IsInitizialized();
         console.log("user authenticated", session);
       } else {
         console.log("user not authenticated");
@@ -60,6 +68,18 @@ export class MyApp {
       this.splashScreen.hide();
     });
 
+  }
+
+  showStartSyncStatus() {
+    this.loadingState = LoadingState.SYNCING;
+  }
+
+  showEndSyncStatus() {
+    this.loadingState = LoadingState.SYNCINGCOMPLETE;
+  }
+
+  private get isSyncing() {
+    return this.loadingState === LoadingState.SYNCING;
   }
 
   private registerBackButtonHandler() {
@@ -143,4 +163,10 @@ export class MyApp {
       xhr.send();
     });
   }
+}
+
+enum LoadingState {
+  NOTLOGGEDIN,
+  SYNCING,
+  SYNCINGCOMPLETE
 }

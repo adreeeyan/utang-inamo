@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import PouchDB from "pouchdb";
 import { Debt } from "../../models/debt";
 import { Borrower } from "../../models/borrower";
+import { Events } from "ionic-angular";
 
 @Injectable()
 export class DebtsProvider {
@@ -12,12 +13,14 @@ export class DebtsProvider {
 
   private isFinishInitializing: boolean = false;
 
-  constructor() {
+  constructor(private events: Events) {
     console.log("Hello DebtsProvider Provider");
     this.isFinishInitializing = false;
   }
 
   init(details) {
+
+    this.events.publish("user:startsync");
 
     this.db = new PouchDB("utang-inamo");
 
@@ -35,6 +38,8 @@ export class DebtsProvider {
           continuous: true
         };
         this.db.sync(this.remote, options);
+
+        this.events.publish("user:endsync");
       });
   }
 

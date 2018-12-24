@@ -26,6 +26,7 @@ import { SignUpPageModule } from '../pages/sign-up/sign-up.module';
 import { FormsModule } from '@angular/forms';
 import { Keyboard } from '@ionic-native/keyboard';
 import { GooglePlus } from '@ionic-native/google-plus';
+import { ComponentsModule } from '../components/components.module';
 
 
 superlogin.configure(environment.superlogin);
@@ -62,7 +63,8 @@ superlogin.configure(environment.superlogin);
     DashboardPageModule,
     TabsPageModule,
     SignInPageModule,
-    SignUpPageModule
+    SignUpPageModule,
+    ComponentsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

@@ -1,4 +1,5 @@
 <ion-content>
+
   <div class="dashboard">
     <div class="top">
       <div class="logout">
@@ -10,28 +11,35 @@
         <img *ngIf="!user" src="assets/imgs/user-placeholder.jpg">
         <img *ngIf="user" [src]="user?.image">
       </div>
-      <div class="greetings" *ngIf="user">Hello {{user?.name}}!</div>
+      <div class="greetings" [style.visibility]="user != null ? 'visible' : 'hidden'">Hello {{user?.name}}!</div>
     </div>
 
-    <div class="info" *ngIf="!isRefreshing">
-      <ion-card color="primary">
-        <ion-card-header class="header">
-          Collectibles
-        </ion-card-header>
-        <ion-list>
-          <button ion-item (click)="openPayablesPage()">
-            <ion-icon class="topay" name="sad" item-start></ion-icon>
-            To pay
-            <ion-badge item-end color="danger">{{totalPayables | formatCurrency}}</ion-badge>
-          </button>
+    <ion-content class="info">
+      <ion-refresher (ionRefresh)="doRefreshFromPull($event)">
+        <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh">
+        </ion-refresher-content>
+      </ion-refresher>
 
-          <button ion-item (click)="openReceivablesPage()">
-            <ion-icon name="logo-freebsd-devil" item-start></ion-icon>
-            To collect
-            <ion-badge item-end color="danger">{{totalReceivables | formatCurrency}}</ion-badge>
-          </button>
-        </ion-list>
-      </ion-card>
-    </div>
+      <div>
+        <ion-card color="primary">
+          <ion-card-header class="header">
+            Collectibles
+          </ion-card-header>
+          <ion-list>
+            <button ion-item (click)="openPayablesPage()">
+              <ion-icon class="topay" name="sad" item-start></ion-icon>
+              To pay
+              <ion-badge item-end color="danger">{{totalPayables | formatCurrency}}</ion-badge>
+            </button>
+
+            <button ion-item (click)="openReceivablesPage()">
+              <ion-icon name="logo-freebsd-devil" item-start></ion-icon>
+              To collect
+              <ion-badge item-end color="danger">{{totalReceivables | formatCurrency}}</ion-badge>
+            </button>
+          </ion-list>
+        </ion-card>
+      </div>
+    </ion-content>
   </div>
 </ion-content>
