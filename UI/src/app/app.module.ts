@@ -5,7 +5,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-//import superlogin from "superlogin-client";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 const superlogin = require('superlogin-client').default;
 
 import { MyApp } from './app.component';
@@ -64,7 +65,8 @@ superlogin.configure(environment.superlogin);
     TabsPageModule,
     SignInPageModule,
     SignUpPageModule,
-    ComponentsModule
+    ComponentsModule,
+    BrowserAnimationsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

@@ -10,7 +10,7 @@ export class LoadingComponent {
   @Input() description: string;
 
   constructor() {
-    this.image = "assets/imgs/loading.svg";
+    this.image = "assets/imgs/loading.gif";
     this.description = "";
   }
 

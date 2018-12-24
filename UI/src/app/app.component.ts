@@ -3,6 +3,7 @@ import { Platform, Nav, IonicApp, ToastController, IonicPage, Events } from 'ion
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Storage } from '@ionic/storage';
+import { fadeInOnEnterAnimation, fadeOutOnLeaveAnimation, bounceInUpOnEnterAnimation } from 'angular-animations';
 import superlogin from 'superlogin-client';
 
 import { SignInPage } from '../pages/sign-in/sign-in';
@@ -12,7 +13,11 @@ import { Keyboard } from '@ionic-native/keyboard';
 
 @IonicPage()
 @Component({
-  templateUrl: 'app.html'
+  templateUrl: 'app.html',
+  animations: [
+    bounceInUpOnEnterAnimation({ anchor: "enter", duration: 500, delay: 0 }),
+    fadeOutOnLeaveAnimation({ anchor: "leave", duration: 500, delay: 0 })
+  ]
 })
 export class MyApp {
   rootPage: any = TabsPage;
