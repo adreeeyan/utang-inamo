@@ -35,7 +35,6 @@ export class AuthProvider {
       // This is for the mobile app
       if (provider.toLowerCase() == "google") {
         const response = await this.googlePlus.login({});
-        console.log("rawr", response.accessToken);
         return superlogin.tokenSocialAuth(provider, response.accessToken);
       }
     }

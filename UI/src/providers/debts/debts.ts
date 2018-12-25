@@ -97,7 +97,7 @@ export class DebtsProvider {
 
       }).catch((error) => {
 
-        console.log(error);
+        console.log("Error while retrieving allDocs", error);
 
       });
 
@@ -147,13 +147,13 @@ export class DebtsProvider {
       borrower: debt.borrower._id
     }
     return this.db.put(debt).catch((err) => {
-      console.log(err);
+      console.log("Error while updating debt", err);
     });
   }
 
   deleteDebt(debt) {
     return this.db.remove(debt).catch((err) => {
-      console.log(err);
+      console.log("Error while deleting debt", err);
     });
   }
 
@@ -219,7 +219,7 @@ export class DebtsProvider {
 
   updateBorrower(borrower) {
     return this.db.put(borrower).catch((err) => {
-      console.log(err);
+      console.log("Error while updating borrower", err);
     });
   }
 

@@ -96,7 +96,9 @@ export class DashboardPage {
       this.user.image = (await this.debtsProvider.resizedataURL(e.target.result, 150, 150)) as string;
       await this.authProvider.updateUserPicture(this.user.name, this.user.image);
     };
-    reader.readAsDataURL(files[0]);
+    if (files.length > 0) {
+      reader.readAsDataURL(files[0]);
+    }
   }
 
   openPayablesPage() {

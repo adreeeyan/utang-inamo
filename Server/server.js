@@ -24,19 +24,6 @@ app.use(express.static(htmlDir));
 app.use(cors());
 
 app.use((req, res, next) => {
-    // let allowedOrigins = [
-    //     "http://localhost:3000",
-    //     "http://localhost:8000",
-    //     "http://127.0.0.1:3000",
-    //     "http://127.0.0.1:8000",
-    //     "herokuapp",
-    //     "github"
-    // ];
-    // let origin = req.headers.origin;
-    // console.log("the origin is", origin);
-    // if (allowedOrigins.indexOf(origin) > -1) {
-    //     console.log("testing the origin", origin);
-    // }
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Methods", "GET, DELETE, POST, PUT, OPTIONS");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");

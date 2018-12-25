@@ -52,7 +52,7 @@ export class MyApp {
         // If there is a session then initiaze the shits
         this.debtsProvider.init(session);
         await this.debtsProvider.IsInitizialized();
-        console.log("user authenticated", session);
+        console.log("user authenticated");
       } else {
         console.log("user not authenticated");
         this.nav.setRoot(SignInPage);

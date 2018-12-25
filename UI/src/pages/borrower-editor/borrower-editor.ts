@@ -69,7 +69,9 @@ export class BorrowerEditorPage {
     reader.onload = async (e: any) => {
       this.borrower.image = (await this.debtsProvider.resizedataURL(e.target.result, 150, 150)) as string;
     };
-    reader.readAsDataURL(files[0]);
+    if (files.length > 0) {
+      reader.readAsDataURL(files[0]);
+    }
   }
 
   get backgroundImage() {
@@ -108,5 +110,5 @@ export class BorrowerEditorPage {
     }
   }
 
-  
+
 }

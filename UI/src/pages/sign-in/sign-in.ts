@@ -13,8 +13,8 @@ import { DialogUtilitiesProvider } from '../../providers/dialog-utilities/dialog
 })
 export class SignInPage {
 
-  username: any = "adrian";
-  password: any = "password";
+  username: any = "";
+  password: any = "";
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -56,7 +56,6 @@ export class SignInPage {
 
     try {
       let response = await this.authProvider.loginViaProvider(provider);
-      console.log("response", response);
       this.debtsProvider.init(response);
       this.navCtrl.setRoot(TabsPage);
     }

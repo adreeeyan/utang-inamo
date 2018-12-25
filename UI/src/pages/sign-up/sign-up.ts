@@ -13,10 +13,10 @@ import { DialogUtilitiesProvider } from '../../providers/dialog-utilities/dialog
 })
 export class SignUpPage {
 
-  username: any = "adrian";
-  email: any = "adrian.onrails@gmail.com";
-  password: any = "password";
-  confirmPassword: any = "password";
+  username: any = "";
+  email: any = "";
+  password: any = "";
+  confirmPassword: any = "";
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
