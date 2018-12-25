@@ -55,6 +55,7 @@ export class DebtInfoPage {
 
   setDebtAsPaid() {
     this.debt.status = DebtStatus.PAID;
+    this.debt.paidDate = new Date();
     this.debtsProvider.updateDebt(this.debt);
   }
 
@@ -86,6 +87,20 @@ export class DebtInfoPage {
 
   openMap() {
     this.dialogUtilities.openMap(this.debt.borrower.address);
+  }
+
+  get dueDateStringPart() {
+    if (!this.isDebtPaid && (this.debt.dueDate == null || this.debt.dueDate == "")) {
+      return "No due";
+    }
+
+    if (!this.isDebtPaid && this.debt.dueDate != null && this.debt.dueDate != "") {
+      return `Due on ${this.debt.dueDateString}`;
+    }
+
+    if (this.isDebtPaid) {
+      return `Paid last ${this.debt.paidDateString}`;
+    }
   }
 
 }

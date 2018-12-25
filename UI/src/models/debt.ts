@@ -7,10 +7,11 @@ export class Debt {
     // else, then the person who borrowed money from you
     public borrower: Borrower;
     public amount: number;
-    public interest: number = 0;
+    public interest: number;
     public status: DebtStatus = DebtStatus.UNPAID;
-    public dueDate: Date;
+    public dueDate: Date | string;
     public borrowedDate: Date = new Date();
+    public paidDate: Date;
 
     constructor(init?: Partial<Debt>) {
         Object.assign(this, init);
@@ -21,29 +22,29 @@ export class Debt {
     }
 
     get total() {
-        return this.amount + (this.amount * (this.interest / 100));
+        const interest = this.interest || 0;
+        return this.amount + (this.amount * (interest / 100));
     }
 
     get dueDateString() {
-        let options = { year: "numeric", month: "long", day: "numeric" };
-        let useDate = this.dueDate;
-        if(!useDate){
-            return "";
-        }
-
-        if (typeof useDate == "string") {
-            useDate = new Date(useDate);
-        }
-        return useDate.toLocaleDateString("en-US", options);
+        return this.getDateString(this.dueDate);
     }
 
     get borrowedDateString() {
+        return this.getDateString(this.borrowedDate);
+    }
+
+    get paidDateString() {
+        return this.getDateString(this.paidDate);
+    }
+
+    private getDateString(dateToUse) {
         let options = { year: "numeric", month: "long", day: "numeric" };
-        let useDate = this.borrowedDate;
-        if(!useDate){
+        let useDate = dateToUse;
+        if (!useDate) {
             return "";
         }
-        
+
         if (typeof useDate == "string") {
             useDate = new Date(useDate);
         }

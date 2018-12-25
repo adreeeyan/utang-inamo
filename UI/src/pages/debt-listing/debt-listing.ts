@@ -180,4 +180,18 @@ export class DebtListingPage {
     this.dialogUtilities.openMessenger(borrower.messengerId);
   }
 
+  getDueDateStringPart(debt) {
+    if (!this.isDebtPaid(debt) && (debt.dueDate == null || debt.dueDate == "")) {
+      return "No due";
+    }
+
+    if (!this.isDebtPaid(debt) && debt.dueDate != null && debt.dueDate != "") {
+      return `Due on ${debt.dueDateString}`;
+    }
+
+    if (this.isDebtPaid(debt)) {
+      return `Paid last ${debt.paidDateString}`;
+    }
+  }
+
 }

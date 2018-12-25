@@ -26,7 +26,7 @@
       <ion-item mode="md">
         <ion-icon name="calculator" item-start></ion-icon>
         <ion-label>Interest (%)</ion-label>
-        <ion-input type="number" [(ngModel)]="debt.interest"></ion-input>
+        <ion-input type="number" [(ngModel)]="debt.interest" min="0" placeholder="0"></ion-input>
       </ion-item>
       <ion-item mode="md">
         <ion-icon name="calendar" item-start></ion-icon>

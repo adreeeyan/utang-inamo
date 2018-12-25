@@ -86,7 +86,7 @@ export class DebtEditorPage {
       const borrowerPickerModal = this.modalCtrl.create(BorrowerPickerPage);
       borrowerPickerModal.onDidDismiss(borrower => {
         console.log("borrower", borrower);
-        if(borrower){
+        if (borrower) {
           this.debt.borrower = borrower;
         }
       });
@@ -100,6 +100,12 @@ export class DebtEditorPage {
 
   async saveDebt() {
     try {
+      const validationStatus = this.validateDebt();
+      if (validationStatus != DebtValidationStatus.VALID) {
+        this.dialogUtilities.showToast(this.getValidationErrorString(validationStatus));
+        return;
+      }
+
       if (this.isEdit) {
         await this.debtsProvider.updateDebt(this.debt);
         this.dialogUtilities.showToast("Debt successfully updated.");
@@ -121,4 +127,35 @@ export class DebtEditorPage {
     return this.isEdit ? "Edit Receivable" : "Add Receivable";
   }
 
+  validateDebt() {
+    if (this.debt.amount == 0) {
+      return DebtValidationStatus.ZEROAMOUNT;
+    }
+
+    if (this.debt.borrower == null) {
+      return DebtValidationStatus.NOBORROWER;
+    }
+
+    if (this.debt.interest < 0) {
+      return DebtValidationStatus.NEGATIVEINTEREST;
+    }
+
+    return DebtValidationStatus.VALID;
+  }
+
+  getValidationErrorString(status) {
+    switch (status) {
+      case DebtValidationStatus.ZEROAMOUNT: return "Add an amount";
+      case DebtValidationStatus.NOBORROWER:
+        return this.debt.type == DebtType.PAYABLE ? "Who will you pay to?" : "Add a borrower";
+      case DebtValidationStatus.NEGATIVEINTEREST: return "Negative interest is invalid...";
+    }
+  }
+}
+
+enum DebtValidationStatus {
+  VALID,
+  ZEROAMOUNT,
+  NOBORROWER,
+  NEGATIVEINTEREST
 }

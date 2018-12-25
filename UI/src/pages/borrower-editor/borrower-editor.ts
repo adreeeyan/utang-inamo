@@ -96,6 +96,12 @@ export class BorrowerEditorPage {
 
   async saveBorrower() {
     try {
+      const validationStatus = this.validateBorrower();
+      if (validationStatus != BorrowerValidationStatus.VALID) {
+        this.dialogUtilities.showToast(this.getValidationErrorString(validationStatus));
+        return;
+      }
+
       if (this.isEdit) {
         await this.debtsProvider.updateBorrower(this.borrower);
         this.dialogUtilities.showToast("Borrower successfully updated.");
@@ -110,5 +116,22 @@ export class BorrowerEditorPage {
     }
   }
 
+  validateBorrower() {
+    if (this.borrower.name.trim() == "") {
+      return BorrowerValidationStatus.NONAME;
+    }
 
+    return BorrowerValidationStatus.VALID;
+  }
+
+  getValidationErrorString(status) {
+    switch (status) {
+      case BorrowerValidationStatus.NONAME: return "Give him/her a name, any name...";
+    }
+  }
+}
+
+enum BorrowerValidationStatus {
+  VALID,
+  NONAME
 }

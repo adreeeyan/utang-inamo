@@ -136,6 +136,7 @@ export class DebtsProvider {
   createDebt(debt) {
     debt = {
       ...debt,
+      interest: debt.interest || 0,
       borrower: debt.borrower._id
     }
     return this.db.post(debt);
@@ -144,6 +145,7 @@ export class DebtsProvider {
   updateDebt(debt) {
     debt = {
       ...debt,
+      interest: debt.interest || 0,
       borrower: debt.borrower._id
     }
     return this.db.put(debt).catch((err) => {
