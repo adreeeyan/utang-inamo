@@ -6,6 +6,7 @@ import { DebtsProvider } from '../../providers/debts/debts';
 import { Debt, DebtType } from '../../models/debt';
 
 import superlogin from 'superlogin-client';
+import { DialogUtilitiesProvider } from '../../providers/dialog-utilities/dialog-utilities';
 
 @IonicPage()
 @Component({
@@ -20,7 +21,8 @@ export class DebtEditorPage {
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public modalCtrl: ModalController,
-    private debtsProvider: DebtsProvider) {
+    private debtsProvider: DebtsProvider,
+    private dialogUtilities: DialogUtilitiesProvider) {
   }
 
   ionViewCanEnter() {
@@ -100,8 +102,10 @@ export class DebtEditorPage {
     try {
       if (this.isEdit) {
         await this.debtsProvider.updateDebt(this.debt);
+        this.dialogUtilities.showToast("Debt successfully updated.");
       } else {
         await this.debtsProvider.createDebt(this.debt);
+        this.dialogUtilities.showToast("Debt successfully created.");
       }
       this.navCtrl.pop();
     }

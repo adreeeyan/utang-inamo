@@ -1,9 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Borrower } from '../../models/borrower';
 import { DebtsProvider } from '../../providers/debts/debts';
 
 import superlogin from 'superlogin-client';
+import { DialogUtilitiesProvider } from '../../providers/dialog-utilities/dialog-utilities';
 
 @IonicPage()
 @Component({
@@ -16,26 +17,47 @@ export class BorrowerEditorPage {
   imageFile: any;
 
   borrower: Borrower;
+  private isEdit: boolean = false;
 
   constructor(private navCtrl: NavController,
-    private debtsProvider: DebtsProvider) {
+    private navParams: NavParams,
+    private debtsProvider: DebtsProvider,
+    private dialogUtilities: DialogUtilitiesProvider) {
   }
 
   ionViewCanEnter() {
     return superlogin.authenticated();
   }
 
-  ionViewDidLoad() {
+  async ionViewDidLoad() {
     console.log('ionViewDidLoad BorrowerEditorPage');
-    this.borrower = new Borrower({
-      address: "addresstest",
-      cellNumber: "1111",
-      firstName: "first1",
-      lastName: "last1",
-      messengerId: "rawr",
-      skypeId: "rawr",
-      image: "assets/imgs/user-placeholder.jpg"
-    });
+    const borrowerId = this.navParams.get("borrower");
+
+    if (borrowerId) {
+      // This is an edit
+      this.isEdit = true;
+
+      this.borrower = await this.getBorrower(borrowerId);
+    } else {
+      // This is a create
+      this.isEdit = false;
+
+      this.borrower = new Borrower({
+        image: "assets/imgs/user-placeholder.jpg"
+      });
+    }
+  }
+
+  async getBorrower(id) {
+    let borrower = null;
+    try {
+      borrower = await this.debtsProvider.getBorrower(id);
+    }
+    catch (e) {
+      console.log("Issue while retrieving borrower.", e);
+    }
+
+    return Promise.resolve(borrower);
   }
 
   pickImage() {
@@ -72,11 +94,19 @@ export class BorrowerEditorPage {
 
   async saveBorrower() {
     try {
-      await this.debtsProvider.createBorrower(this.borrower);
+      if (this.isEdit) {
+        await this.debtsProvider.updateBorrower(this.borrower);
+        this.dialogUtilities.showToast("Borrower successfully updated.");
+      } else {
+        await this.debtsProvider.createBorrower(this.borrower);
+        this.dialogUtilities.showToast("Borrower successfully created");
+      }
       this.navCtrl.pop();
     }
     catch (e) {
       console.log("Issue while creating borrower.", e);
     }
   }
+
+  
 }

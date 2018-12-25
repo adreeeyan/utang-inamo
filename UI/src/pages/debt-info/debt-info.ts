@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavParams, ModalController } from 'ionic-angular';
 import { DebtEditorPage } from '../debt-editor/debt-editor';
 import { Debt, DebtStatus, DebtType } from '../../models/debt';
 import { DebtsProvider } from '../../providers/debts/debts';
@@ -16,7 +16,7 @@ export class DebtInfoPage {
   debt: Debt;
   debtType: DebtType;
 
-  constructor(public navCtrl: NavController,
+  constructor(public modalCtrl: ModalController,
     public navParams: NavParams,
     private debtsProvider: DebtsProvider) {
   }
@@ -66,7 +66,8 @@ export class DebtInfoPage {
   }
 
   goToDebtEditor() {
-    this.navCtrl.push(DebtEditorPage, { id: this.debt.id, type: this.debtType });
+    const debtEditorModal = this.modalCtrl.create(DebtEditorPage, { id: this.debt.id, type: this.debtType });
+    debtEditorModal.present();
   }
 
   openSkype() {

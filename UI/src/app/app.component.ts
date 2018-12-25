@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Platform, Nav, IonicApp, ToastController, IonicPage, Events } from 'ionic-angular';
+import { Platform, Nav, IonicApp, IonicPage, Events } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { fadeOutOnLeaveAnimation, bounceInUpOnEnterAnimation } from 'angular-animations';
@@ -9,6 +9,7 @@ import { SignInPage } from '../pages/sign-in/sign-in';
 import { TabsPage } from '../pages/tabs/tabs';
 import { DebtsProvider } from '../providers/debts/debts';
 import { Keyboard } from '@ionic-native/keyboard';
+import { DialogUtilitiesProvider } from '../providers/dialog-utilities/dialog-utilities';
 
 @IonicPage()
 @Component({
@@ -28,10 +29,10 @@ export class MyApp {
     private statusBar: StatusBar,
     private splashScreen: SplashScreen,
     private ionicApp: IonicApp,
-    private toastCtrl: ToastController,
     private debtsProvider: DebtsProvider,
     private keyboard: Keyboard,
-    private events: Events) {
+    private events: Events,
+    private dialogUtilities: DialogUtilitiesProvider) {
 
     this.platform.ready().then(async () => {
       // Okay, so the platform is ready and our plugins are available.
@@ -111,12 +112,7 @@ export class MyApp {
         if (new Date().getTime() - lastTimeBackPress < timePeriodToExit) {
           this.platform.exitApp(); // Exit from app
         } else {
-          let toast = this.toastCtrl.create({
-            message: "Press back again to exit the application.",
-            duration: timePeriodToExit,
-            position: "bottom"
-          });
-          toast.present();
+          this.dialogUtilities.showToast("Press back again to exit the application.", timePeriodToExit);
           lastTimeBackPress = new Date().getTime();
         }
       }

@@ -2,8 +2,8 @@
 
   <ion-navbar color="primary" mode="ios">
     <ion-buttons start>
-      <button ion-button navPop icon-only mode="ios">
-        <ion-icon name="md-arrow-back"></ion-icon>
+      <button ion-button navPop icon-only>
+        <ion-icon name="arrow-back" color="white"></ion-icon>
       </button>
     </ion-buttons>
     <ion-searchbar mode="ios" (ionInput)="search($event)">
@@ -13,7 +13,7 @@
 </ion-header>
 
 <ion-content>
-  
+
   <ion-refresher (ionRefresh)="doRefreshFromPull($event)">
     <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh">
     </ion-refresher-content>

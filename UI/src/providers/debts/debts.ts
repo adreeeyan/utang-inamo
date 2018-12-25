@@ -217,6 +217,12 @@ export class DebtsProvider {
     return this.db.post(borrower);
   }
 
+  updateBorrower(borrower) {
+    return this.db.put(borrower).catch((err) => {
+      console.log(err);
+    });
+  }
+
   // Takes a data URI and returns the Data URI corresponding to the resized image at the wanted size.
   resizedataURL(datas, wantedWidth, wantedHeight) {
     return new Promise(async (resolve, reject) => {

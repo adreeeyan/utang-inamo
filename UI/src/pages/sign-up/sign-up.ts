@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { SignInPage } from '../sign-in/sign-in';
 import { DebtsProvider } from '../../providers/debts/debts';
 import { TabsPage } from '../tabs/tabs';
+import { DialogUtilitiesProvider } from '../../providers/dialog-utilities/dialog-utilities';
 
 @IonicPage()
 @Component({
@@ -21,8 +22,8 @@ export class SignUpPage {
     public navParams: NavParams,
     private authProvider: AuthProvider,
     private loadingCtrl: LoadingController,
-    private toastCtrl: ToastController,
-    private debtsProvider: DebtsProvider) {
+    private debtsProvider: DebtsProvider,
+    private dialogUtilities: DialogUtilitiesProvider) {
   }
 
   ionViewDidLoad() {
@@ -42,10 +43,7 @@ export class SignUpPage {
     }
     catch (e) {
       console.log("Problem encountered on registration.", e);
-      this.toastCtrl.create({
-        message: this.concatValidationErrors(e) || "Cannot register, check your inputs and try again.",
-        duration: 3000
-      }).present();
+      this.dialogUtilities.showToast(this.concatValidationErrors(e) || "Cannot register, check your inputs and try again.");
     }
     finally {
       loading.dismiss();

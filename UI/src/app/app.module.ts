@@ -16,7 +16,6 @@ import { DashboardPageModule } from '../pages/dashboard/dashboard.module';
 import { TabsPageModule } from '../pages/tabs/tabs.module';
 import { DebtInfoPage } from '../pages/debt-info/debt-info';
 import { DashboardPage } from '../pages/dashboard/dashboard';
-import { DebtEditorPage } from '../pages/debt-editor/debt-editor';
 import { DebtListingPage } from '../pages/debt-listing/debt-listing';
 import { TabsPage } from '../pages/tabs/tabs';
 import { SignInPageModule } from '../pages/sign-in/sign-in.module';
@@ -28,6 +27,7 @@ import { FormsModule } from '@angular/forms';
 import { Keyboard } from '@ionic-native/keyboard';
 import { GooglePlus } from '@ionic-native/google-plus';
 import { ComponentsModule } from '../components/components.module';
+import { DialogUtilitiesProvider } from '../providers/dialog-utilities/dialog-utilities';
 
 
 superlogin.configure(environment.superlogin);
@@ -51,7 +51,6 @@ superlogin.configure(environment.superlogin);
         links:
           [
             { component: DashboardPage, name: "dashboard", segment: "dashboard" },
-            { component: DebtEditorPage, name: "debt-editor", segment: "debt-editor/:id", defaultHistory: [DebtListingPage] },
             { component: DebtInfoPage, name: "debt-info", segment: "debt-info/:id", defaultHistory: [DebtListingPage] },
             { component: DebtListingPage, name: "debt-list", segment: "debt-list" },
             { component: TabsPage, name: "tabs", segment: "tab" }
@@ -80,7 +79,8 @@ superlogin.configure(environment.superlogin);
     GooglePlus,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     AuthProvider,
-    DebtsProvider
+    DebtsProvider,
+    DialogUtilitiesProvider
   ]
 })
 export class AppModule { }

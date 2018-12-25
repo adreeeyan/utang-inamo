@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { TabsPage } from '../tabs/tabs';
 import { SignUpPage } from '../sign-up/sign-up';
 import { DebtsProvider } from '../../providers/debts/debts';
+import { DialogUtilitiesProvider } from '../../providers/dialog-utilities/dialog-utilities';
 
 @IonicPage()
 @Component({
@@ -19,8 +20,8 @@ export class SignInPage {
     public navParams: NavParams,
     private authProvider: AuthProvider,
     private loadingCtrl: LoadingController,
-    private toastCtrl: ToastController,
-    private debtsProvider: DebtsProvider) {
+    private debtsProvider: DebtsProvider,
+    private dialogUtilities: DialogUtilitiesProvider) {
   }
 
   ionViewDidLoad() {
@@ -40,11 +41,7 @@ export class SignInPage {
     }
     catch (e) {
       console.log("Problem encountered while logging in.", e);
-      this.toastCtrl.create({
-        message: e.message || "Cannot login, check your username and password.",
-        duration: 3000,
-        showCloseButton: true
-      }).present();
+      this.dialogUtilities.showToast(e.message || "Cannot login, check your username and password.");
     }
     finally {
       loading.dismiss();
@@ -65,11 +62,7 @@ export class SignInPage {
     }
     catch (e) {
       console.log(`shit happens while logging in via ${provider}`, e);
-      this.toastCtrl.create({
-        message: e.error || `Problem while signing in via ${provider}`,
-        duration: 3000,
-        showCloseButton: true
-      }).present();
+      this.dialogUtilities.showToast(e.error || `Problem while signing in via ${provider}`);
     }
     finally {
       loading.dismiss();

@@ -1,10 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, LoadingController, ToastController, Events } from 'ionic-angular';
+import { IonicPage, Events, PopoverController } from 'ionic-angular';
 import { DebtsProvider } from '../../providers/debts/debts';
 import { DebtStatus, DebtType } from '../../models/debt';
 
 import superlogin from 'superlogin-client';
 import { AuthProvider } from '../../providers/auth/auth';
+import { MoreThingsPopupComponent } from '../../components/more-things-popup/more-things-popup';
 
 @IonicPage()
 @Component({
@@ -15,16 +16,15 @@ export class DashboardPage {
 
   @ViewChild("imageFile")
   imageFile: any;
-  
+
   user: any;
   totalPayables: any = 0;
   totalReceivables: any = 0;
 
   constructor(private debtsProvider: DebtsProvider,
     private authProvider: AuthProvider,
-    private loadingCtrl: LoadingController,
-    private toastCtrl: ToastController,
-    private events: Events) {
+    private events: Events,
+    private popoverCtrl: PopoverController) {
   }
 
   ionViewCanEnter() {
@@ -36,15 +36,12 @@ export class DashboardPage {
 
   async ionViewDidEnter() {
     console.log('ionViewDidEnter DashboardPage');
-    try
-    {
+    try {
       await this.refresh();
       console.log("Dashboard finished initializing...");
     }
-    catch(e)
-    {
+    catch (e) {
       console.log("Shit happened while loading the dashboard", e);
-      this.logout();
     }
   }
 
@@ -110,26 +107,10 @@ export class DashboardPage {
     this.events.publish("tab:selectReceivables");
   }
 
-  async logout() {
-    let loading = this.loadingCtrl.create({
-      content: "Logging out..."
+  showPopupMore(evt) {
+    let popover = this.popoverCtrl.create(MoreThingsPopupComponent);
+    popover.present({
+      ev: evt
     });
-    loading.present();
-
-    try {
-      await this.authProvider.logout();
-      this.events.publish("user:logout");
-    }
-    catch (e) {
-      console.log("Problem logging out.", JSON.stringify(e));
-      this.toastCtrl.create({
-        message: "Hold on tight, there's an issue logging out.",
-        duration: 3000,
-        showCloseButton: true
-      }).present();
-    }
-    finally {
-      loading.dismiss();
-    }
   }
 }
