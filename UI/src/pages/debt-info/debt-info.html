@@ -17,7 +17,7 @@
   <div class="borrower-info" padding>
     <div class="name-part">
       <div class="image">
-        <img src="assets/imgs/user-placeholder.jpg">
+        <img [src]="debt.borrower?.image">
       </div>
       <div class="right">
         <h3 class="name">{{debt.borrower?.name}}</h3>
