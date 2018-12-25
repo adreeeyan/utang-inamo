@@ -7,6 +7,7 @@ import { DebtEditorPage } from '../debt-editor/debt-editor';
 import { DebtsProvider } from '../../providers/debts/debts';
 
 import superlogin from 'superlogin-client';
+import { DialogUtilitiesProvider } from '../../providers/dialog-utilities/dialog-utilities';
 
 @IonicPage()
 @Component({
@@ -20,10 +21,11 @@ export class DebtListingPage {
   isPaid: string = "unpaid";
   debts: Debt[] = [];
 
-  constructor(public navCtrl: NavController,
-    public navParams: NavParams,
+  constructor(private navCtrl: NavController,
+    private navParams: NavParams,
     private debtsProvider: DebtsProvider,
-    private modalCtrl: ModalController) {
+    private modalCtrl: ModalController,
+    private dialogUtilities: DialogUtilitiesProvider) {
   }
 
   ionViewCanEnter() {
@@ -167,15 +169,15 @@ export class DebtListingPage {
   }
 
   openSkype(borrower: Borrower) {
-    window.open(`skype:${borrower.skypeId}?chat`, "_system");
+    this.dialogUtilities.openSkype(borrower.skypeId);
   }
 
   openSMS(borrower: Borrower) {
-    window.open(`sms://${borrower.cellNumber}`, "_system");
+    this.dialogUtilities.openSMS(borrower.cellNumber);
   }
 
   openMessenger(borrower: Borrower) {
-    window.open(`https://m.me/${borrower.messengerId}`, "_system");
+    this.dialogUtilities.openMessenger(borrower.messengerId);
   }
 
 }

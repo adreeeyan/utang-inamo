@@ -5,6 +5,7 @@ import { Debt, DebtStatus, DebtType } from '../../models/debt';
 import { DebtsProvider } from '../../providers/debts/debts';
 
 import superlogin from 'superlogin-client';
+import { DialogUtilitiesProvider } from '../../providers/dialog-utilities/dialog-utilities';
 
 @IonicPage()
 @Component({
@@ -16,9 +17,10 @@ export class DebtInfoPage {
   debt: Debt;
   debtType: DebtType;
 
-  constructor(public modalCtrl: ModalController,
-    public navParams: NavParams,
-    private debtsProvider: DebtsProvider) {
+  constructor(private modalCtrl: ModalController,
+    private navParams: NavParams,
+    private debtsProvider: DebtsProvider,
+    private dialogUtilities: DialogUtilitiesProvider) {
   }
 
   ionViewCanEnter() {
@@ -71,24 +73,19 @@ export class DebtInfoPage {
   }
 
   openSkype() {
-    window.open(`skype:${this.debt.borrower.skypeId}?chat`, "_system");
+    this.dialogUtilities.openSkype(this.debt.borrower.skypeId);
   }
 
   openSMS() {
-    window.open(`sms://${this.debt.borrower.cellNumber}`, "_system");
+    this.dialogUtilities.openSMS(this.debt.borrower.cellNumber);
   }
 
   openMessenger() {
-    window.open(`https://m.me/${this.debt.borrower.messengerId}`, "_system");
+    this.dialogUtilities.openMessenger(this.debt.borrower.messengerId);
   }
 
   openMap() {
-    const isApp = document.URL.indexOf("http") !== 0;
-    if (isApp) {
-      window.open("geo:0,0?q=compostela+cebu", "_system");
-    } else {
-      window.open("https://www.google.com/maps/dir/?api=1&destination=compostela%20%cebu", "_system");
-    }
+    this.dialogUtilities.openMap(this.debt.borrower.address);
   }
 
 }
