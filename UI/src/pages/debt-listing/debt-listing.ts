@@ -77,8 +77,28 @@ export class DebtListingPage {
     return receivables;
   }
 
+  isDebtPaid(debt: Debt) {
+    return debt.status == DebtStatus.PAID;
+  }
+
+  isDebtPayable(debt: Debt) {
+    return debt.type == DebtType.PAYABLE;
+  }
+
+  get debtsToShow() {
+    return this.isPaid == "paid" ? this.paid : this.unpaid;
+  }
+
   get title() {
     return this.debtType == DebtType.PAYABLE ? "PAYABLES" : "RECEIVABLES";
+  }
+
+  get paidTabText() {
+    return this.debtType == DebtType.PAYABLE ? "Paid" : "Received";
+  }
+
+  get unpaidTabText() {
+    return this.debtType == DebtType.PAYABLE ? "Unpaid" : "Unreceived";
   }
 
   get paid() {
@@ -95,6 +115,31 @@ export class DebtListingPage {
 
   get totalUnpaid() {
     return this.unpaid.reduce((accumulator, currentValue) => accumulator + currentValue.total, 0);
+  }
+
+  get emptyPlaceholder() {
+    if (this.debtType == DebtType.PAYABLE && this.isPaid == "paid") {
+      return {
+        image: "assets/imgs/payables_paid.png",
+        text: "You haven't tried paying a debt? That's weird..."
+      };
+    } else if (this.debtType == DebtType.PAYABLE && this.isPaid == "unpaid") {
+      return {
+        image: "assets/imgs/payables_unpaid.png",
+        text: "You got no debts! How can that be???"
+      };
+    } else if (this.debtType == DebtType.RECEIVABLE && this.isPaid == "paid") {
+      return {
+        image: "assets/imgs/receivables_paid.png",
+        text: "Time to contact those indebted to you!"
+      };
+    } else if (this.debtType == DebtType.RECEIVABLE && this.isPaid == "unpaid") {
+      return {
+        image: "assets/imgs/receivables_unpaid.png",
+        text: "You are broke, you don't have any receivable..."
+      };
+    }
+    return null;
   }
 
   goToDebtInfo(debt) {

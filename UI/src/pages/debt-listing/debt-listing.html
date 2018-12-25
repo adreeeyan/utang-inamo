@@ -3,11 +3,11 @@
   <div padding>
     <ion-segment mode="ios" class="segmenter" color="danger" [(ngModel)]="isPaid">
       <ion-segment-button value="paid">
-        <div class="segment-info">Paid</div>
+        <div class="segment-info">{{paidTabText}}</div>
         <div class="segment-total">({{totalPaid | formatCurrency}})</div>
       </ion-segment-button>
       <ion-segment-button value="unpaid">
-        <div class="segment-info">Unpaid</div>
+        <div class="segment-info">{{unpaidTabText}}</div>
         <div class="segment-total">({{totalUnpaid | formatCurrency}})</div>
       </ion-segment-button>
     </ion-segment>
@@ -27,57 +27,43 @@
     </ion-refresher-content>
   </ion-refresher>
 
-  <div [ngSwitch]="isPaid">
-    <ion-list *ngSwitchCase="'paid'">
-      <ion-item-sliding *ngFor="let debt of paid">
-        <button ion-item (click)="goToDebtInfo(debt)">
-          <ion-avatar item-start>
-            <img [src]="debt.borrower?.image">
-          </ion-avatar>
-          <div class="info">
-            <div class="text">
-              <h2 class="name">{{debt.borrower?.name}}</h2>
-              <h3 class="duedate">Paid on {{debt.dueDateString}}</h3>
-            </div>
-            <div class="amount">
-              <h1>{{debt.total | formatCurrency}}</h1>
-            </div>
+  <ion-list *ngIf="debtsToShow?.length != 0">
+    <ion-item-sliding *ngFor="let debt of debtsToShow">
+      <button ion-item (click)="goToDebtInfo(debt)">
+        <ion-avatar item-start>
+          <img [src]="debt.borrower?.image">
+        </ion-avatar>
+        <div class="info">
+          <div class="text">
+            <h2 class="name">{{debt.borrower?.name}}</h2>
+            <h3 class="duedate" *ngIf="!isDebtPaid(debt)">Due on {{debt.dueDateString}}</h3>
+            <h3 class="duedate" *ngIf="isDebtPaid(debt)">Paid on {{debt.dueDateString}}</h3>
           </div>
-        </button>
-      </ion-item-sliding>
-    </ion-list>
-    <ion-list *ngSwitchCase="'unpaid'">
-      <ion-item-sliding *ngFor="let debt of unpaid">
-        <button ion-item (click)="goToDebtInfo(debt)">
-          <ion-avatar item-start>
-            <img [src]="debt.borrower?.image">
-          </ion-avatar>
-          <div class="info">
-            <div class="text">
-              <h2 class="name">{{debt.borrower?.name}}</h2>
-              <h3 class="duedate">Due on {{debt.dueDateString}}</h3>
-            </div>
-            <div class="amount">
-              <h1>{{debt.total | formatCurrency}}</h1>
-            </div>
+          <div class="amount">
+            <h1>{{debt.total | formatCurrency}}</h1>
           </div>
+        </div>
+      </button>
+      <ion-item-options side="right" class="options" *ngIf="!isDebtPaid(debt)">
+        <button ion-button color="secondary" class="sms" (click)="opeSMS(debt.borrower)">
+          <ion-icon name="text"></ion-icon>
+          SMS
         </button>
-        <ion-item-options side="right" class="options">
-          <button ion-button color="secondary" class="sms" (click)="opeSMS(debt.borrower)">
-            <ion-icon name="text"></ion-icon>
-            SMS
-          </button>
-          <button ion-button color="secondary" class="facebook" (click)="openMessenger(debt.borrower)">
-            <ion-icon name="logo-facebook"></ion-icon>
-            FB
-          </button>
-          <button ion-button color="secondary" class="skype" (click)="openSkype(debt.borrower)">
-            <ion-icon name="logo-skype"></ion-icon>
-            Skype
-          </button>
-        </ion-item-options>
-      </ion-item-sliding>
-    </ion-list>
+        <button ion-button color="secondary" class="facebook" (click)="openMessenger(debt.borrower)">
+          <ion-icon name="logo-facebook"></ion-icon>
+          FB
+        </button>
+        <button ion-button color="secondary" class="skype" (click)="openSkype(debt.borrower)">
+          <ion-icon name="logo-skype"></ion-icon>
+          Skype
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <div class="empty" *ngIf="debtsToShow?.length == 0">
+    <img [src]="emptyPlaceholder?.image">
+    <span>{{emptyPlaceholder?.text}}</span>
   </div>
 
 </ion-content>

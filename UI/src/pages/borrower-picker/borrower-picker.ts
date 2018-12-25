@@ -15,6 +15,7 @@ export class BorrowerPickerPage {
 
   borrowers: Borrower[] = [];
   searchResults: Borrower[] = [];
+  isFinishedInitializing: boolean = false;
 
   constructor(private viewCtrl: ViewController,
     private modalCtrl: ModalController,
@@ -32,6 +33,7 @@ export class BorrowerPickerPage {
     loading.present();
     await this.refresh();
     loading.dismiss();
+    this.isFinishedInitializing = true;
   }
 
   async refresh() {

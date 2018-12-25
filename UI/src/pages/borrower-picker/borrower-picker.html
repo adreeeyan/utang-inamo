@@ -19,7 +19,7 @@
     </ion-refresher-content>
   </ion-refresher>
 
-  <ion-list class="results">
+  <ion-list class="results" *ngIf="searchResults?.length != 0">
     <button ion-item *ngFor="let borrower of searchResults" (click)="select(borrower)">
       <ion-avatar item-start>
         <img [src]="borrower.image">
@@ -27,6 +27,11 @@
       <h2>{{borrower.name}}</h2>
     </button>
   </ion-list>
+
+  <div class="empty" *ngIf="searchResults?.length == 0 && isFinishedInitializing">
+    <img src="assets/imgs/payables_paid.png">
+    <span>I got nothing to show here, lemme just show you my money!</span>
+  </div>
 
   <ion-fab bottom right>
     <button ion-fab (click)="openBorrowerEditor()">
