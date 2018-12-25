@@ -20,7 +20,7 @@
   </ion-refresher>
 
   <ion-list class="results" *ngIf="searchResults?.length != 0">
-    <button ion-item *ngFor="let borrower of searchResults" (click)="select(borrower)">
+    <button ion-item *ngFor="let borrower of searchResults" (click)="doClickEvent(borrower)">
       <ion-avatar item-start>
         <img [src]="borrower.image">
       </ion-avatar>
@@ -42,7 +42,7 @@
         <ion-icon name="create"></ion-icon>
         <ion-label>Add manually</ion-label>
       </button>
-      <button ion-fab (click)="openContactsPicker(); fab.close()">
+      <button [class.disabled]="!isApp" ion-fab (click)="openContactsPicker(); fab.close()">
         <ion-icon name="call"></ion-icon>
         <ion-label>Add from phonebook</ion-label>
       </button>

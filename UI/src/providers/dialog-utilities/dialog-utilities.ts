@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { ToastController } from 'ionic-angular';
+import { UtilitiesProvider } from '../utilities/utilities';
 
 @Injectable()
 export class DialogUtilitiesProvider {
 
-  constructor(private toastCtrl: ToastController) {
+  constructor(private toastCtrl: ToastController,
+    private utilities: UtilitiesProvider) {
     console.log('Hello DialogUtilitiesProvider Provider');
   }
 
@@ -25,8 +27,7 @@ export class DialogUtilitiesProvider {
   }
 
   openMessenger(messengerId) {
-    const isApp = document.URL.indexOf("http") !== 0;
-    if (isApp) {
+    if (this.utilities.isApp()) {
       window.open(`fb-messenger://${messengerId}/`, "_system");
     } else {
       window.open(`https://m.me/${messengerId}`, "_system");
@@ -34,8 +35,7 @@ export class DialogUtilitiesProvider {
   }
 
   openMap(location) {
-    const isApp = document.URL.indexOf("http") !== 0;
-    if (isApp) {
+    if (this.utilities.isApp()) {
       location = location.replace(/ /g, "+");
       window.open(`geo:0,0?q=${location}`, "_system");
     } else {

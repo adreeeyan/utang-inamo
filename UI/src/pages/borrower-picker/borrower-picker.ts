@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, ModalController, LoadingController, ViewController } from 'ionic-angular';
+import { IonicPage, ModalController, LoadingController, ViewController, NavParams } from 'ionic-angular';
 import { Borrower } from '../../models/borrower';
 import { BorrowerEditorPage } from '../borrower-editor/borrower-editor';
 import { DebtsProvider } from '../../providers/debts/debts';
@@ -7,6 +7,7 @@ import { DebtsProvider } from '../../providers/debts/debts';
 import superlogin from 'superlogin-client';
 import { Contacts } from '@ionic-native/contacts';
 import { DialogUtilitiesProvider } from '../../providers/dialog-utilities/dialog-utilities';
+import { UtilitiesProvider } from '../../providers/utilities/utilities';
 
 @IonicPage()
 @Component({
@@ -18,13 +19,17 @@ export class BorrowerPickerPage {
   borrowers: Borrower[] = [];
   searchResults: Borrower[] = [];
   isFinishedInitializing: boolean = false;
+  // for transitioning to borrower editor
+  isForEdit: boolean = false;
 
-  constructor(private viewCtrl: ViewController,
+  constructor(private navParams: NavParams,
+    private viewCtrl: ViewController,
     private modalCtrl: ModalController,
     private loadingCtrl: LoadingController,
     private debtsProvider: DebtsProvider,
     private contacts: Contacts,
-    private dialogUtilities: DialogUtilitiesProvider) {
+    private dialogUtilities: DialogUtilitiesProvider,
+    private utilities: UtilitiesProvider) {
   }
 
   ionViewCanEnter() {
@@ -33,6 +38,7 @@ export class BorrowerPickerPage {
 
   async ionViewDidEnter() {
     console.log('ionViewDidEnter BorrowerPickerPage');
+    this.isForEdit = !!this.navParams.get("isForEdit");
     let loading = this.loadingCtrl.create();
     loading.present();
     await this.refresh();
@@ -76,13 +82,22 @@ export class BorrowerPickerPage {
     }
   }
 
-  openBorrowerEditor() {
-    let borrowerEditorModal = this.modalCtrl.create(BorrowerEditorPage);
+  openBorrowerEditor(borrower) {
+    const data = borrower ? { borrower: borrower.id } : null;
+    let borrowerEditorModal = this.modalCtrl.create(BorrowerEditorPage, data);
     borrowerEditorModal.present();
   }
 
   select(borrower) {
     this.viewCtrl.dismiss(borrower);
+  }
+
+  doClickEvent(borrower) {
+    if (this.isForEdit) {
+      this.openBorrowerEditor(borrower);
+    } else {
+      this.select(borrower);
+    }
   }
 
   async openContactsPicker() {
@@ -127,5 +142,9 @@ export class BorrowerPickerPage {
     catch (e) {
       console.log("There was an issue in picking the contact", JSON.stringify(e));
     }
+  }
+
+  get isApp() {
+    return this.utilities.isApp();
   }
 }

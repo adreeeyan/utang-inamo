@@ -36,6 +36,13 @@ page-borrower-picker {
     overflow: visible;
     position: relative;
 
+    &.disabled,
+    &.disabled .label {
+      filter: saturate(0);
+      opacity: .5;
+      pointer-events: none;
+    }
+
     ion-label {
       position: absolute;
       top: -8px;

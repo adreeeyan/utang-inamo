@@ -10,6 +10,7 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { DebtsProvider } from '../providers/debts/debts';
 import { Keyboard } from '@ionic-native/keyboard';
 import { DialogUtilitiesProvider } from '../providers/dialog-utilities/dialog-utilities';
+import { UtilitiesProvider } from '../providers/utilities/utilities';
 
 @IonicPage()
 @Component({
@@ -32,7 +33,8 @@ export class MyApp {
     private debtsProvider: DebtsProvider,
     private keyboard: Keyboard,
     private events: Events,
-    private dialogUtilities: DialogUtilitiesProvider) {
+    private dialogUtilities: DialogUtilitiesProvider,
+    private utilities: UtilitiesProvider) {
 
     this.platform.ready().then(async () => {
       // Okay, so the platform is ready and our plugins are available.
@@ -58,7 +60,7 @@ export class MyApp {
         this.nav.setRoot(SignInPage);
       }
 
-      if (this.platform.is("core") || this.platform.is("mobileweb")) {
+      if (!this.utilities.isApp()) {
         // This is for PWA back button
         this.backButtonListener();
       } else {
@@ -93,7 +95,6 @@ export class MyApp {
     this.platform.registerBackButtonAction(() => {
       let activePortal = this.ionicApp._loadingPortal.getActive() ||
         this.ionicApp._modalPortal.getActive() ||
-        this.ionicApp._toastPortal.getActive() ||
         this.ionicApp._overlayPortal.getActive();
 
       //activePortal is the active overlay like a modal,toast,etc
@@ -126,7 +127,6 @@ export class MyApp {
       // Close any active modals or overlays
       let activePortal = this.ionicApp._loadingPortal.getActive() ||
         this.ionicApp._modalPortal.getActive() ||
-        this.ionicApp._toastPortal.getActive() ||
         this.ionicApp._overlayPortal.getActive();
       if (activePortal) {
         activePortal.dismiss();

@@ -28,6 +28,7 @@ import { Keyboard } from '@ionic-native/keyboard';
 import { GooglePlus } from '@ionic-native/google-plus';
 import { ComponentsModule } from '../components/components.module';
 import { DialogUtilitiesProvider } from '../providers/dialog-utilities/dialog-utilities';
+import { UtilitiesProvider } from '../providers/utilities/utilities';
 
 
 superlogin.configure(environment.superlogin);
@@ -80,7 +81,8 @@ superlogin.configure(environment.superlogin);
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     AuthProvider,
     DebtsProvider,
-    DialogUtilitiesProvider
+    DialogUtilitiesProvider,
+    UtilitiesProvider
   ]
 })
 export class AppModule { }

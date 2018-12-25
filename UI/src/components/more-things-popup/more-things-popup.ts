@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { LoadingController, Events, ViewController, ModalController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { BorrowerPickerPage } from '../../pages/borrower-picker/borrower-picker';
-import { BorrowerEditorPage } from '../../pages/borrower-editor/borrower-editor';
 import { DialogUtilitiesProvider } from '../../providers/dialog-utilities/dialog-utilities';
 
 @Component({
@@ -21,26 +20,9 @@ export class MoreThingsPopupComponent {
   }
 
   openBorrowerPicker() {
-    try {
-      const borrowerPickerModal = this.modalCtrl.create(BorrowerPickerPage);
-      borrowerPickerModal.onDidDismiss(borrower => {
-        if (borrower) {
-          this.openBorrowerEditor(borrower);
-        }
-      });
-      borrowerPickerModal.present();
-    }
-    catch {
-      console.log("No borrower returned.");
-    }
-    finally {
-      this.viewCtrl.dismiss();
-    }
-  }
-
-  openBorrowerEditor(borrower) {
-    let borrowerEditorModal = this.modalCtrl.create(BorrowerEditorPage, { borrower: borrower.id });
-    borrowerEditorModal.present();
+    const borrowerPickerModal = this.modalCtrl.create(BorrowerPickerPage, { isForEdit: true });
+    borrowerPickerModal.present();
+    this.viewCtrl.dismiss();
   }
 
   async logout() {

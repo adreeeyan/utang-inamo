@@ -28,7 +28,7 @@ export class DebtsProvider {
 
     this.db.replicate.from(this.remote)
       .on("complete", () => {
-        console.log("Shits finished syncing...");
+        console.log("Shits finished replicating...");
         this.isFinishInitializing = true;
 
         // Do some live syncing
@@ -39,6 +39,11 @@ export class DebtsProvider {
         };
         this.db.sync(this.remote, options);
 
+        this.events.publish("user:endsync");
+      })
+      .on("error", err => {
+        console.log("Shit happened while replicating", err);
+        this.isFinishInitializing = true;
         this.events.publish("user:endsync");
       });
   }
