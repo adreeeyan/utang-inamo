@@ -33,10 +33,20 @@
     <span>I got nothing to show here, lemme just show you my money!</span>
   </div>
 
-  <ion-fab bottom right>
-    <button ion-fab (click)="openBorrowerEditor()">
+  <ion-fab bottom right #fab>
+    <button ion-fab color="primary">
       <ion-icon name="person-add"></ion-icon>
     </button>
+    <ion-fab-list side="top">
+      <button ion-fab (click)="openBorrowerEditor(); fab.close()">
+        <ion-icon name="create"></ion-icon>
+        <ion-label>Add manually</ion-label>
+      </button>
+      <button ion-fab (click)="openContactsPicker(); fab.close()">
+        <ion-icon name="call"></ion-icon>
+        <ion-label>Add from phonebook</ion-label>
+      </button>
+    </ion-fab-list>
   </ion-fab>
 
 </ion-content>
