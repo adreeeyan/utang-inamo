@@ -44,7 +44,7 @@
         </div>
       </button>
       <ion-item-options side="right" class="options" *ngIf="!isDebtPaid(debt)">
-        <button ion-button color="secondary" class="sms" (click)="opeSMS(debt.borrower)">
+        <button ion-button color="secondary" class="sms" (click)="openSMS(debt.borrower)">
           <ion-icon name="text"></ion-icon>
           SMS
         </button>
