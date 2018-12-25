@@ -12,6 +12,7 @@ export class Debt {
     public dueDate: Date | string;
     public borrowedDate: Date = new Date();
     public paidDate: Date;
+    public description: string;
 
     constructor(init?: Partial<Debt>) {
         Object.assign(this, init);

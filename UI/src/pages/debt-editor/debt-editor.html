@@ -33,6 +33,11 @@
         <ion-label>Due date</ion-label>
         <ion-input type="date" [(ngModel)]="debt.dueDate"></ion-input>
       </ion-item>
+      <ion-item mode="md">
+        <ion-icon name="information-circle" item-start></ion-icon>
+        <ion-label>Description</ion-label>
+        <ion-textarea [(ngModel)]="debt.description"></ion-textarea>
+      </ion-item>
     </ion-list>
   </div>
 
