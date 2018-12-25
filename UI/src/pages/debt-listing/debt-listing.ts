@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { IonicPage, NavParams, ModalController } from 'ionic-angular';
 import { Debt, DebtType, DebtStatus } from '../../models/debt';
 import { Borrower } from '../../models/borrower';
 import { DebtInfoPage } from '../debt-info/debt-info';
@@ -21,8 +21,7 @@ export class DebtListingPage {
   isPaid: string = "unpaid";
   debts: Debt[] = [];
 
-  constructor(private navCtrl: NavController,
-    private navParams: NavParams,
+  constructor(private navParams: NavParams,
     private debtsProvider: DebtsProvider,
     private modalCtrl: ModalController,
     private dialogUtilities: DialogUtilitiesProvider) {

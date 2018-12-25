@@ -1,4 +1,8 @@
 page-sign-in {
+    .scroll-content {
+        padding-bottom: 0 !important;
+    }
+    
     .sign-in {
         background: url(../assets/imgs/login-bg.png) no-repeat center;
         background-size: cover;

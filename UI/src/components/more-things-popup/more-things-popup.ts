@@ -50,6 +50,7 @@ export class MoreThingsPopupComponent {
     loading.present();
 
     try {
+      this.viewCtrl.dismiss();
       await this.authProvider.logout();
       this.events.publish("user:logout");
     }
@@ -59,7 +60,6 @@ export class MoreThingsPopupComponent {
     }
     finally {
       loading.dismiss();
-      this.viewCtrl.dismiss();
     }
   }
 
