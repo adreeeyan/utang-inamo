@@ -27,11 +27,7 @@ export class DialogUtilitiesProvider {
   }
 
   openMessenger(messengerId) {
-    if (this.utilities.isApp()) {
-      window.open(`fb-messenger://${messengerId}/`, "_system");
-    } else {
-      window.open(`https://m.me/${messengerId}`, "_system");
-    }
+    window.open(`https://m.me/${messengerId}`, "_system");
   }
 
   openMap(location) {
