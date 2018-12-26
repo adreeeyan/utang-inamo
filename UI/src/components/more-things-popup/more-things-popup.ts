@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { LoadingController, Events, ViewController, ModalController } from 'ionic-angular';
+import { LoadingController, Events, ViewController, NavController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { BorrowerPickerPage } from '../../pages/borrower-picker/borrower-picker';
 import { DialogUtilitiesProvider } from '../../providers/dialog-utilities/dialog-utilities';
@@ -10,7 +10,7 @@ import { DialogUtilitiesProvider } from '../../providers/dialog-utilities/dialog
 })
 export class MoreThingsPopupComponent {
 
-  constructor(private modalCtrl: ModalController,
+  constructor(private navCtrl: NavController,
     private viewCtrl: ViewController,
     private loadingCtrl: LoadingController,
     private authProvider: AuthProvider,
@@ -20,8 +20,7 @@ export class MoreThingsPopupComponent {
   }
 
   openBorrowerPicker() {
-    const borrowerPickerModal = this.modalCtrl.create(BorrowerPickerPage, { isForEdit: true });
-    borrowerPickerModal.present();
+    this.navCtrl.push(BorrowerPickerPage, { isForEdit: true });
     this.viewCtrl.dismiss();
   }
 

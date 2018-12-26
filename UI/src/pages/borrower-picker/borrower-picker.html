@@ -1,14 +1,17 @@
 <ion-header>
 
-  <ion-navbar color="primary" mode="ios">
+  <ion-navbar color="primary" mode="ios" hideBackButton no-border-bottom>
+    <ion-title mode="ios" class="title">Contacts</ion-title>
     <ion-buttons start>
       <button ion-button navPop icon-only>
         <ion-icon name="arrow-back" color="white"></ion-icon>
       </button>
     </ion-buttons>
-    <ion-searchbar mode="ios" (ionInput)="search($event)">
-    </ion-searchbar>
   </ion-navbar>
+
+  <ion-toolbar color="primary" no-border-top>
+    <ion-searchbar color="danger" mode="ios" (ionInput)="search($event)"></ion-searchbar>
+  </ion-toolbar>
 
 </ion-header>
 
