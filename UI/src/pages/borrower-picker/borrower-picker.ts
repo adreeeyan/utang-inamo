@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, ModalController, LoadingController, ViewController, NavParams } from 'ionic-angular';
+import { IonicPage, ModalController, ViewController, NavParams } from 'ionic-angular';
 import { Borrower } from '../../models/borrower';
 import { BorrowerEditorPage } from '../borrower-editor/borrower-editor';
 import { DebtsProvider } from '../../providers/debts/debts';
@@ -25,7 +25,6 @@ export class BorrowerPickerPage {
   constructor(private navParams: NavParams,
     private viewCtrl: ViewController,
     private modalCtrl: ModalController,
-    private loadingCtrl: LoadingController,
     private debtsProvider: DebtsProvider,
     private contacts: Contacts,
     private dialogUtilities: DialogUtilitiesProvider,
@@ -39,15 +38,13 @@ export class BorrowerPickerPage {
   async ionViewDidEnter() {
     console.log('ionViewDidEnter BorrowerPickerPage');
     this.isForEdit = !!this.navParams.get("isForEdit");
-    let loading = this.loadingCtrl.create();
-    loading.present();
     await this.refresh();
-    loading.dismiss();
     this.isFinishedInitializing = true;
   }
 
   async refresh() {
-    this.borrowers = await this.getBorrowers();
+    this.borrowers =  await this.getBorrowers();
+    this.borrowers.sort((a, b) => a.name.localeCompare(b.name));
     this.searchResults = this.borrowers;
   }
 
@@ -83,7 +80,7 @@ export class BorrowerPickerPage {
   }
 
   openBorrowerEditor(borrower) {
-    const data = borrower ? { borrower: borrower.id } : null;
+    const data = borrower ? { borrower: borrower.id || borrower._id } : null;
     let borrowerEditorModal = this.modalCtrl.create(BorrowerEditorPage, data);
     borrowerEditorModal.present();
   }

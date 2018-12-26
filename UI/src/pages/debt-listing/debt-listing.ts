@@ -87,7 +87,9 @@ export class DebtListingPage {
   }
 
   get debtsToShow() {
-    return this.isPaid == "paid" ? this.paid : this.unpaid;
+    const toShow = this.isPaid == "paid" ? this.paid : this.unpaid;
+    toShow.sort((a, b) => new Date(b.borrowedDate).getTime() - new Date(a.borrowedDate).getTime());
+    return toShow;
   }
 
   get title() {
