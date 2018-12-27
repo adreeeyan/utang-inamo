@@ -8,6 +8,7 @@ import superlogin from 'superlogin-client';
 import { DialogUtilitiesProvider } from '../../providers/dialog-utilities/dialog-utilities';
 import { BorrowerInfoPage } from '../borrower-info/borrower-info';
 import { BorrowerStatus } from '../../models/borrower';
+import { FormatCurrencyPipe } from '../../pipes/format-currency/format-currency';
 
 @IonicPage()
 @Component({
@@ -22,7 +23,8 @@ export class DebtInfoPage {
   constructor(private modalCtrl: ModalController,
     private navParams: NavParams,
     private debtsProvider: DebtsProvider,
-    private dialogUtilities: DialogUtilitiesProvider) {
+    private dialogUtilities: DialogUtilitiesProvider,
+    private formatCurrencyPipe: FormatCurrencyPipe) {
   }
 
   ionViewCanEnter() {
@@ -60,7 +62,7 @@ export class DebtInfoPage {
     if (borrower.status == BorrowerStatus.DELETED) {
       return;
     }
-    
+
     const data = { borrower: borrower.id || borrower._id };
     let borrowerInfoModal = this.modalCtrl.create(BorrowerInfoPage, data);
     borrowerInfoModal.present();
@@ -91,7 +93,11 @@ export class DebtInfoPage {
   }
 
   openSMS() {
-    this.dialogUtilities.openSMS(this.debt.borrower.cellNumber);
+    let message = "";
+    if (this.debt.type == DebtType.RECEIVABLE && this.debt.status == DebtStatus.UNPAID) {
+      message = `Hi ${this.debt.borrower.name},\r\n\r\nI would like to follow up for your debt amounting to ${this.formatCurrencyPipe.transform(this.debt.total)}.\r\n\r\nYou can find the info here:\r\nhttps://adrianonrails.github.io/utang-inamo/#/tab/payables/debt-list`;
+    }
+    this.dialogUtilities.openSMS(this.debt.borrower.cellNumber, message);
   }
 
   openMessenger() {

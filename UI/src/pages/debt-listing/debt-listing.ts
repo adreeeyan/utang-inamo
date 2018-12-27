@@ -8,6 +8,7 @@ import { DebtsProvider } from '../../providers/debts/debts';
 
 import superlogin from 'superlogin-client';
 import { DialogUtilitiesProvider } from '../../providers/dialog-utilities/dialog-utilities';
+import { FormatCurrencyPipe } from '../../pipes/format-currency/format-currency';
 
 @IonicPage()
 @Component({
@@ -24,7 +25,8 @@ export class DebtListingPage {
   constructor(private navParams: NavParams,
     private debtsProvider: DebtsProvider,
     private modalCtrl: ModalController,
-    private dialogUtilities: DialogUtilitiesProvider) {
+    private dialogUtilities: DialogUtilitiesProvider,
+    private formatCurrencyPipe: FormatCurrencyPipe) {
   }
 
   ionViewCanEnter() {
@@ -173,8 +175,12 @@ export class DebtListingPage {
     this.dialogUtilities.openSkype(borrower.skypeId);
   }
 
-  openSMS(borrower: Borrower) {
-    this.dialogUtilities.openSMS(borrower.cellNumber);
+  openSMS(debt: Debt) {
+    let message = "";
+    if (debt.type == DebtType.RECEIVABLE && debt.status == DebtStatus.UNPAID) {
+      message = `Hi ${debt.borrower.name},\r\n\r\nI would like to follow up for your debt amounting to ${this.formatCurrencyPipe.transform(debt.total)}.\r\n\r\nYou can find the info here:\r\nhttps://adrianonrails.github.io/utang-inamo/#/tab/payables/debt-list`;
+    }
+    this.dialogUtilities.openSMS(debt.borrower.cellNumber, message);
   }
 
   openMessenger(borrower: Borrower) {

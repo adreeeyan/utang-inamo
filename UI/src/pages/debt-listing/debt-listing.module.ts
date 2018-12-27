@@ -5,6 +5,7 @@ import { PipesModule } from '../../pipes/pipes.module';
 import { DebtInfoPageModule } from '../debt-info/debt-info.module';
 import { DebtEditorPageModule } from '../debt-editor/debt-editor.module';
 import { BorrowerPickerPageModule } from '../borrower-picker/borrower-picker.module';
+import { FormatCurrencyPipe } from '../../pipes/format-currency/format-currency';
 
 @NgModule({
   declarations: [
@@ -17,5 +18,8 @@ import { BorrowerPickerPageModule } from '../borrower-picker/borrower-picker.mod
     DebtEditorPageModule,
     BorrowerPickerPageModule
   ],
+  providers: [
+    FormatCurrencyPipe
+  ]
 })
 export class DebtListingPageModule {}

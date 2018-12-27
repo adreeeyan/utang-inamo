@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import { ToastController } from 'ionic-angular';
+import { ToastController, Platform } from 'ionic-angular';
 import { UtilitiesProvider } from '../utilities/utilities';
 
 @Injectable()
 export class DialogUtilitiesProvider {
 
   constructor(private toastCtrl: ToastController,
-    private utilities: UtilitiesProvider) {
+    private utilities: UtilitiesProvider,
+    private platform: Platform) {
     console.log('Hello DialogUtilitiesProvider Provider');
   }
 
@@ -22,8 +23,13 @@ export class DialogUtilitiesProvider {
     window.open(`skype:${skypeId}?chat`, "_system");
   }
 
-  openSMS(cellNumber) {
-    window.open(`sms://${cellNumber}`, "_system");
+  openSMS(cellNumber, message = "") {
+    message = encodeURIComponent(message);
+    if (this.platform.is("ios")) {
+      window.open(`sms:${cellNumber}&body=${message}`, "_system");
+    } else {
+      window.open(`sms:${cellNumber}?body=${message}`, "_system");
+    }
   }
 
   openMessenger(messengerId) {
