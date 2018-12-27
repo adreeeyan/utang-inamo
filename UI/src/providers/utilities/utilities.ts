@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { environment } from '../../environments/debug.environment';
+import superlogin from 'superlogin-client';
 
 @Injectable()
 export class UtilitiesProvider {
@@ -17,8 +18,9 @@ export class UtilitiesProvider {
     return this.platform.is("core") || this.platform.is("mobileweb");
   }
 
-  createPublicDebtInfoUrl(userId, debtId) {
-    return `${environment.webUrl}/#/public-debt-info/${userId}/${debtId}`;
+  createPublicDebtInfoUrl(debtId) {
+    let session: any = superlogin.getSession();
+    return `${environment.webUrl}/#/public-debt-info/${session.user_id}/${debtId}`;
   }
 
 }

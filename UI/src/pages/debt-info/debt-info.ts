@@ -96,11 +96,12 @@ export class DebtInfoPage {
 
   openSMS() {
     let message = "";
-    if (this.debt.type == DebtType.RECEIVABLE && this.debt.status == DebtStatus.UNPAID) {
-      message = `Hi ${this.debt.borrower.name},\r\n\r\nI would like to follow up for your debt amounting to ${this.formatCurrencyPipe.transform(this.debt.total)}.\r\n\r\n` +
-        `You can find the info here:\r\n${this.utilities.createPublicDebtInfoUrl(this.debt.borrower.id, this.debt.id)}`;
+    const debt: any = this.debt;
+    if (debt.type == DebtType.RECEIVABLE && debt.status == DebtStatus.UNPAID) {
+      message = `Hi ${debt.borrower.name},\r\n\r\nI would like to follow up for your debt amounting to ${this.formatCurrencyPipe.transform(debt.total)}.\r\n\r\n` +
+        `You can find the info here:\r\n${this.utilities.createPublicDebtInfoUrl(debt.id || debt._id)}`;
     }
-    this.dialogUtilities.openSMS(this.debt.borrower.cellNumber, message);
+    this.dialogUtilities.openSMS(debt.borrower.cellNumber, message);
   }
 
   openMessenger() {
