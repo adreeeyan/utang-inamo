@@ -1,0 +1,112 @@
+page-borrower-info {
+  .header-container {
+    position: relative;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    background: url("../assets/imgs/banderitas.png") repeat-x center 174px;
+    background-color: map-get($colors, secondary);
+    color: white;
+    overflow: hidden;
+
+    .action-buttons {
+      > * {
+        position: absolute;
+        top: 0;
+      }
+
+      button {
+        box-shadow: none;
+        background-color: transparent;
+      }
+
+      .back {
+        left: 0;
+      }
+
+      .right-actions {
+        right: 0;
+      }
+    }
+
+    .background {
+      position: absolute;
+      width: 110%;
+      height: 100%;
+      overflow: hidden;
+      background-color: map-get($colors, primary);
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .image {
+      img {
+        border-radius: 50%;
+        height: 100px;
+        width: 100px;
+        border: 3px solid white;
+        z-index: 1;
+      }
+    }
+  }
+
+  .borrower-info {
+    margin-top: 10px;
+
+    .name {
+      text-align: center;
+      font-size: 1.4em;
+    }
+
+    .contact-part {
+      button {
+        &.sms .icon {
+          color: #49d536;
+        }
+
+        &.facebook .icon {
+          color: #3b5998;
+        }
+
+        &.skype .icon {
+          color: #00AFF0;
+        }
+
+      }
+    }
+  }
+
+  .sub-info-header {
+    display: flex;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    .title {
+      font-size: 1.3em;
+    }
+
+    .ruler {
+      background-color: gray;
+      flex-grow: 1;
+      margin: 7px;
+    }
+  }
+
+  .otherinfo-part {
+    .description {
+      .label {
+        white-space: normal;
+      }
+    }
+  }
+
+  ion-item {
+    border: 0 !important;
+  }
+}

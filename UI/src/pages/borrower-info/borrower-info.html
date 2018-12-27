@@ -1,0 +1,59 @@
+<ion-content *ngIf="borrower">
+  <div class="header-container">
+    <div class="action-buttons">
+      <button navPop ion-button icon-only class="back">
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+      <div class="right-actions">
+        <button ion-button icon-only class="edit" (click)="openBorrowerEditor()">
+          <ion-icon name="md-create"></ion-icon>
+        </button>
+        <button ion-button icon-only class="trash" (click)="delete()">
+          <ion-icon name="md-trash"></ion-icon>
+        </button>
+      </div>
+    </div>
+    <div class="image">
+      <img [src]="borrower.image">
+    </div>
+  </div>
+
+  <div class="borrower-info" padding>
+    <ion-list mode="md">
+      <ion-item mode="md">
+        <h3 class="name">{{borrower.name}}</h3>
+      </ion-item>
+    </ion-list>
+    <div class="sub-info-header">
+      <div class="title">
+        Contact info
+      </div>
+      <div class="ruler"></div>
+    </div>
+    <ion-list mode="md" class="contact-part">
+      <button ion-item mode="md" class="sms" [disabled]="!borrower.cellNumber" (click)="openSMS()">
+        <ion-icon name="text" item-start></ion-icon>
+        {{borrower.cellNumber || "No cell number provided"}}
+        <ion-badge item-end *ngIf="borrower.cellNumber">Text now ></ion-badge>
+      </button>
+
+      <button ion-item mode="md" class="facebook" [disabled]="!borrower.messengerId" (click)="openMessenger()">
+        <ion-icon name="logo-facebook" item-start></ion-icon>
+        {{borrower.messengerId || "No messenger provided"}}
+        <ion-badge item-end *ngIf="borrower.messengerId">PM now ></ion-badge>
+      </button>
+
+      <button ion-item mode="md" class="skype" [disabled]="!borrower.skypeId" (click)="openSkype()">
+        <ion-icon name="logo-skype" item-start></ion-icon>
+        {{borrower.skypeId || "No skype provided"}}
+        <ion-badge item-end *ngIf="borrower.skypeId">DM now ></ion-badge>
+      </button>
+
+      <button ion-item mode="md" [disabled]="!borrower.address" (click)="openMap()">
+        <ion-icon name="navigate" item-start></ion-icon>
+        {{borrower.address || "No address provided"}}
+        <ion-badge item-end *ngIf="borrower.address">Find now ></ion-badge>
+      </button>
+    </ion-list>
+  </div>
+</ion-content>

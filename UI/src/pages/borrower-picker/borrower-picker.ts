@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { IonicPage, ModalController, ViewController, NavParams } from 'ionic-angular';
 import { Borrower } from '../../models/borrower';
-import { BorrowerEditorPage } from '../borrower-editor/borrower-editor';
 import { DebtsProvider } from '../../providers/debts/debts';
 
 import superlogin from 'superlogin-client';
 import { Contacts } from '@ionic-native/contacts';
 import { DialogUtilitiesProvider } from '../../providers/dialog-utilities/dialog-utilities';
 import { UtilitiesProvider } from '../../providers/utilities/utilities';
+import { BorrowerInfoPage } from '../borrower-info/borrower-info';
 
 @IonicPage()
 @Component({
@@ -20,7 +20,7 @@ export class BorrowerPickerPage {
   searchResults: Borrower[] = [];
   isFinishedInitializing: boolean = false;
   // for transitioning to borrower editor
-  isForEdit: boolean = false;
+  stayWhenSelected: boolean = false;
 
   constructor(private navParams: NavParams,
     private viewCtrl: ViewController,
@@ -37,7 +37,7 @@ export class BorrowerPickerPage {
 
   async ionViewDidEnter() {
     console.log('ionViewDidEnter BorrowerPickerPage');
-    this.isForEdit = !!this.navParams.get("isForEdit");
+    this.stayWhenSelected = !!this.navParams.get("stayWhenSelected");
     await this.refresh();
     this.isFinishedInitializing = true;
   }
@@ -79,10 +79,10 @@ export class BorrowerPickerPage {
     }
   }
 
-  openBorrowerEditor(borrower) {
+  openBorrowerInfo(borrower) {
     const data = borrower ? { borrower: borrower.id || borrower._id } : null;
-    let borrowerEditorModal = this.modalCtrl.create(BorrowerEditorPage, data);
-    borrowerEditorModal.present();
+    let borrowerInfoModal = this.modalCtrl.create(BorrowerInfoPage, data);
+    borrowerInfoModal.present();
   }
 
   select(borrower) {
@@ -90,8 +90,8 @@ export class BorrowerPickerPage {
   }
 
   doClickEvent(borrower) {
-    if (this.isForEdit) {
-      this.openBorrowerEditor(borrower);
+    if (this.stayWhenSelected) {
+      this.openBorrowerInfo(borrower);
     } else {
       this.select(borrower);
     }

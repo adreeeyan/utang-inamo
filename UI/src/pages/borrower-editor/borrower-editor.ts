@@ -74,26 +74,6 @@ export class BorrowerEditorPage {
     }
   }
 
-  get backgroundImage() {
-    if (this.borrower.image != "assets/imgs/user-placeholder.jpg") {
-      return 'url(' + this.borrower.image + ')';
-    } else {
-      return "";
-    }
-  }
-
-  get backgroundInfo() {
-    if (this.borrower != null && this.borrower.image != "assets/imgs/user-placeholder.jpg") {
-      const options = {
-        backgroundImage: `url(${this.borrower.image})`,
-        filter: "blur(5px)"
-      };
-      return options;
-    } else {
-      return "";
-    }
-  }
-
   async saveBorrower() {
     try {
       const validationStatus = this.validateBorrower();

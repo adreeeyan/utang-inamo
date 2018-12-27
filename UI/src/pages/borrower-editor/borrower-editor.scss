@@ -11,6 +11,8 @@ page-borrower-editor {
         justify-content: center;
         justify-items: center;
         align-items: center;
+        background: url(../assets/imgs/banderitas.png) repeat-x center 174px;
+        background-color: map-get($colors, danger);
         color: white;
         overflow: hidden;
 

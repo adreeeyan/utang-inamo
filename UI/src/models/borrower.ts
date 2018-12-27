@@ -8,6 +8,7 @@ export class Borrower {
     public cellNumber: string = "";
     public messengerId: string = "";
     public skypeId: string = "";
+    public status: BorrowerStatus = BorrowerStatus.ACTIVE;
 
     constructor(init?: Partial<Borrower>) {
         Object.assign(this, init);
@@ -16,4 +17,9 @@ export class Borrower {
     get name(){
         return `${this.firstName} ${this.lastName}`;
     }
+}
+
+export enum BorrowerStatus {
+    ACTIVE,
+    DELETED
 }

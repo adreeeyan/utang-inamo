@@ -20,7 +20,7 @@ export class MoreThingsPopupComponent {
   }
 
   openBorrowerPicker() {
-    this.navCtrl.push(BorrowerPickerPage, { isForEdit: true });
+    this.navCtrl.push(BorrowerPickerPage, { stayWhenSelected: true });
     this.viewCtrl.dismiss();
   }
 

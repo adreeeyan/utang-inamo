@@ -32,28 +32,28 @@
         <div class="ruler"></div>
       </div>
       <ion-list mode="md">
-        <button ion-item mode="md" class="sms">
+        <button ion-item mode="md" class="sms" [disabled]="!debt.borrower?.cellNumber" (click)="openSMS()">
           <ion-icon name="text" item-start></ion-icon>
-          {{debt.borrower?.cellNumber}}
-          <ion-badge item-end (click)="openSMS()">Text now ></ion-badge>
+          {{debt.borrower?.cellNumber || "No cell number provided"}}
+          <ion-badge item-end *ngIf="debt.borrower?.cellNumber">Text now ></ion-badge>
         </button>
 
-        <button ion-item mode="md" class="facebook">
+        <button ion-item mode="md" class="facebook" [disabled]="!debt.borrower?.messengerId" (click)="openMessenger()">
           <ion-icon name="logo-facebook" item-start></ion-icon>
-          {{debt.borrower?.messengerId}}
-          <ion-badge item-end (click)="openMessenger()">PM now ></ion-badge>
+          {{debt.borrower?.messengerId || "No messenger provided"}}
+          <ion-badge item-end *ngIf="debt.borrower?.messengerId">PM now ></ion-badge>
         </button>
 
-        <button ion-item mode="md" class="skype">
+        <button ion-item mode="md" class="skype" [disabled]="!debt.borrower?.skypeId" (click)="openSkype()">
           <ion-icon name="logo-skype" item-start></ion-icon>
-          {{debt.borrower?.skypeId}}
-          <ion-badge item-end (click)="openSkype()">DM now ></ion-badge>
+          {{debt.borrower?.skypeId || "No skype provided"}}
+          <ion-badge item-end *ngIf="debt.borrower?.skypeId">DM now ></ion-badge>
         </button>
 
-        <button ion-item mode="md">
+        <button ion-item mode="md" [disabled]="!debt.borrower?.address" (click)="openMap()">
           <ion-icon name="navigate" item-start></ion-icon>
-          {{debt.borrower?.address}}
-          <ion-badge item-end (click)="openMap()">Find now ></ion-badge>
+          {{debt.borrower?.address || "No address provided"}}
+          <ion-badge item-end *ngIf="debt.borrower?.address">Find now ></ion-badge>
         </button>
       </ion-list>
     </div>

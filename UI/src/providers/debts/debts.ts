@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import PouchDB from "pouchdb";
 import { Debt } from "../../models/debt";
-import { Borrower } from "../../models/borrower";
+import { Borrower, BorrowerStatus } from "../../models/borrower";
 import { Events } from "ionic-angular";
 
 @Injectable()
@@ -115,7 +115,15 @@ export class DebtsProvider {
       const allDocs: any[] = await this.getDocs();
       const allDebts = allDocs.filter(doc => doc.borrower != null);
       const allDebtsWithBorrower = allDebts.map(debt => {
-        const borrower = allDocs.find(doc => doc._id == debt.borrower);
+        let borrower = allDocs.find(doc => doc._id == debt.borrower);
+        if(borrower == null){
+          borrower = new Borrower({
+            firstName: "Deleted",
+            lastName: "Contact",
+            image: "assets/imgs/user-placeholder.jpg",
+            status: BorrowerStatus.DELETED
+          });
+        }
         return new Debt({
           ...debt,
           borrower: borrower
@@ -227,6 +235,12 @@ export class DebtsProvider {
   updateBorrower(borrower) {
     return this.db.put(borrower).catch((err) => {
       console.log("Error while updating borrower", err);
+    });
+  }
+
+  deleteBorrower(borrower) {
+    return this.db.remove(borrower).catch((err) => {
+      console.log("Error while deleting borrower", err);
     });
   }
 

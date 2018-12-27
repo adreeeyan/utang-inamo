@@ -7,6 +7,7 @@ import { Debt, DebtType } from '../../models/debt';
 
 import superlogin from 'superlogin-client';
 import { DialogUtilitiesProvider } from '../../providers/dialog-utilities/dialog-utilities';
+import { BorrowerStatus } from '../../models/borrower';
 
 @IonicPage()
 @Component({
@@ -140,6 +141,10 @@ export class DebtEditorPage {
       return DebtValidationStatus.NEGATIVEINTEREST;
     }
 
+    if (this.debt.borrower.status == BorrowerStatus.DELETED) {
+      return DebtValidationStatus.DELETEDBORROWER;
+    }
+
     return DebtValidationStatus.VALID;
   }
 
@@ -148,6 +153,7 @@ export class DebtEditorPage {
       case DebtValidationStatus.ZEROAMOUNT: return "Add an amount";
       case DebtValidationStatus.NOBORROWER:
         return this.debt.type == DebtType.PAYABLE ? "Who will you pay to?" : "Add a borrower";
+      case DebtValidationStatus.DELETEDBORROWER: return "That contact is already deleted, please change it.";
       case DebtValidationStatus.NEGATIVEINTEREST: return "Negative interest is invalid...";
     }
   }
@@ -157,5 +163,6 @@ enum DebtValidationStatus {
   VALID,
   ZEROAMOUNT,
   NOBORROWER,
+  DELETEDBORROWER,
   NEGATIVEINTEREST
 }
