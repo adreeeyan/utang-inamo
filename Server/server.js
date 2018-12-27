@@ -8,6 +8,7 @@ let SuperLogin = require("superlogin");
 let GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
 let GoogleTokenStrategy = require("passport-google-token").Strategy;
 let FacebookStrategy = require("passport-facebook");
+let Cloudant = require("@cloudant/cloudant");
 
 let app = express();
 app.set("port", process.env.PORT || 3000);
@@ -123,11 +124,32 @@ superlogin.onCreate(function (userDoc, provider) {
     return Promise.resolve(userDoc);
 });
 
+
 app.put("/change-image/:id", async function (req, res) {
     const user = await superlogin.getUser(req.params.id);
     user.profile.image = req.body.image;
     await superlogin.userDB.put(user);
     res.json({ status: "ok" });
+});
+
+let cloudant = Cloudant({ url: `${config.dbServer.protocol}${config.dbServer.host}`, account: config.dbServer.user, password: config.dbServer.password });
+app.get("/public-debt-info/:userid/:debtid", async function (req, res) {
+    const user = await superlogin.getUser(req.params.userid);
+    if (user == null) {
+        res.send({ status: "error", message: "No user found." });
+    }
+    const dbname = Object.keys(user.personalDBs)[0];
+    const db = cloudant.db.use(dbname);
+    const debt = await db.get(req.params.debtid);
+    if (debt == null) {
+        res.send({ status: "error", message: "No debt found." });
+    }
+    const borrower = await db.get(debt.borrower);
+    if (borrower == null) {
+        res.send({ status: "error", message: "No borrower found." });
+    }
+    debt.borrower = borrower;
+    res.json({ status: "ok", debt: debt });
 });
 
 app.use("*", function (req, res) {

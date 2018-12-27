@@ -30,6 +30,8 @@ import { ComponentsModule } from '../components/components.module';
 import { DialogUtilitiesProvider } from '../providers/dialog-utilities/dialog-utilities';
 import { UtilitiesProvider } from '../providers/utilities/utilities';
 import { LongPressModule } from 'ionic-long-press';
+import { PublicDebtInfoPage } from '../pages/public-debt-info/public-debt-info';
+import { PublicDebtInfoPageModule } from '../pages/public-debt-info/public-debt-info.module';
 
 superlogin.configure(environment.superlogin);
 
@@ -51,6 +53,7 @@ superlogin.configure(environment.superlogin);
       {
         links:
           [
+            { component: PublicDebtInfoPage, name: "public-debt-info", segment: "public-debt-info/:userid/:debtid" },
             { component: DashboardPage, name: "dashboard", segment: "dashboard" },
             { component: DebtInfoPage, name: "debt-info", segment: "debt-info/:id", defaultHistory: [DebtListingPage] },
             { component: DebtListingPage, name: "debt-list", segment: "debt-list" },
@@ -67,7 +70,8 @@ superlogin.configure(environment.superlogin);
     SignUpPageModule,
     ComponentsModule,
     BrowserAnimationsModule,
-    LongPressModule
+    LongPressModule,
+    PublicDebtInfoPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

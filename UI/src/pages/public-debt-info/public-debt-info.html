@@ -1,0 +1,74 @@
+<ion-content *ngIf="debt">
+  <div class="header-container">
+    <div class="amount">
+      {{debt.total | formatCurrency}}
+    </div>
+    <button ion-button color="realdanger" round *ngIf="isDebtPaid">UNPAID</button>
+    <button ion-button color="danger" round *ngIf="!isDebtPaid">PAID</button>
+  </div>
+  <div class="borrower-info" padding>
+    <div class="name-part">
+      <div class="image">
+        <img [src]="debt.borrower?.image">
+      </div>
+      <div class="right">
+        <h3 class="name">{{debt.borrower?.name}}</h3>
+        <h5 class="duedate">{{dueDateStringPart}}</h5>
+      </div>
+    </div>
+    <div class="contact-part">
+      <div class="sub-info-header">
+        <div class="title">
+          Contact info
+        </div>
+        <div class="ruler"></div>
+      </div>
+      <ion-list mode="md">
+        <button ion-item mode="md" class="sms" [disabled]="!debt.borrower?.cellNumber">
+          <ion-icon name="text" item-start></ion-icon>
+          {{debt.borrower?.cellNumber || "No cell number provided"}}
+        </button>
+
+        <button ion-item mode="md" class="facebook" [disabled]="!debt.borrower?.messengerId">
+          <ion-icon name="logo-facebook" item-start></ion-icon>
+          {{debt.borrower?.messengerId || "No messenger provided"}}
+        </button>
+
+        <button ion-item mode="md" class="skype" [disabled]="!debt.borrower?.skypeId">
+          <ion-icon name="logo-skype" item-start></ion-icon>
+          {{debt.borrower?.skypeId || "No skype provided"}}
+        </button>
+
+        <button ion-item mode="md" [disabled]="!debt.borrower?.address">
+          <ion-icon name="navigate" item-start></ion-icon>
+          {{debt.borrower?.address || "No address provided"}}
+        </button>
+      </ion-list>
+    </div>
+    <div class="otherinfo-part">
+      <div class="sub-info-header">
+        <div class="title">
+          Other info
+        </div>
+        <div class="ruler"></div>
+      </div>
+      <ion-list mode="md">
+        <ion-item mode="md" class="description">
+          <b>Description:</b> {{debt.description}}
+        </ion-item>
+
+        <ion-item mode="md">
+          <b>Date of debt:</b> {{debt.borrowedDateString}}
+        </ion-item>
+
+        <ion-item mode="md">
+          <b>Amount:</b> {{debt.amount | formatCurrency}}
+        </ion-item>
+
+        <ion-item mode="md">
+          <b>Interest:</b> {{debt.interest}}%
+        </ion-item>
+      </ion-list>
+    </div>
+  </div>
+</ion-content>

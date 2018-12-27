@@ -16,5 +16,6 @@ export const environment = {
         // automatically refresh after 1:30pm. When authenticated, the token expiration is automatically checked on every
         // request. You can do this manually by calling superlogin.checkRefresh(). Default: 0.5
         refreshThreshold: 0.5,
-    }
+    },
+    webUrl: "https://adrianonrails.github.io/utang-inamo"
 };

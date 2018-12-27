@@ -10,6 +10,7 @@
     "start": "node server.js"
   },
   "dependencies": {
+    "@cloudant/cloudant": "^3.0.1",
     "body-parser": "^1.15.2",
     "cors": "^2.8.0",
     "couch-pwd": "github:zemirco/couch-pwd",

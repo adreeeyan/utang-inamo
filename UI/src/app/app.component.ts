@@ -60,7 +60,13 @@ export class MyApp {
         console.log("user authenticated");
       } else {
         console.log("user not authenticated");
-        this.nav.setRoot(SignInPage);
+        // if this is web and the url is for public info
+        // then just let it be
+        if (this.utilities.isWeb() && document.URL.indexOf("public-debt-info") != -1) {
+          // leave this place for the public debt info thingies
+        } else {
+          this.nav.setRoot(SignInPage);
+        }
       }
 
       if (!this.utilities.isApp()) {

@@ -9,6 +9,7 @@ import { DebtsProvider } from '../../providers/debts/debts';
 import superlogin from 'superlogin-client';
 import { DialogUtilitiesProvider } from '../../providers/dialog-utilities/dialog-utilities';
 import { FormatCurrencyPipe } from '../../pipes/format-currency/format-currency';
+import { UtilitiesProvider } from '../../providers/utilities/utilities';
 
 @IonicPage()
 @Component({
@@ -26,7 +27,8 @@ export class DebtListingPage {
     private debtsProvider: DebtsProvider,
     private modalCtrl: ModalController,
     private dialogUtilities: DialogUtilitiesProvider,
-    private formatCurrencyPipe: FormatCurrencyPipe) {
+    private formatCurrencyPipe: FormatCurrencyPipe,
+    private utilities: UtilitiesProvider) {
   }
 
   ionViewCanEnter() {
@@ -178,7 +180,8 @@ export class DebtListingPage {
   openSMS(debt: Debt) {
     let message = "";
     if (debt.type == DebtType.RECEIVABLE && debt.status == DebtStatus.UNPAID) {
-      message = `Hi ${debt.borrower.name},\r\n\r\nI would like to follow up for your debt amounting to ${this.formatCurrencyPipe.transform(debt.total)}.\r\n\r\nYou can find the info here:\r\nhttps://adrianonrails.github.io/utang-inamo/#/tab/payables/debt-list`;
+      message = `Hi ${debt.borrower.name},\r\n\r\nI would like to follow up for your debt amounting to ${this.formatCurrencyPipe.transform(debt.total)}.\r\n\r\n` +
+        `You can find the info here:\r\n${this.utilities.createPublicDebtInfoUrl(debt.borrower.id, debt.id)}`;
     }
     this.dialogUtilities.openSMS(debt.borrower.cellNumber, message);
   }
