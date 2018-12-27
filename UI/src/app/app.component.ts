@@ -47,6 +47,9 @@ export class MyApp {
       this.events.subscribe("user:startsync", this.showStartSyncStatus.bind(this));
       this.events.subscribe("user:endsync", this.showEndSyncStatus.bind(this));
 
+      // Hide splash screen
+      this.splashScreen.hide();
+
       // Authentication
       console.log("trying to authenticate");
       const session = superlogin.getSession();
@@ -67,8 +70,6 @@ export class MyApp {
         // Register back button for mobile app
         this.registerBackButtonHandler();
       }
-
-      this.splashScreen.hide();
     });
 
   }
