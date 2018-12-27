@@ -6,6 +6,8 @@ import { DebtsProvider } from '../../providers/debts/debts';
 
 import superlogin from 'superlogin-client';
 import { DialogUtilitiesProvider } from '../../providers/dialog-utilities/dialog-utilities';
+import { BorrowerInfoPage } from '../borrower-info/borrower-info';
+import { BorrowerStatus } from '../../models/borrower';
 
 @IonicPage()
 @Component({
@@ -51,6 +53,17 @@ export class DebtInfoPage {
     }
 
     return Promise.resolve(debt);
+  }
+
+  openBorrowerInfo() {
+    const borrower: any = this.debt.borrower;
+    if (borrower.status == BorrowerStatus.DELETED) {
+      return;
+    }
+    
+    const data = { borrower: borrower.id || borrower._id };
+    let borrowerInfoModal = this.modalCtrl.create(BorrowerInfoPage, data);
+    borrowerInfoModal.present();
   }
 
   setDebtAsPaid() {

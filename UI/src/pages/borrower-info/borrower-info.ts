@@ -14,7 +14,7 @@ import { BorrowerEditorPage } from '../borrower-editor/borrower-editor';
 })
 export class BorrowerInfoPage {
 
-  borrower: Borrower | any;
+  borrower: Borrower;
 
   constructor(private modalCtrl: ModalController,
     private navParams: NavParams,
@@ -63,7 +63,8 @@ export class BorrowerInfoPage {
   }
 
   openBorrowerEditor() {
-    const data = { borrower: this.borrower.id || this.borrower._id };
+    const borrower: any = this.borrower;
+    const data = { borrower: borrower.id || borrower._id };
     let borrowerEditorModal = this.modalCtrl.create(BorrowerEditorPage, data);
     borrowerEditorModal.present();
   }
@@ -85,7 +86,7 @@ export class BorrowerInfoPage {
               this.dialogUtilities.showToast("Contact successfully deleted.");
               this.viewCtrl.dismiss();
             } catch (e) {
-              this.dialogUtilities.showToast("There was an error while trieng to delete the contact.");
+              this.dialogUtilities.showToast("Error while deleting the contact.");
             }
           }
         }

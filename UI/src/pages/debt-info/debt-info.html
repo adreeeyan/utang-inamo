@@ -15,7 +15,7 @@
     <button ion-button color="danger" round *ngIf="!isDebtPaid" (click)="setDebtAsPaid()">SET AS PAID</button>
   </div>
   <div class="borrower-info" padding>
-    <div class="name-part">
+    <div class="name-part" (click)="openBorrowerInfo()">
       <div class="image">
         <img [src]="debt.borrower?.image">
       </div>

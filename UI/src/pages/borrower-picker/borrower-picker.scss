@@ -1,7 +1,7 @@
 page-borrower-picker {
   .header {
     .toolbar-title {
-        color: white;
+      color: white;
     }
   }
 
@@ -14,6 +14,16 @@ page-borrower-picker {
 
     .item-inner {
       border-bottom: 0 !important;
+    }
+
+    .avatar-check {
+      background-color: map-get($colors, secondary);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.4em;
     }
   }
 
@@ -66,7 +76,6 @@ page-borrower-picker {
   }
 
   ion-fab-list button[ion-fab] {
-    background-color: map-get($colors, secondary);
     color: white;
   }
 }

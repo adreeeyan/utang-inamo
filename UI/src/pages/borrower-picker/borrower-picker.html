@@ -23,9 +23,13 @@
   </ion-refresher>
 
   <ion-list class="results" *ngIf="searchResults?.length != 0">
-    <button ion-item *ngFor="let borrower of searchResults" (click)="doClickEvent(borrower)">
-      <ion-avatar item-start>
+    <button ion-item *ngFor="let borrower of searchResults" (click)="doClickEvent(borrower, $event)" ion-long-press
+      (onPressing)="enableMultiSelection(); doClickEvent(borrower, $event);">
+      <ion-avatar item-start (click)="enableMultiSelection(); doClickEvent(borrower, $event);" *ngIf="!isInList(borrower)">
         <img [src]="borrower.image">
+      </ion-avatar>
+      <ion-avatar class="avatar-check" item-start (click)="doClickEvent(borrower, $event);" *ngIf="isInList(borrower)">
+        <ion-icon name="checkmark"></ion-icon>
       </ion-avatar>
       <h2>{{borrower.name}}</h2>
     </button>
@@ -36,18 +40,34 @@
     <span>I got nothing to show here, lemme just show you my money!</span>
   </div>
 
-  <ion-fab bottom right #fab>
+  <ion-fab bottom right #fab *ngIf="!multiSelectionEnabled">
     <button ion-fab color="primary">
       <ion-icon name="person-add"></ion-icon>
     </button>
     <ion-fab-list side="top">
-      <button ion-fab (click)="openBorrowerEditor(); fab.close()">
+      <button color="secondary" ion-fab (click)="openBorrowerEditor(); fab.close();">
         <ion-icon name="create"></ion-icon>
         <ion-label>Add manually</ion-label>
       </button>
-      <button [class.disabled]="!isApp" ion-fab (click)="openContactsPicker(); fab.close()">
+      <button color="secondary" [class.disabled]="!isApp" ion-fab (click)="openContactsPicker(); fab.close();">
         <ion-icon name="call"></ion-icon>
         <ion-label>Add from phonebook</ion-label>
+      </button>
+    </ion-fab-list>
+  </ion-fab>
+
+  <ion-fab bottom right #fab *ngIf="multiSelectionEnabled">
+    <button ion-fab color="realdanger">
+      <ion-icon name="trash"></ion-icon>
+    </button>
+    <ion-fab-list side="top">
+      <button ion-fab color="realslightdanger" (click)="delete(); fab.close();">
+        <ion-icon name="trash"></ion-icon>
+        <ion-label>Delete selected</ion-label>
+      </button>
+      <button ion-fab color="realslightdanger" (click)="disableMultiSelection(); fab.close();">
+        <ion-icon name="undo"></ion-icon>
+        <ion-label>Clear selection</ion-label>
       </button>
     </ion-fab-list>
   </ion-fab>

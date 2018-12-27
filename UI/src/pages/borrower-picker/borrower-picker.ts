@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, ModalController, ViewController, NavParams } from 'ionic-angular';
+import { IonicPage, ModalController, ViewController, NavParams, AlertController } from 'ionic-angular';
 import { Borrower } from '../../models/borrower';
 import { DebtsProvider } from '../../providers/debts/debts';
 
@@ -8,6 +8,8 @@ import { Contacts } from '@ionic-native/contacts';
 import { DialogUtilitiesProvider } from '../../providers/dialog-utilities/dialog-utilities';
 import { UtilitiesProvider } from '../../providers/utilities/utilities';
 import { BorrowerInfoPage } from '../borrower-info/borrower-info';
+import _ from "lodash";
+import { BorrowerEditorPage } from '../borrower-editor/borrower-editor';
 
 @IonicPage()
 @Component({
@@ -22,13 +24,18 @@ export class BorrowerPickerPage {
   // for transitioning to borrower editor
   stayWhenSelected: boolean = false;
 
+  // for multi-selection
+  multiSelectionEnabled = false;
+  selectedBorrowers: Borrower[] = [];
+
   constructor(private navParams: NavParams,
     private viewCtrl: ViewController,
     private modalCtrl: ModalController,
     private debtsProvider: DebtsProvider,
     private contacts: Contacts,
     private dialogUtilities: DialogUtilitiesProvider,
-    private utilities: UtilitiesProvider) {
+    private utilities: UtilitiesProvider,
+    private alertCtrl: AlertController) {
   }
 
   ionViewCanEnter() {
@@ -43,7 +50,7 @@ export class BorrowerPickerPage {
   }
 
   async refresh() {
-    this.borrowers =  await this.getBorrowers();
+    this.borrowers = await this.getBorrowers();
     this.borrowers.sort((a, b) => a.name.localeCompare(b.name));
     this.searchResults = this.borrowers;
   }
@@ -85,16 +92,71 @@ export class BorrowerPickerPage {
     borrowerInfoModal.present();
   }
 
+  async openBorrowerEditor(borrower) {
+    try {
+      const data = borrower ? { borrower: borrower.id || borrower._id } : null;
+      let borrowerEditorModal = this.modalCtrl.create(BorrowerEditorPage, data);
+      borrowerEditorModal.onDidDismiss(async () => {
+        await this.refresh();
+      });
+      borrowerEditorModal.present();
+    }
+    catch (e) {
+      console.log("There was an issue after opening borrower editor", e);
+    }
+  }
+
   select(borrower) {
     this.viewCtrl.dismiss(borrower);
   }
 
-  doClickEvent(borrower) {
+  enableMultiSelection() {
+    this.multiSelectionEnabled = true;
+  }
+
+  disableMultiSelection() {
+    this.multiSelectionEnabled = false;
+    this.selectedBorrowers = [];
+  }
+
+  doClickEvent(borrower, evt) {
+
+    if (evt && evt.stopPropagation) {
+      evt.stopPropagation();
+    }
+
+    // if multiselection is enabled
+    // then just do the toggling
+    if (this.multiSelectionEnabled) {
+      this.toggleSelection(borrower);
+      // if no selected items anymore then disable multiselection
+      if (this.selectedBorrowers.length == 0) {
+        this.disableMultiSelection();
+      }
+      return;
+    }
+
+    // open borrower info if from contacts page
     if (this.stayWhenSelected) {
       this.openBorrowerInfo(borrower);
     } else {
       this.select(borrower);
     }
+  }
+
+  toggleSelection(borrower: Borrower) {
+    // check if borrower if list
+    // if in list then remove it
+    const hasItem = this.isInList(borrower);
+    if (hasItem) {
+      _.pull(this.selectedBorrowers, borrower);
+    } else {
+      this.selectedBorrowers.push(borrower);
+    }
+  }
+
+  isInList(borrower: Borrower) {
+    return _.includes(this.selectedBorrowers, borrower);
   }
 
   async openContactsPicker() {
@@ -143,5 +205,42 @@ export class BorrowerPickerPage {
 
   get isApp() {
     return this.utilities.isApp();
+  }
+
+  delete() {
+    this.alertCtrl.create({
+      title: "Delete",
+      message: "Are you sure you want to delete the selected contacts?",
+      buttons: [
+        {
+          text: "Cancel",
+          handler: () => { }
+        },
+        {
+          text: "Delete",
+          handler: async () => {
+            try {
+              // iterate the contacts
+              for (const borrower of this.selectedBorrowers) {
+                // delete it
+                await this.debtsProvider.deleteBorrower(borrower);
+              }
+              // refresh the list
+              setTimeout(async () => {
+                await this.refresh();
+              }, 500);
+              this.dialogUtilities.showToast("Contacts successfully deleted.");
+            }
+            catch (e) {
+              this.dialogUtilities.showToast("Error while deleting the contacts.");
+            }
+            finally {
+              // disable the multi selection
+              this.disableMultiSelection();
+            }
+          }
+        }
+      ]
+    }).present();
   }
 }

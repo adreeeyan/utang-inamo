@@ -29,7 +29,7 @@ import { GooglePlus } from '@ionic-native/google-plus';
 import { ComponentsModule } from '../components/components.module';
 import { DialogUtilitiesProvider } from '../providers/dialog-utilities/dialog-utilities';
 import { UtilitiesProvider } from '../providers/utilities/utilities';
-
+import { LongPressModule } from 'ionic-long-press';
 
 superlogin.configure(environment.superlogin);
 
@@ -66,7 +66,8 @@ superlogin.configure(environment.superlogin);
     SignInPageModule,
     SignUpPageModule,
     ComponentsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    LongPressModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
