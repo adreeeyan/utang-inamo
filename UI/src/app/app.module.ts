@@ -50,9 +50,22 @@ superlogin.configure(environment.superlogin);
     IonicModule.forRoot(MyApp,
       {
         pageTransition: "ios-transition",
-        scrollAssist: true,
-        scrollPadding: true,
-        autoFocusAssist: true
+        platforms: {
+          ios: {
+            scrollAssist: true,
+            scrollPadding: true,
+            autoFocusAssist: true
+          },
+          android: {
+            scrollAssist: true,
+            scrollPadding: true,
+            autoFocusAssist: true
+          },
+          web: {
+            scrollAssist: false,
+            autoFocusAssist: false
+          }
+        }
       },
       {
         links:

@@ -25,7 +25,10 @@ export class MyApp {
   rootPage: any = TabsPage;
   @ViewChild(Nav) nav: Nav;
   overallPages: Array<any>;
-  loadingState: LoadingState = LoadingState.NOTLOGGEDIN;
+
+  // loading stuffs
+  isLoadingShown: boolean = false;
+  loadingDescription: string = "";
 
   constructor(private platform: Platform,
     private statusBar: StatusBar,
@@ -46,10 +49,10 @@ export class MyApp {
       this.keyboard.setResizeMode("body");
 
       // Subscriptions
-      this.events.subscribe("user:startsync", this.showStartSyncStatus.bind(this));
-      this.events.subscribe("user:endsync", this.showEndSyncStatus.bind(this));
-      this.events.subscribe("util:showloading", this.showStartSyncStatus.bind(this));
-      this.events.subscribe("util:hideloading", this.showEndSyncStatus.bind(this));
+      this.events.subscribe("user:startsync", this.showLoading.bind(this));
+      this.events.subscribe("user:endsync", this.hideLoading.bind(this));
+      this.events.subscribe("util:showloading", this.showLoading.bind(this));
+      this.events.subscribe("util:hideloading", this.hideLoading.bind(this));
 
       // Hide splash screen
       this.splashScreen.hide();
@@ -64,6 +67,14 @@ export class MyApp {
   }
 
   async validateAuthentication() {
+
+    // if this is web and the url is for public info
+    // then just let it be
+    if (this.utilities.isWeb() && document.URL.indexOf("public-debt-info") != -1) {
+      // leave this place for the public debt info thingies
+      return;
+    }
+
     // Authentication
     console.log("trying to authenticate");
     const session = superlogin.getSession();
@@ -71,13 +82,13 @@ export class MyApp {
 
     // If we are online then verify if this session is still valid
     if (this.connectivity.isOnline() && session) {
-      this.showStartSyncStatus();
+      this.showLoading();
       try {
         await superlogin.validateSession();
       } catch (e) {
         // then session is not valid anymore
         isSessionValid = false;
-        this.showEndSyncStatus();
+        this.hideLoading();
       }
     }
 
@@ -88,26 +99,17 @@ export class MyApp {
       console.log("user authenticated");
     } else {
       console.log("user not authenticated");
-      // if this is web and the url is for public info
-      // then just let it be
-      if (this.utilities.isWeb() && document.URL.indexOf("public-debt-info") != -1) {
-        // leave this place for the public debt info thingies
-      } else {
-        this.nav.setRoot(SignInPage);
-      }
+      this.nav.setRoot(SignInPage);
     }
   }
 
-  showStartSyncStatus() {
-    this.loadingState = LoadingState.SYNCING;
+  showLoading(message = "I'm updating your data...") {
+    this.loadingDescription = message;
+    this.isLoadingShown = true;
   }
 
-  showEndSyncStatus() {
-    this.loadingState = LoadingState.SYNCINGCOMPLETE;
-  }
-
-  get isSyncing() {
-    return this.loadingState === LoadingState.SYNCING;
+  hideLoading() {
+    this.isLoadingShown = false;
   }
 
   private registerBackButtonHandler() {
@@ -169,10 +171,4 @@ export class MyApp {
       }
     }
   }
-}
-
-enum LoadingState {
-  NOTLOGGEDIN,
-  SYNCING,
-  SYNCINGCOMPLETE
 }

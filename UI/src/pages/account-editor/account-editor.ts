@@ -62,7 +62,7 @@ export class AccountEditorPage {
 
   async save() {
     try {
-      this.dialogUtilities.showLoading();
+      this.dialogUtilities.showLoading("I'm saving updating data...");
       await this.authProvider.updateUserPicture(this.user.id, this.user.image);
       await this.authProvider.updateUser(this.user);
       this.dialogUtilities.showToast("Successfully updated your info.");

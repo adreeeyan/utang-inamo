@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavParams } from 'ionic-angular';
 import { Debt, DebtStatus } from '../../models/debt';
 import { User } from '../../models/user';
-import { AuthProvider } from '../../providers/auth/auth';
 import { PublicDebtProvider } from '../../providers/public-debt/public-debt';
+import { DialogUtilitiesProvider } from '../../providers/dialog-utilities/dialog-utilities';
 
 @IonicPage()
 @Component({
@@ -16,19 +16,31 @@ export class PublicDebtInfoPage {
   user: User = new User();
 
   constructor(private navParams: NavParams,
-    private authProvider: AuthProvider,
-    private publicDebtProvider: PublicDebtProvider) {
+    private publicDebtProvider: PublicDebtProvider,
+    private dialogUtilities: DialogUtilitiesProvider) {
   }
 
   async ionViewDidEnter() {
     console.log('ionViewDidEnter PublicDebtInfoPage');
-    const userId = this.navParams.get("userid");
-    const debtId = this.navParams.get("debtid");
-    if (userId == null || debtId == null) {
-      return;
+    await this.refresh();
+  }
+
+  async refresh() {
+    try {
+      this.dialogUtilities.showLoading("I'm retrieving your debt...");
+      const userId = this.navParams.get("userid");
+      const debtId = this.navParams.get("debtid");
+      if (userId == null || debtId == null) {
+        return;
+      }
+      this.debt = new Debt(await this.getDebt(userId, debtId));
+      this.user = await this.getUser(userId);
+    } catch (e) {
+      console.log("There was an error while retrieving public debt info", e);
     }
-    this.debt = new Debt(await this.getDebt(userId, debtId));
-    this.user = await this.getUser();
+    finally {
+      this.dialogUtilities.hideLoading();
+    }
   }
 
   async getDebt(userId, debtId) {
@@ -43,8 +55,8 @@ export class PublicDebtInfoPage {
     return Promise.resolve(debt);
   }
 
-  async getUser() {
-    return await this.authProvider.getInfo();
+  async getUser(userId) {
+    return await this.publicDebtProvider.getUser(userId);
   }
 
   get isDebtPaid() {

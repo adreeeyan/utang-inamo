@@ -26,11 +26,7 @@ export class DialogUtilitiesProvider {
 
   openSMS(cellNumber, message = "") {
     message = encodeURIComponent(message);
-    if (this.platform.is("ios")) {
-      window.open(`sms:${cellNumber}&body=${message}`, "_system");
-    } else {
-      window.open(`sms:${cellNumber}?body=${message}`, "_system");
-    }
+    window.open(`sms:${cellNumber};?&body=${message}`, "_system");
   }
 
   openMessenger(messengerId) {
@@ -47,8 +43,8 @@ export class DialogUtilitiesProvider {
     }
   }
 
-  showLoading() {
-    this.events.publish("util:showloading");
+  showLoading(message = "") {
+    this.events.publish("util:showloading", message);
   }
 
   hideLoading() {

@@ -1,2 +1,2 @@
 <ion-nav [root]="rootPage"></ion-nav>
-<loading description="I'm updating your data..." *ngIf="isSyncing" [@enter] [@leave]></loading>
+<loading [description]="loadingDescription" *ngIf="isLoadingShown" [@enter] [@leave]></loading>

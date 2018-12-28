@@ -86,3 +86,11 @@ ion-icon {
     mask-image: url("../assets/icon/bank.svg");
   }
 }
+
+// make all things selectable
+* {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
