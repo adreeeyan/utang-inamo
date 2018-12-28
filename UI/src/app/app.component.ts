@@ -11,6 +11,7 @@ import { DebtsProvider } from '../providers/debts/debts';
 import { Keyboard } from '@ionic-native/keyboard';
 import { DialogUtilitiesProvider } from '../providers/dialog-utilities/dialog-utilities';
 import { UtilitiesProvider } from '../providers/utilities/utilities';
+import { ConnectivityProvider } from '../providers/connectivity/connectivity';
 
 @IonicPage()
 @Component({
@@ -34,7 +35,8 @@ export class MyApp {
     private keyboard: Keyboard,
     private events: Events,
     private dialogUtilities: DialogUtilitiesProvider,
-    private utilities: UtilitiesProvider) {
+    private utilities: UtilitiesProvider,
+    private connectivity: ConnectivityProvider) {
 
     this.platform.ready().then(async () => {
       // Okay, so the platform is ready and our plugins are available.
@@ -51,33 +53,47 @@ export class MyApp {
       this.splashScreen.hide();
 
       // Authentication
-      console.log("trying to authenticate");
-      const session = superlogin.getSession();
-      if (session) {
-        // If there is a session then initiaze the shits
-        this.debtsProvider.init(session);
-        await this.debtsProvider.IsInitizialized();
-        console.log("user authenticated");
-      } else {
-        console.log("user not authenticated");
-        // if this is web and the url is for public info
-        // then just let it be
-        if (this.utilities.isWeb() && document.URL.indexOf("public-debt-info") != -1) {
-          // leave this place for the public debt info thingies
-        } else {
-          this.nav.setRoot(SignInPage);
-        }
-      }
+      await this.validateAuthentication();
 
-      if (!this.utilities.isApp()) {
-        // This is for PWA back button
-        this.backButtonListener();
-      } else {
-        // Register back button for mobile app
-        this.registerBackButtonHandler();
-      }
+      // Register back button
+      this.registerBackButtonHandler();
     });
 
+  }
+
+  async validateAuthentication() {
+    // Authentication
+    console.log("trying to authenticate");
+    const session = superlogin.getSession();
+    let isSessionValid = !!session;
+
+    // If we are online then verify if this session is still valid
+    if (this.connectivity.isOnline() && session) {
+      this.showStartSyncStatus();
+      try {
+        await superlogin.validateSession();
+      } catch (e) {
+        // then session is not valid anymore
+        isSessionValid = false;
+        this.showEndSyncStatus();
+      }
+    }
+
+    if (isSessionValid) {
+      // If there is a session then initiaze the shits
+      this.debtsProvider.init(session);
+      await this.debtsProvider.IsInitizialized();
+      console.log("user authenticated");
+    } else {
+      console.log("user not authenticated");
+      // if this is web and the url is for public info
+      // then just let it be
+      if (this.utilities.isWeb() && document.URL.indexOf("public-debt-info") != -1) {
+        // leave this place for the public debt info thingies
+      } else {
+        this.nav.setRoot(SignInPage);
+      }
+    }
   }
 
   showStartSyncStatus() {
@@ -93,6 +109,16 @@ export class MyApp {
   }
 
   private registerBackButtonHandler() {
+    if (!this.utilities.isApp()) {
+      // This is for PWA back button
+      this.backButtonHandlerForPWA();
+    } else {
+      // Register back button for mobile app
+      this.backButtonHandlerForCordova();
+    }
+  }
+
+  private backButtonHandlerForCordova() {
     // Taken from https://stackoverflow.com/a/44365055 and https://github.com/ionic-team/ionic/issues/6982#issuecomment-295896544
     // Back button handle
     // Registration of push in Android and Windows Phone
@@ -127,7 +153,7 @@ export class MyApp {
     }, 0);
   }
 
-  private backButtonListener() {
+  private backButtonHandlerForPWA() {
     // Taken from here: https://github.com/ionic-team/ionic/issues/13964#issuecomment-363453732
     // Still an issue in ionic
     window.onpopstate = (evt) => {

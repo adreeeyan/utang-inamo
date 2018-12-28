@@ -26,12 +26,14 @@ import { SignUpPageModule } from '../pages/sign-up/sign-up.module';
 import { FormsModule } from '@angular/forms';
 import { Keyboard } from '@ionic-native/keyboard';
 import { GooglePlus } from '@ionic-native/google-plus';
+import { Network } from '@ionic-native/network';
 import { ComponentsModule } from '../components/components.module';
 import { DialogUtilitiesProvider } from '../providers/dialog-utilities/dialog-utilities';
 import { UtilitiesProvider } from '../providers/utilities/utilities';
 import { LongPressModule } from 'ionic-long-press';
 import { PublicDebtInfoPage } from '../pages/public-debt-info/public-debt-info';
 import { PublicDebtInfoPageModule } from '../pages/public-debt-info/public-debt-info.module';
+import { ConnectivityProvider } from '../providers/connectivity/connectivity';
 
 superlogin.configure(environment.superlogin);
 
@@ -83,11 +85,13 @@ superlogin.configure(environment.superlogin);
     SplashScreen,
     Keyboard,
     GooglePlus,
+    Network,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     AuthProvider,
     DebtsProvider,
     DialogUtilitiesProvider,
-    UtilitiesProvider
+    UtilitiesProvider,
+    ConnectivityProvider
   ]
 })
 export class AppModule { }

@@ -95,4 +95,5 @@
     <edit-config file="*-Info.plist" mode="merge" target="NSContactsUsageDescription">
         <string>Need contacts access to retrieve name and phone numbers of debtors.</string>
     </edit-config>
+    <plugin name="cordova-plugin-network-information" spec="2.0.1" />
 </widget>
