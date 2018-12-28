@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavParams } from 'ionic-angular';
 import { Debt, DebtStatus } from '../../models/debt';
-import { DebtsProvider } from '../../providers/debts/debts';
 import { User } from '../../models/user';
 import { AuthProvider } from '../../providers/auth/auth';
 import { PublicDebtProvider } from '../../providers/public-debt/public-debt';
@@ -17,7 +16,6 @@ export class PublicDebtInfoPage {
   user: User = new User();
 
   constructor(private navParams: NavParams,
-    private debtsProvider: DebtsProvider,
     private authProvider: AuthProvider,
     private publicDebtProvider: PublicDebtProvider) {
   }

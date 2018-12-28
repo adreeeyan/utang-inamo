@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, Events, PopoverController } from 'ionic-angular';
+import { IonicPage } from 'ionic-angular';
 import { DebtsProvider } from '../../providers/debts/debts';
 import { AuthProvider } from '../../providers/auth/auth';
 

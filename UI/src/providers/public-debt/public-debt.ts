@@ -4,7 +4,6 @@ import { Injectable } from '@angular/core';
 import superlogin from 'superlogin-client';
 import { Debt } from '../../models/debt';
 import { Borrower } from '../../models/borrower';
-import { User } from '../../models/user';
 
 @Injectable()
 export class PublicDebtProvider {
@@ -26,7 +25,7 @@ export class PublicDebtProvider {
             borrower: new Borrower({ ...response.debt.borrower }),
             id: response.debt._id
           });
-          resolve(response.debt);
+          resolve(debt);
         }
       } catch (e) {
         reject(e);
