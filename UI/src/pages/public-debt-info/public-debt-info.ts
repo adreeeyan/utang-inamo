@@ -4,6 +4,7 @@ import { Debt, DebtStatus } from '../../models/debt';
 import { User } from '../../models/user';
 import { PublicDebtProvider } from '../../providers/public-debt/public-debt';
 import { DialogUtilitiesProvider } from '../../providers/dialog-utilities/dialog-utilities';
+import { environment } from '../../environments/debug.environment';
 
 @IonicPage()
 @Component({
@@ -75,6 +76,32 @@ export class PublicDebtInfoPage {
     if (this.isDebtPaid) {
       return `Paid last ${this.debt.paidDateString}`;
     }
+  }
+
+  // openers
+  openPaypal() {
+    this.dialogUtilities.openGenericLink(`//${this.user.paypal}`);
+  }
+
+  openSMS() {
+    let message = `Hi ${this.user.name},\r\n\r\nI have already paid the debt. Thank you.`;
+    this.dialogUtilities.openSMS(this.user.cellNumber, message);
+  }
+
+  openMessenger() {
+    this.dialogUtilities.openMessenger(this.user.messengerId);
+  }
+
+  openSkype() {
+    this.dialogUtilities.openSkype(this.user.skypeId);
+  }
+
+  openMap() {
+    this.dialogUtilities.openMap(this.user.address);
+  }
+
+  openAppWebsite() {
+    this.dialogUtilities.openGenericLink(environment.webUrl);
   }
 
 }

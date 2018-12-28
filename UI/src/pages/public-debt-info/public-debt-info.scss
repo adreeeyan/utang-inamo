@@ -1,13 +1,18 @@
 page-public-debt-info {
   .header-container {
-    height: 200px;
+    height: 250px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     justify-items: center;
     align-items: center;
-    background: map-get($colors, secondary) url("../assets/imgs/banderitas.png") repeat-x center 174px;
+    background: map-get($colors, secondary) url("../assets/imgs/banderitas.png") repeat-x center 224px;
     color: white;
+
+    .image {
+      margin-top: -20px;
+      max-width: 100px;
+    }
 
     .action-buttons {
       button {
@@ -43,6 +48,7 @@ page-public-debt-info {
       .image {
         margin-left: 20px;
         margin-right: 20px;
+        align-self: flex-start;
 
         img {
           height: 60px;
@@ -113,6 +119,35 @@ page-public-debt-info {
   .otherinfo-part {
     .label {
       white-space: normal;
+    }
+  }
+
+  .supplement {
+    color: grey;
+  }
+
+  .promotion {
+    display: flex;
+    flex-direction: row;
+    padding: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
+    background-color: map-get($colors, danger);
+    color: #000000;
+    cursor: pointer;
+
+    .logo {
+      max-height: 150px;
+      padding-right: 10px;
+    }
+
+    .tagline {
+      font-size: 1.1em;
+    }
+
+    .signature {
+      font-weight: bold;
     }
   }
 

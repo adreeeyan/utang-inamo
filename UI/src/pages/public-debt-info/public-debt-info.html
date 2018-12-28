@@ -1,5 +1,8 @@
 <ion-content>
   <div class="header-container">
+    <div class="image">
+      <img class="logo" src="assets/imgs/logo-with-text-small.png" alt="Logo">      
+    </div>
     <div class="amount">
       {{debt.total | formatCurrency}}
     </div>
@@ -13,7 +16,8 @@
       </div>
       <div class="right">
         <h3 class="name">Hi {{debt.borrower?.name}}!</h3>
-        <h5 class="duedate">Please see below for the details of the debt and how you may be able to pay me or contact me. Thanks!</h5>
+        <h5 class="duedate">Please see below for the details of the debt and how you may be able to pay me or contact
+          me. Thanks!</h5>
       </div>
     </div>
     <div class="otherinfo-part">
@@ -49,16 +53,17 @@
         <div class="ruler"></div>
       </div>
       <ion-list mode="md">
-        <button ion-item mode="md" class="bank">
+        <button ion-item mode="md" class="bank" text-wrap>
           <ion-icon name="ui-bank" item-start></ion-icon>
-          {{user.bankAccount}}
-          <ion-badge item-end >Bank account ></ion-badge>
+          {{user.bankAccount || "No bank account provided"}}<br />
+          <span class="supplement" *ngIf="user?.bankAccount">Fund transfer to this account using your bank platform
+            (e.g. mobile app, web app, atm)</span>
         </button>
 
-        <button ion-item mode="md" class="paypal">
+        <button ion-item mode="md" class="paypal" [disabled]="!user?.paypal" (click)="openPaypal()">
           <ion-icon name="ui-paypal" item-start></ion-icon>
-          {{user.paypal}}
-          <ion-badge item-end >Paypal ></ion-badge>
+          {{user.paypal || "No paypal provided"}}
+          <ion-badge item-end *ngIf="user?.paypal">Paypal ></ion-badge>
         </button>
       </ion-list>
     </div>
@@ -70,27 +75,43 @@
         <div class="ruler"></div>
       </div>
       <ion-list mode="md">
-        <button ion-item mode="md" class="sms" [disabled]="!user.cellNumber">
+        <button ion-item mode="md" class="sms" [disabled]="!user.cellNumber" (click)="openSMS()">
           <ion-icon name="text" item-start></ion-icon>
           {{user.cellNumber || "No cell number provided"}}
+          <ion-badge item-end *ngIf="user?.cellNumber">Text now ></ion-badge>
         </button>
 
-        <button ion-item mode="md" class="facebook" [disabled]="!user.messenger">
+        <button ion-item mode="md" class="facebook" [disabled]="!user.messenger" (click)="openMessenger()">
           <ion-icon name="logo-facebook" item-start></ion-icon>
-          {{user.messenger || "No messenger provided"}}
+          {{user.messengerId || "No messenger provided"}}
+          <ion-badge item-end *ngIf="user?.messengerId">PM now ></ion-badge>
         </button>
 
-        <button ion-item mode="md" class="skype" [disabled]="!user.skype">
+        <button ion-item mode="md" class="skype" [disabled]="!user.skype" (click)="openSkype()">
           <ion-icon name="logo-skype" item-start></ion-icon>
-          {{user.skype || "No skype provided"}}
+          {{user.skypeId || "No skype provided"}}
+          <ion-badge item-end *ngIf="user?.skypeId">DM now ></ion-badge>
         </button>
 
-        <button ion-item mode="md" [disabled]="!user.address">
+        <button ion-item mode="md" [disabled]="!user.address" (click)="openMap()">
           <ion-icon name="navigate" item-start></ion-icon>
           {{user.address || "No address provided"}}
+          <ion-badge item-end *ngIf="user?.address">Find now ></ion-badge>
         </button>
       </ion-list>
     </div>
 
+  </div>
+  <div class="promotion" (click)="openAppWebsite()">
+    <p class="tagline">
+      Do you want something <b>like this</b>?<br />
+      Something that <b>reminds those who owes</b> you?<br />
+      Something that <b>keep tracks of the money</b> you had lent or borrowed?<br />
+      <br />
+      No more crap, just click this link or anywhere on this box.
+      <br />
+      <br />
+      - <i class="signature">Utang Inamo</i>
+    </p>
   </div>
 </ion-content>

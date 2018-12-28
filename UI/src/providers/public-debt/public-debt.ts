@@ -43,7 +43,9 @@ export class PublicDebtProvider {
           reject(response.status.error);
         } else {
           const user = new User({
-            ...response.user.profile
+            ...response.user.profile,
+            messengerId: response.user.profile.messenger,
+            skypeId: response.user.profile.skype
           });
           resolve(user);
         }

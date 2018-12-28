@@ -79,5 +79,8 @@
       "cordova-plugin-network-information": {}
     },
     "platforms": []
+  },
+  "config": {
+    "ionic_purge_unused_fonts": false
   }
 }
