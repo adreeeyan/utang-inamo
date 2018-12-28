@@ -3,7 +3,7 @@ export class Borrower {
     public firstName: string = "";
     public middleName: string = "";
     public lastName: string = "";
-    public image: string = "";
+    public image: string = "assets/imgs/user-placeholder.jpg";
     public address: string = "";
     public cellNumber: string = "";
     public messengerId: string = "";

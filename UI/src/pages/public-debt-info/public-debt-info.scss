@@ -46,6 +46,9 @@ page-public-debt-info {
 
         img {
           height: 60px;
+          width: 60px;
+          min-height: 60px;
+          min-width: 60px;
           border-radius: 50%;
         }
       }
@@ -80,6 +83,13 @@ page-public-debt-info {
           color: #00AFF0;
         }
 
+        &.paypal .icon {
+          color: #253b80;
+        }
+
+        &.bank .icon {
+          color: #ffbf00;
+        }
       }
     }
   }
@@ -101,10 +111,8 @@ page-public-debt-info {
   }
 
   .otherinfo-part {
-    .description {
-      .label {
-        white-space: normal;
-      }
+    .label {
+      white-space: normal;
     }
   }
 

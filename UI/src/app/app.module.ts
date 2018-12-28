@@ -34,6 +34,8 @@ import { LongPressModule } from 'ionic-long-press';
 import { PublicDebtInfoPage } from '../pages/public-debt-info/public-debt-info';
 import { PublicDebtInfoPageModule } from '../pages/public-debt-info/public-debt-info.module';
 import { ConnectivityProvider } from '../providers/connectivity/connectivity';
+import { AccountEditorPageModule } from '../pages/account-editor/account-editor.module';
+import { PublicDebtProvider } from '../providers/public-debt/public-debt';
 
 superlogin.configure(environment.superlogin);
 
@@ -73,7 +75,8 @@ superlogin.configure(environment.superlogin);
     ComponentsModule,
     BrowserAnimationsModule,
     LongPressModule,
-    PublicDebtInfoPageModule
+    PublicDebtInfoPageModule,
+    AccountEditorPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -91,7 +94,8 @@ superlogin.configure(environment.superlogin);
     DebtsProvider,
     DialogUtilitiesProvider,
     UtilitiesProvider,
-    ConnectivityProvider
+    ConnectivityProvider,
+    PublicDebtProvider
   ]
 })
 export class AppModule { }

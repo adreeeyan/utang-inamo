@@ -1,10 +1,10 @@
-<ion-content *ngIf="debt">
+<ion-content>
   <div class="header-container">
     <div class="amount">
       {{debt.total | formatCurrency}}
     </div>
-    <button ion-button color="realdanger" round *ngIf="isDebtPaid">UNPAID</button>
-    <button ion-button color="danger" round *ngIf="!isDebtPaid">PAID</button>
+    <ion-badge *ngIf="isDebtPaid" color="danger">You have already paid this.</ion-badge>
+    <ion-badge *ngIf="!isDebtPaid" color="realdanger">You have not paid this.</ion-badge>
   </div>
   <div class="borrower-info" padding>
     <div class="name-part">
@@ -12,43 +12,14 @@
         <img [src]="debt.borrower?.image">
       </div>
       <div class="right">
-        <h3 class="name">{{debt.borrower?.name}}</h3>
-        <h5 class="duedate">{{dueDateStringPart}}</h5>
+        <h3 class="name">Hi {{debt.borrower?.name}}!</h3>
+        <h5 class="duedate">Please see below for the details of the debt and how you may be able to pay me or contact me. Thanks!</h5>
       </div>
-    </div>
-    <div class="contact-part">
-      <div class="sub-info-header">
-        <div class="title">
-          Contact info
-        </div>
-        <div class="ruler"></div>
-      </div>
-      <ion-list mode="md">
-        <button ion-item mode="md" class="sms" [disabled]="!debt.borrower?.cellNumber">
-          <ion-icon name="text" item-start></ion-icon>
-          {{debt.borrower?.cellNumber || "No cell number provided"}}
-        </button>
-
-        <button ion-item mode="md" class="facebook" [disabled]="!debt.borrower?.messengerId">
-          <ion-icon name="logo-facebook" item-start></ion-icon>
-          {{debt.borrower?.messengerId || "No messenger provided"}}
-        </button>
-
-        <button ion-item mode="md" class="skype" [disabled]="!debt.borrower?.skypeId">
-          <ion-icon name="logo-skype" item-start></ion-icon>
-          {{debt.borrower?.skypeId || "No skype provided"}}
-        </button>
-
-        <button ion-item mode="md" [disabled]="!debt.borrower?.address">
-          <ion-icon name="navigate" item-start></ion-icon>
-          {{debt.borrower?.address || "No address provided"}}
-        </button>
-      </ion-list>
     </div>
     <div class="otherinfo-part">
       <div class="sub-info-header">
         <div class="title">
-          Other info
+          Details
         </div>
         <div class="ruler"></div>
       </div>
@@ -58,7 +29,7 @@
         </ion-item>
 
         <ion-item mode="md">
-          <b>Date of debt:</b> {{debt.borrowedDateString}}
+          <b>Date of debt:</b> {{debt.borrowedDateString}} <i>({{dueDateStringPart}})</i>
         </ion-item>
 
         <ion-item mode="md">
@@ -70,5 +41,56 @@
         </ion-item>
       </ion-list>
     </div>
+    <div class="contact-part">
+      <div class="sub-info-header">
+        <div class="title">
+          Pay me via
+        </div>
+        <div class="ruler"></div>
+      </div>
+      <ion-list mode="md">
+        <button ion-item mode="md" class="bank">
+          <ion-icon name="ui-bank" item-start></ion-icon>
+          {{user.bankAccount}}
+          <ion-badge item-end >Bank account ></ion-badge>
+        </button>
+
+        <button ion-item mode="md" class="paypal">
+          <ion-icon name="ui-paypal" item-start></ion-icon>
+          {{user.paypal}}
+          <ion-badge item-end >Paypal ></ion-badge>
+        </button>
+      </ion-list>
+    </div>
+    <div class="contact-part">
+      <div class="sub-info-header">
+        <div class="title">
+          Contact me via
+        </div>
+        <div class="ruler"></div>
+      </div>
+      <ion-list mode="md">
+        <button ion-item mode="md" class="sms" [disabled]="!user.cellNumber">
+          <ion-icon name="text" item-start></ion-icon>
+          {{user.cellNumber || "No cell number provided"}}
+        </button>
+
+        <button ion-item mode="md" class="facebook" [disabled]="!user.messenger">
+          <ion-icon name="logo-facebook" item-start></ion-icon>
+          {{user.messenger || "No messenger provided"}}
+        </button>
+
+        <button ion-item mode="md" class="skype" [disabled]="!user.skype">
+          <ion-icon name="logo-skype" item-start></ion-icon>
+          {{user.skype || "No skype provided"}}
+        </button>
+
+        <button ion-item mode="md" [disabled]="!user.address">
+          <ion-icon name="navigate" item-start></ion-icon>
+          {{user.address || "No address provided"}}
+        </button>
+      </ion-list>
+    </div>
+
   </div>
 </ion-content>

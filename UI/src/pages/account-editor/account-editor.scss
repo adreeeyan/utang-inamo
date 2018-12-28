@@ -1,0 +1,108 @@
+page-account-editor {
+  .account-editor {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+
+    .header-container {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-content: center;
+      align-items: center;
+      background-color: map-get($colors, primary);
+      position: relative;
+
+      .action-buttons {
+        z-index: 10;
+
+        > * {
+          position: absolute;
+          top: 0;
+        }
+
+        button {
+          box-shadow: none;
+          background-color: transparent;
+        }
+
+        .back {
+          left: 0;
+        }
+
+        .right-actions {
+          right: 0;
+        }
+      }
+
+      .popup-more {
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 10;
+      }
+
+      .image {
+        margin-top: 20px;
+        z-index: 10;
+        margin-bottom: 10px;
+
+        img {
+          height: 125px;
+          width: 125px;
+          border-radius: 50%;
+        }
+      }
+
+      &:after {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        height: calc(100% + 40px);
+        z-index: 2;
+        background-color: map-get($colors, primary);
+      }
+    }
+
+    .info {
+      width: 100%;
+      min-height: 50vh;
+      max-width: 800px;
+      z-index: 2;
+      background-color: transparent;
+
+      .list-header {
+        margin-bottom: 0;
+      }
+
+      .header {
+        text-align: center;
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+
+      .topay {
+        margin-right: 12px;
+      }
+
+      .scroll-content {
+        border-top: none;
+      }
+    }
+
+    .alert {
+      button {
+        margin: 0;
+        border-radius: 0;
+      }
+    }
+  }
+
+}

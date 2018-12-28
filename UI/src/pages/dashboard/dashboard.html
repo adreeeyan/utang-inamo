@@ -12,7 +12,7 @@
         <img (click)="pickImage()" *ngIf="user" [src]="user?.image">
         <input class="hide" type="file" name="image" #imageFile (change)="changeImage(imageFile.files)">
       </div>
-      <div class="greetings" [style.visibility]="user != null ? 'visible' : 'hidden'">Hello {{user?.name}}!</div>
+      <div class="greetings" [style.visibility]="user != null ? 'visible' : 'hidden'">Hello {{user?.id}}!</div>
     </div>
 
     <ion-content class="info">

@@ -3,7 +3,6 @@ import PouchDB from "pouchdb";
 import { Debt } from "../../models/debt";
 import { Borrower, BorrowerStatus } from "../../models/borrower";
 import { Events } from "ionic-angular";
-import superlogin from 'superlogin-client';
 
 @Injectable()
 export class DebtsProvider {
@@ -276,22 +275,4 @@ export class DebtsProvider {
 
     });
   }
-
-  // this stuff here is for the public debt info
-  getDebtForPublic(userId, debtId) {
-    return new Promise(async (resolve, reject) => {
-      const response: any = await superlogin.getHttp().get(`public-debt-info/${userId}/${debtId}`);
-      if (response && response.data && response.data.debt) {
-        const debt = new Debt({
-          ...response.data.debt,
-          borrower: new Borrower({...response.data.debt.borrower}),
-          id: response.data.debt._id
-        });
-        resolve(debt);
-      }
-      reject(response.data);
-    });
-
-  }
-
 }

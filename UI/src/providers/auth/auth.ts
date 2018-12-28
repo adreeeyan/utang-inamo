@@ -4,6 +4,7 @@ import superlogin from 'superlogin-client';
 import { DebtsProvider } from '../debts/debts';
 import { GooglePlus } from '@ionic-native/google-plus';
 import { UtilitiesProvider } from '../utilities/utilities';
+import { User } from '../../models/user';
 
 @Injectable()
 export class AuthProvider {
@@ -72,13 +73,14 @@ export class AuthProvider {
         imageInSession = session.profile.image;
       }
       console.log("Resolving with the user info...");
-      const info = {
-        name: session.user_id,
+      const user = new User({
+        ...session.profile,
+        id: session.user_id,
         image: imageInCache || imageInSession
-      };
+      });
       // save to storage for caching
-      this.storage.set("image", info.image);
-      return Promise.resolve(info);
+      this.storage.set("image", user.image);
+      return Promise.resolve(user);
     }
     catch (e) {
       return Promise.reject(e);
@@ -90,7 +92,30 @@ export class AuthProvider {
       image: image
     };
     this.storage.set("image", image);
-    return superlogin.getHttp().put(`change-image/${id}`, data);
+    return superlogin.getHttp().put(`user/change-image/${id}`, data);
+  }
+
+  updateUser(user: User) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const data: any = {
+          user: user
+        };
+        let response: any = await superlogin.getHttp().put(`user/${user.id}`, data);
+        response = response.data;
+        if(response.status == "error") {
+          reject(response.status.error);
+        } else{
+          // set the new session
+          superlogin.setSession(response.session);
+          this.debtsProvider.init(response.session);
+          resolve(response);
+        }
+      } catch(e) {
+        reject(e);
+      }      
+    });
+
   }
 
 }

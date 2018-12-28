@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ToastController, Platform } from 'ionic-angular';
+import { ToastController, Platform, Events } from 'ionic-angular';
 import { UtilitiesProvider } from '../utilities/utilities';
 
 @Injectable()
@@ -7,7 +7,8 @@ export class DialogUtilitiesProvider {
 
   constructor(private toastCtrl: ToastController,
     private utilities: UtilitiesProvider,
-    private platform: Platform) {
+    private platform: Platform,
+    private events: Events) {
     console.log('Hello DialogUtilitiesProvider Provider');
   }
 
@@ -44,6 +45,14 @@ export class DialogUtilitiesProvider {
       location = location.replace(/ /g, "%20");
       window.open(`https://www.google.com/maps/dir/?api=1&destination=${location}`, "_system");
     }
+  }
+
+  showLoading() {
+    this.events.publish("util:showloading");
+  }
+
+  hideLoading() {
+    this.events.publish("util:hideloading");
   }
 
 }

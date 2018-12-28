@@ -5,9 +5,9 @@ export class Debt {
     public type: DebtType = DebtType.PAYABLE;
     // If type is Payable, then borrower means the person you borrowed to
     // else, then the person who borrowed money from you
-    public borrower: Borrower;
-    public amount: number;
-    public interest: number;
+    public borrower: Borrower = new Borrower();
+    public amount: number = 0;
+    public interest: number = 0;
     public status: DebtStatus = DebtStatus.UNPAID;
     public dueDate: Date | string;
     public borrowedDate: Date = new Date();

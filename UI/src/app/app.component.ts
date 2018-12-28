@@ -48,6 +48,8 @@ export class MyApp {
       // Subscriptions
       this.events.subscribe("user:startsync", this.showStartSyncStatus.bind(this));
       this.events.subscribe("user:endsync", this.showEndSyncStatus.bind(this));
+      this.events.subscribe("util:showloading", this.showStartSyncStatus.bind(this));
+      this.events.subscribe("util:hideloading", this.showEndSyncStatus.bind(this));
 
       // Hide splash screen
       this.splashScreen.hide();
@@ -104,7 +106,7 @@ export class MyApp {
     this.loadingState = LoadingState.SYNCINGCOMPLETE;
   }
 
-  private get isSyncing() {
+  get isSyncing() {
     return this.loadingState === LoadingState.SYNCING;
   }
 

@@ -94,7 +94,7 @@ export class DashboardPage {
     const reader = new FileReader();
     reader.onload = async (e: any) => {
       this.user.image = (await this.debtsProvider.resizedataURL(e.target.result, 150, 150)) as string;
-      await this.authProvider.updateUserPicture(this.user.name, this.user.image);
+      await this.authProvider.updateUserPicture(this.user.id, this.user.image);
     };
     if (files.length > 0) {
       reader.readAsDataURL(files[0]);

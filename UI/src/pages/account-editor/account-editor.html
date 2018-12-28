@@ -1,0 +1,84 @@
+<ion-content>
+
+  <div class="account-editor">
+    <div class="header-container">
+      <div class="action-buttons">
+        <button navPop ion-button icon-only class="back">
+          <ion-icon name="arrow-back"></ion-icon>
+        </button>
+        <div class="right-actions">
+          <button ion-button icon-only (click)="save()">
+            <ion-icon name="checkmark"></ion-icon>
+          </button>
+        </div>
+      </div>
+      <div class="image">
+        <img (click)="pickImage()" *ngIf="!user" src="assets/imgs/user-placeholder.jpg">
+        <img (click)="pickImage()" *ngIf="user" [src]="user?.image">
+        <input class="hide" type="file" name="image" #imageFile (change)="changeImage(imageFile.files)">
+      </div>
+    </div>
+
+    <div class="info">
+      <ion-card color="danger">
+        <ion-card-header class="header">
+          Profile
+        </ion-card-header>
+        <ion-list>
+          <ion-list-header>
+            Name
+          </ion-list-header>
+          <ion-item>
+            <ion-icon name="person" item-start></ion-icon>
+            <ion-input type="text" placeholder="First Name" [(ngModel)]="user.firstName"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="people" item-start></ion-icon>
+            <ion-input type="text" placeholder="Last Name" [(ngModel)]="user.lastName"></ion-input>
+          </ion-item>
+
+          <ion-list-header>
+            Contact info
+          </ion-list-header>
+          <ion-item>
+            <ion-icon name="text" item-start></ion-icon>
+            <ion-input type="text" placeholder="Cell number" [(ngModel)]="user.cellNumber"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="logo-facebook" item-start></ion-icon>
+            <ion-input type="text" placeholder="Messenger" [(ngModel)]="user.messenger"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="logo-skype" item-start></ion-icon>
+            <ion-input type="text" placeholder="Skype" [(ngModel)]="user.skype"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="navigate" item-start></ion-icon>
+            <ion-input type="text" placeholder="Address" [(ngModel)]="user.address"></ion-input>
+          </ion-item>
+        </ion-list>
+      </ion-card>
+
+      <ion-card color="danger">
+        <ion-card-header class="header">
+          Payment
+        </ion-card-header>
+        <ion-list>
+          <ion-item>
+            <ion-icon name="ui-bank" item-start></ion-icon>
+            <ion-input type="text" placeholder="Bank account number" [(ngModel)]="user.bankAccount"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="ui-paypal" item-start></ion-icon>
+            <ion-input type="text" placeholder="Paypal.me ID" [(ngModel)]="user.paypal"></ion-input>
+          </ion-item>
+        </ion-list>
+      </ion-card>
+    </div>
+  </div>
+</ion-content>

@@ -3,6 +3,7 @@ import { LoadingController, Events, ViewController, NavController } from 'ionic-
 import { AuthProvider } from '../../providers/auth/auth';
 import { BorrowerPickerPage } from '../../pages/borrower-picker/borrower-picker';
 import { DialogUtilitiesProvider } from '../../providers/dialog-utilities/dialog-utilities';
+import { AccountEditorPage } from '../../pages/account-editor/account-editor';
 
 @Component({
   selector: 'more-things-popup',
@@ -21,6 +22,11 @@ export class MoreThingsPopupComponent {
 
   openBorrowerPicker() {
     this.navCtrl.push(BorrowerPickerPage, { stayWhenSelected: true });
+    this.viewCtrl.dismiss();
+  }
+
+  openAccountEditor() {
+    this.navCtrl.push(AccountEditorPage);
     this.viewCtrl.dismiss();
   }
 

@@ -89,7 +89,7 @@ let config = {
         }
     },
     userModel: {
-        whitelist: ["image"]
+        whitelist: ["firstName", "lastName", "image", "bankAccount", "paypal", "cellNumber", "messenger", "skype", "address"]
     }
 }
 
@@ -124,14 +124,43 @@ superlogin.onCreate(function (userDoc, provider) {
     return Promise.resolve(userDoc);
 });
 
-
-app.put("/change-image/:id", async function (req, res) {
-    const user = await superlogin.getUser(req.params.id);
-    user.profile.image = req.body.image;
-    await superlogin.userDB.put(user);
-    res.json({ status: "ok" });
+// User specific changes
+app.put("/user/change-image/:id", async function (req, res) {
+    try {
+        const user = await superlogin.getUser(req.params.id);
+        user.profile.image = req.body.image;
+        await superlogin.userDB.put(user);
+        res.json({ status: "ok" });
+    } catch (e) {
+        res.json({ status: "error", error: e });
+    }
 });
 
+app.put("/user/:id", async function (req, res) {
+    try {
+        const user = await superlogin.getUser(req.params.id);
+        user.profile = req.body.user;
+        await superlogin.userDB.put(user);
+        const session = await superlogin.createSession(req.params.id, user.signUp.provider);
+        // delete all other sessions so that they will be forced to resign-in
+        // and their profiles will be updated
+        await superlogin.confirmSession(session.token, session.password);
+        res.json({ status: "ok", session: session });
+    } catch (e) {
+        res.json({ status: "error", error: e });
+    }
+});
+
+app.get("/user/:id", async function (req, res) {
+    try {
+        const user = await superlogin.getUser(req.params.id);
+        res.json({ status: "ok", user: user });
+    } catch (e) {
+        res.json({ status: "error", error: e });
+    }
+});
+
+// All about the public debt info
 let cloudant = Cloudant({ url: `${config.dbServer.protocol}${config.dbServer.host}`, account: config.dbServer.user, password: config.dbServer.password });
 app.get("/public-debt-info/:userid/:debtid", async function (req, res) {
     const user = await superlogin.getUser(req.params.userid);

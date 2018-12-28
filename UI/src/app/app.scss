@@ -14,9 +14,9 @@
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
 
- .scroll-content {
-   overflow: auto !important;
- }
+.scroll-content {
+  overflow: auto !important;
+}
 
 .item-block:last-child,
 .list-ios > .item-wrapper:last-child .item-block {
@@ -26,7 +26,6 @@
 .list-ios > .item-block:first-child {
   border-top: 0 !important;
 }
-
 @media only screen and (min-width: 769px) {
   ::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3) !important;
@@ -51,6 +50,7 @@
 ion-item {
   border-bottom-color: white !important;
   box-shadow: unset !important;
+
   .item-inner {
     border-bottom-color: white !important;
     box-shadow: unset !important;
@@ -63,4 +63,26 @@ ion-col {
 
 .alert-message {
   overflow: auto !important;
+}
+
+// icons in here
+ion-icon {
+  &[class*="ui-"] {
+    // Instead of using the font-based icons
+    // We're applying SVG masks
+    mask-size: contain;
+    mask-position: 50% 50%;
+    mask-repeat: no-repeat;
+    background: currentColor;
+    width: 1em;
+    height: 1em;
+  }
+  // custom icons
+  &[class*="ui-paypal"] {
+    mask-image: url("../assets/icon/paypal.svg");
+  }
+
+  &[class*="ui-bank"] {
+    mask-image: url("../assets/icon/bank.svg");
+  }
 }
