@@ -8,6 +8,7 @@
     "sizes": "512x512",
     "type": "image/png"
   }],
-  "background_color": "#22AED1",
-  "theme_color": "#22AED1"
+  "background_color": "#ffffff",
+  "theme_color": "#22AED1",
+  "description": "Just a debt manager."
 }

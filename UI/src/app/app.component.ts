@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Platform, Nav, IonicApp, IonicPage, Events } from 'ionic-angular';
+import { Platform, Nav, IonicApp, IonicPage, Events, AlertController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { fadeOutOnLeaveAnimation, bounceInUpOnEnterAnimation } from 'angular-animations';
@@ -39,7 +39,8 @@ export class MyApp {
     private events: Events,
     private dialogUtilities: DialogUtilitiesProvider,
     private utilities: UtilitiesProvider,
-    private connectivity: ConnectivityProvider) {
+    private connectivity: ConnectivityProvider,
+    private alertCtrl: AlertController) {
 
     this.platform.ready().then(async () => {
       // Okay, so the platform is ready and our plugins are available.
@@ -53,6 +54,9 @@ export class MyApp {
       this.events.subscribe("user:endsync", this.hideLoading.bind(this));
       this.events.subscribe("util:showloading", this.showLoading.bind(this));
       this.events.subscribe("util:hideloading", this.hideLoading.bind(this));
+
+      // For the PWA Install banner
+      this.registerPWAInstallBanner();
 
       // Hide splash screen
       this.splashScreen.hide();
@@ -170,5 +174,55 @@ export class MyApp {
         return;
       }
     }
+  }
+
+  private registerPWAInstallBanner() {
+    // Code block
+    if (this.utilities.isApp()) {
+      return;
+    }
+
+    let deferredPrompt;
+
+    window.addEventListener("beforeinstallprompt", (e) => {
+      // Prevent Chrome 67 and earlier from automatically showing the prompt
+      e.preventDefault();
+      // Stash the event so it can be triggered later.
+      deferredPrompt = e;
+      // Update UI notify the user they can add to home screen
+      const confirm = this.alertCtrl.create({
+        title: "Add to homescreen",
+        message: "Do you agree to add UtangInamo to your homescreen? You can use the app without internet connection after you do this.",
+        buttons: [
+          {
+            text: "Disagree",
+            handler: () => {
+              console.log("Disagree clicked");
+            }
+          },
+          {
+            text: "Agree",
+            handler: () => {
+              console.log("Agree clicked");
+              // Show the prompt
+              deferredPrompt.prompt();
+              // Wait for the user to respond to the prompt
+              deferredPrompt.userChoice
+                .then((choiceResult) => {
+                  if (choiceResult.outcome === "accepted") {
+                    console.log("User accepted the A2HS prompt");
+                  } else {
+                    console.log("User dismissed the A2HS prompt");
+                  }
+                  deferredPrompt = null;
+                });
+            }
+          }
+        ]
+      });
+      confirm.present();
+    });
+
+
   }
 }
