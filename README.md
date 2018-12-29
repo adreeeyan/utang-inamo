@@ -1,8 +1,8 @@
 ![logo](UI/resources/android/icon/drawable-xxhdpi-icon.png "logo")  
-Utang Inamo  
+# Utang Inamo
 [![Build Status](https://travis-ci.org/adrianonrails/utang-inamo.svg?branch=master)](https://travis-ci.org/adrianonrails/utang-inamo)
 ##### [https://adrianonrails.github.io/utang-inamo](https://adrianonrails.github.io/utang-inamo/)
-======
+---
 **Utang Inamo** is a debt manager. You can list down those people who owes you or who you borrowed from, and then give them some gentle reminders and a nice debt information web page.
 
 ### Supported platforms
