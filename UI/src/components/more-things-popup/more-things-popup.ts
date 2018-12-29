@@ -4,6 +4,7 @@ import { AuthProvider } from '../../providers/auth/auth';
 import { BorrowerPickerPage } from '../../pages/borrower-picker/borrower-picker';
 import { DialogUtilitiesProvider } from '../../providers/dialog-utilities/dialog-utilities';
 import { AccountEditorPage } from '../../pages/account-editor/account-editor';
+import { AboutPage } from '../../pages/about/about';
 
 @Component({
   selector: 'more-things-popup',
@@ -48,6 +49,16 @@ export class MoreThingsPopupComponent {
     finally {
       loading.dismiss();
     }
+  }
+
+  openAboutPage() {
+    this.navCtrl.push(AboutPage);
+    this.viewCtrl.dismiss();
+  }
+
+  openEmail() {
+    this.dialogUtilities.openEmail("adrian.onrails@gmail.com", "Utang Inamo feedback", "Anything?");
+    this.viewCtrl.dismiss();
   }
 
 }

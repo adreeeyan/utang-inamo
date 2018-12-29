@@ -1,0 +1,38 @@
+<ion-content padding color="secondary">
+  <div class="header-container">
+    <div class="action-buttons">
+      <button navPop ion-button icon-only class="back">
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+    </div>
+    <div class="image">
+      <img class="logo" src="assets/imgs/logo.png" alt="Logo">
+    </div>
+    <h3 class="apptitle">Utang Inamo</h3>
+    <p class="version">Version {{version || "x.x.x"}}</p>
+  </div>
+
+  <div class="text-content">
+    <p>Use this app in any means you like as long as it is within the legalities of your state. <i>Utang Inamo</i> will
+      not be held liable for whatever shits you do with this app.</p>
+    <div class="credits">
+      <p>Credits to these sites where I got some of the icons and images.</p>
+      <ul>
+        <ol>> https://www.onlinewebfonts.com/icon</ol>
+        <ol>> https://www.clipart-library.com</ol>
+        <ol>> https://www.deviantart.com/historyfreak91</ol>
+        <ol>> https://www.deviantart.com/marija343/</ol>
+      </ul>
+    </div>
+    <div class="question">
+      <p>Want something? Request a feature <a href="#" (click)="openInBrowser($event, 'https://github.com/adrianonrails/utang-inamo/issues/new')">here</a>.</p>
+      <p>Found a bug? Report it <a href="#" (click)="openInBrowser($event, 'https://github.com/adrianonrails/utang-inamo/issues/new')">here</a>.</p>
+      <p>Any other concern? Email me at <a href="mailto:adrian.onrails@gmail.com?subject=Utang Inamo feedback&body=Anything?">adrian.onrails@gmail.com</a></p>
+    </div>
+    <div class="donation">
+      <p>Keep the servers alive by donating!</p>
+      <a href="#" (click)="openInBrowser($event, '//www.paypal.me/AdrianDelaPiedra')"><img src="https://img.shields.io/badge/Donate-PayPal-green.svg"
+          alt="Paypal" /></a>
+    </div>
+  </div>
+</ion-content>

@@ -8,7 +8,6 @@ import superlogin from 'superlogin-client';
 import { DialogUtilitiesProvider } from '../../providers/dialog-utilities/dialog-utilities';
 import { BorrowerInfoPage } from '../borrower-info/borrower-info';
 import { BorrowerStatus } from '../../models/borrower';
-import { FormatCurrencyPipe } from '../../pipes/format-currency/format-currency';
 import { UtilitiesProvider } from '../../providers/utilities/utilities';
 
 @IonicPage()
@@ -25,7 +24,6 @@ export class DebtInfoPage {
     private navParams: NavParams,
     private debtsProvider: DebtsProvider,
     private dialogUtilities: DialogUtilitiesProvider,
-    private formatCurrencyPipe: FormatCurrencyPipe,
     private utilities: UtilitiesProvider) {
   }
 

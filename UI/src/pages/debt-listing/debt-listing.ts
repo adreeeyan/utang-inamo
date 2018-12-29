@@ -8,8 +8,6 @@ import { DebtsProvider } from '../../providers/debts/debts';
 
 import superlogin from 'superlogin-client';
 import { DialogUtilitiesProvider } from '../../providers/dialog-utilities/dialog-utilities';
-import { FormatCurrencyPipe } from '../../pipes/format-currency/format-currency';
-import { UtilitiesProvider } from '../../providers/utilities/utilities';
 
 @IonicPage()
 @Component({
@@ -26,9 +24,7 @@ export class DebtListingPage {
   constructor(private navParams: NavParams,
     private debtsProvider: DebtsProvider,
     private modalCtrl: ModalController,
-    private dialogUtilities: DialogUtilitiesProvider,
-    private formatCurrencyPipe: FormatCurrencyPipe,
-    private utilities: UtilitiesProvider) {
+    private dialogUtilities: DialogUtilitiesProvider) {
   }
 
   ionViewCanEnter() {

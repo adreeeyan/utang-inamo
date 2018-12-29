@@ -49,6 +49,10 @@ export class DialogUtilitiesProvider {
     }
   }
 
+  openEmail(address, subject = "", body = "") {
+    window.open(`mailto:${address}?subject=${subject}&body=${body}`, "_system");
+  }
+
   showLoading(message = "") {
     this.events.publish("util:showloading", message);
   }

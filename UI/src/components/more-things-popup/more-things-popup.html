@@ -1,14 +1,28 @@
 <ion-list>
-  <button ion-item (click)="openAccountEditor()">
-    Account
-    <ion-icon name="hammer" item-end></ion-icon>
-  </button>
-  <button ion-item (click)="openBorrowerPicker()">
-    Contacts
-    <ion-icon name="contacts" item-end></ion-icon>
-  </button>
-  <button ion-item (click)="logout()">
-    Logout
-    <ion-icon name="log-out" item-end></ion-icon>
-  </button>
+  <ion-item-group>
+    <ion-item-divider color="danger">Settings</ion-item-divider>
+    <button ion-item (click)="openBorrowerPicker()">
+      Contacts
+      <ion-icon name="contacts" item-end></ion-icon>
+    </button>
+    <button ion-item (click)="openAccountEditor()">
+      Account
+      <ion-icon name="build" item-end></ion-icon>
+    </button>
+    <button ion-item (click)="logout()">
+      Logout
+      <ion-icon name="log-out" item-end></ion-icon>
+    </button>
+  </ion-item-group>
+  <ion-item-group>
+    <ion-item-divider color="danger">Misc</ion-item-divider>
+    <button ion-item (click)="openEmail()">
+      Feedbacks
+      <ion-icon name="bulb" item-end></ion-icon>
+    </button>
+    <button ion-item (click)="openAboutPage()">
+      About
+      <ion-icon name="glasses" item-end></ion-icon>
+    </button>
+  </ion-item-group>
 </ion-list>

@@ -36,6 +36,8 @@ import { PublicDebtInfoPageModule } from '../pages/public-debt-info/public-debt-
 import { ConnectivityProvider } from '../providers/connectivity/connectivity';
 import { AccountEditorPageModule } from '../pages/account-editor/account-editor.module';
 import { PublicDebtProvider } from '../providers/public-debt/public-debt';
+import { AboutPageModule } from '../pages/about/about.module';
+import { AboutPage } from '../pages/about/about';
 
 superlogin.configure(environment.superlogin);
 
@@ -72,6 +74,7 @@ superlogin.configure(environment.superlogin);
           [
             { component: PublicDebtInfoPage, name: "public-debt-info", segment: "public-debt-info/:userid/:debtid" },
             { component: DashboardPage, name: "dashboard", segment: "dashboard" },
+            { component: AboutPage, name: "about", segment: "about", defaultHistory: [DebtListingPage] },
             { component: DebtInfoPage, name: "debt-info", segment: "debt-info/:id", defaultHistory: [DebtListingPage] },
             { component: DebtListingPage, name: "debt-list", segment: "debt-list" },
             { component: TabsPage, name: "tabs", segment: "tab" }
@@ -89,7 +92,8 @@ superlogin.configure(environment.superlogin);
     BrowserAnimationsModule,
     LongPressModule,
     PublicDebtInfoPageModule,
-    AccountEditorPageModule
+    AccountEditorPageModule,
+    AboutPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

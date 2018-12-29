@@ -17,5 +17,6 @@ export const environment = {
         // request. You can do this manually by calling superlogin.checkRefresh(). Default: 0.5
         refreshThreshold: 0.5,
     },
-    webUrl: "https://adrianonrails.github.io/utang-inamo"
+    webUrl: "https://adrianonrails.github.io/utang-inamo",
+    appVersion: "0.0.1"
 };

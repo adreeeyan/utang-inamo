@@ -1,0 +1,85 @@
+page-about {
+  .content {
+    background: url("../assets/imgs/login-bg.png") no-repeat center;
+    background-size: cover;
+    color: white;
+  }
+
+  .header-container {
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+
+    .image {
+      width: 100px;
+      height: 100px;
+    }
+
+    .action-buttons {
+      button {
+        position: absolute;
+        top: 0;
+        box-shadow: none;
+        background-color: transparent;
+      }
+
+      .back {
+        left: 0;
+      }
+
+      .edit {
+        right: 0;
+      }
+    }
+  }
+
+  .text-content {
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .apptitle {
+    font-size: 5rem;
+    text-align: center;
+    text-shadow: 0 2px 3px #555;
+    margin-bottom: 0;
+  }
+
+  .version {
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  .question {
+    text-align: center;
+    margin-bottom: 30px;
+    margin-top: 30px;
+
+    p {
+      margin-top: 8px;
+      margin-bottom: 8px;
+    }
+
+    a {
+      color: map-get($colors, danger);
+    }
+  }
+
+  .donation {
+    text-align: center;
+  }
+
+  .credits {
+      ul {
+          padding-left: 10px;
+      }
+
+      ol {
+          padding-left: 0;
+      }
+  }
+}
