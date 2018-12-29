@@ -116,12 +116,6 @@ page-public-debt-info {
     }
   }
 
-  .otherinfo-part {
-    .label {
-      white-space: normal;
-    }
-  }
-
   .supplement {
     color: grey;
   }
@@ -129,9 +123,6 @@ page-public-debt-info {
   .promotion {
     display: flex;
     flex-direction: row;
-    padding: 5px;
-    margin-left: auto;
-    margin-right: auto;
     justify-content: center;
     background-color: map-get($colors, danger);
     color: #000000;
@@ -144,6 +135,8 @@ page-public-debt-info {
 
     .tagline {
       font-size: 1.1em;
+      padding: 10px;
+      margin: 0 auto;
     }
 
     .signature {
@@ -151,4 +144,9 @@ page-public-debt-info {
     }
   }
 
+  .list {
+    .label {
+      white-space: normal;
+    }
+  }
 }
