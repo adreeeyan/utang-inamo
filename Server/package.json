@@ -1,6 +1,6 @@
 {
   "name": "utanginamo-auth",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Auth manager for UtangInamo",
   "engines": {
     "node": "8.11.2"
