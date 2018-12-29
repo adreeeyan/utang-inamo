@@ -103,19 +103,18 @@ export class AuthProvider {
         };
         let response: any = await superlogin.getHttp().put(`user/${user.id}`, data);
         response = response.data;
-        if(response.status == "error") {
+        if (response.status == "error") {
           reject(response.status.error);
-        } else{
+        } else {
           // set the new session
           superlogin.setSession(response.session);
           this.debtsProvider.init(response.session);
           resolve(response);
         }
-      } catch(e) {
+      } catch (e) {
         reject(e);
-      }      
+      }
     });
-
   }
 
 }

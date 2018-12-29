@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage } from 'ionic-angular';
+import { IonicPage, NavController, Events } from 'ionic-angular';
 import { DebtsProvider } from '../../providers/debts/debts';
 import { AuthProvider } from '../../providers/auth/auth';
 
@@ -21,7 +21,9 @@ export class AccountEditorPage {
 
   constructor(private debtsProvider: DebtsProvider,
     private authProvider: AuthProvider,
-    private dialogUtilities: DialogUtilitiesProvider) {
+    private dialogUtilities: DialogUtilitiesProvider,
+    private navCtrl: NavController,
+    private events: Events) {
   }
 
   ionViewCanEnter() {
@@ -62,10 +64,12 @@ export class AccountEditorPage {
 
   async save() {
     try {
-      this.dialogUtilities.showLoading("I'm saving updating data...");
+      this.dialogUtilities.showLoading("I'm updating your data...");
       await this.authProvider.updateUserPicture(this.user.id, this.user.image);
       await this.authProvider.updateUser(this.user);
       this.dialogUtilities.showToast("Successfully updated your info.");
+      this.events.publish("user:updated");
+      this.navCtrl.pop();
     }
     catch (e) {
       console.log("Error updating user info", e);

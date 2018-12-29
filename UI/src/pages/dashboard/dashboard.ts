@@ -1,11 +1,13 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, Events, PopoverController } from 'ionic-angular';
+import { IonicPage, Events, PopoverController, ModalController, NavController } from 'ionic-angular';
 import { DebtsProvider } from '../../providers/debts/debts';
 import { DebtStatus, DebtType } from '../../models/debt';
 
 import superlogin from 'superlogin-client';
 import { AuthProvider } from '../../providers/auth/auth';
 import { MoreThingsPopupComponent } from '../../components/more-things-popup/more-things-popup';
+import { DebtEditorPage } from '../debt-editor/debt-editor';
+import { AccountEditorPage } from '../account-editor/account-editor';
 
 @IonicPage()
 @Component({
@@ -24,7 +26,11 @@ export class DashboardPage {
   constructor(private debtsProvider: DebtsProvider,
     private authProvider: AuthProvider,
     private events: Events,
-    private popoverCtrl: PopoverController) {
+    private popoverCtrl: PopoverController,
+    private modalCtrl: ModalController,
+    private navCtrl: NavController) {
+
+    this.events.subscribe("user:updated", this.refresh.bind(this));
   }
 
   ionViewCanEnter() {
@@ -114,5 +120,25 @@ export class DashboardPage {
     popover.present({
       ev: evt
     });
+  }
+
+  goToDebtEditor(debtType) {
+    let debtEditorModal = this.modalCtrl.create(DebtEditorPage, { type: debtType });
+    debtEditorModal.onDidDismiss(async () => {
+      await this.refresh();
+    });
+    debtEditorModal.present();
+  }
+
+  addPayable() {
+    this.goToDebtEditor(DebtType.PAYABLE);
+  }
+
+  addReceivable() {
+    this.goToDebtEditor(DebtType.RECEIVABLE);
+  }
+
+  openAccountEditor() {
+    this.navCtrl.push(AccountEditorPage);
   }
 }

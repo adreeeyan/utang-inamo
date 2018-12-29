@@ -18,4 +18,8 @@ ion-tabs {
         $lighter-primary: lighten($primary, 20%);
         background: linear-gradient(200deg, $primary 23%, $lighter-primary 100%) !important;
     }
+
+    .tab-button-icon {
+        margin-right: 10px;
+    }
 }

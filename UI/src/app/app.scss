@@ -78,6 +78,14 @@ ion-icon {
     height: 1em;
   }
   // custom icons
+  &[class*="ui-payable"] {
+    mask-image: url("../assets/icon/payable.svg");
+  }
+  
+  &[class*="ui-receivable"] {
+    mask-image: url("../assets/icon/receivable.svg");
+  }
+
   &[class*="ui-paypal"] {
     mask-image: url("../assets/icon/paypal.svg");
   }
