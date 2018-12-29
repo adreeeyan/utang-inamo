@@ -18,5 +18,5 @@ export const environment = {
         refreshThreshold: 0.5,
     },
     webUrl: "https://adrianonrails.github.io/utang-inamo",
-    appVersion: "0.1.0"
+    appVersion: "0.1.1"
 };
