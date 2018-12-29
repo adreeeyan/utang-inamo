@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavParams, ModalController } from 'ionic-angular';
 import { Debt, DebtType, DebtStatus } from '../../models/debt';
-import { Borrower } from '../../models/borrower';
+import { Borrower, BorrowerStatus } from '../../models/borrower';
 import { DebtInfoPage } from '../debt-info/debt-info';
 import { DebtEditorPage } from '../debt-editor/debt-editor';
 import { DebtsProvider } from '../../providers/debts/debts';
@@ -88,6 +88,10 @@ export class DebtListingPage {
 
   isDebtPayable(debt: Debt) {
     return debt.type == DebtType.PAYABLE;
+  }
+
+  isBorrowerDeleted(debt: Debt) {
+    return debt.borrower && debt.borrower.status == BorrowerStatus.DELETED;
   }
 
   get debtsToShow() {
@@ -178,11 +182,7 @@ export class DebtListingPage {
   }
 
   openSMS(debt) {
-    let message = "";
-    if (debt.type == DebtType.RECEIVABLE && debt.status == DebtStatus.UNPAID) {
-      message = `Hi ${debt.borrower.name},\r\n\r\nI would like to follow up for your debt amounting to ${this.formatCurrencyPipe.transform(debt.total)}.\r\n\r\n` +
-        `You can find the info here:\r\n${this.utilities.createPublicDebtInfoUrl(debt.id || debt._id)}`;
-    }
+    let message = this.dialogUtilities.createSMSMessage(debt);
     this.dialogUtilities.openSMS(debt.borrower.cellNumber, message);
   }
 

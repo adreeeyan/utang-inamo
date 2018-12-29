@@ -83,4 +83,7 @@
       </ion-list>
     </div>
   </div>
+  <button ion-button round color="danger" class="see-me" (click)="openPublicDebtPage()" *ngIf="!isBorrowerDeleted">
+    View how {{debt?.borrower.singleName}} will see this
+  </button>
 </ion-content>

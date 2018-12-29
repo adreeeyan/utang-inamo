@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import { ToastController, Events } from 'ionic-angular';
 import { UtilitiesProvider } from '../utilities/utilities';
+import { DebtType, DebtStatus } from '../../models/debt';
+import { FormatCurrencyPipe } from '../../pipes/format-currency/format-currency';
 
 @Injectable()
 export class DialogUtilitiesProvider {
 
   constructor(private toastCtrl: ToastController,
     private utilities: UtilitiesProvider,
-    private events: Events) {
+    private events: Events,
+    private formatCurrencyPipe: FormatCurrencyPipe) {
     console.log('Hello DialogUtilitiesProvider Provider');
   }
 
@@ -52,6 +55,25 @@ export class DialogUtilitiesProvider {
 
   hideLoading() {
     this.events.publish("util:hideloading");
+  }
+
+  createSMSMessage(debt) {
+    let message = "";
+    const debtUrl = this.utilities.createPublicDebtInfoUrl(debt.id || debt._id);
+    if (debt.type == DebtType.RECEIVABLE && debt.status == DebtStatus.UNPAID) {
+      message = `Hi ${debt.borrower.singleName},\r\n\r\nI would like to follow up your debt amounting to ${this.formatCurrencyPipe.transform(debt.total)}.\r\n\r\n` +
+        `You can find the info here:\r\n${debtUrl}`;
+    } else if (debt.type == DebtType.RECEIVABLE && debt.status == DebtStatus.PAID) {
+      message = `Hi ${debt.borrower.singleName},\r\n\r\nThank you for paying your debt.\r\n\r\n` +
+        `You can find the info here:\r\n${debtUrl}`;
+    } else if (debt.type == DebtType.PAYABLE && debt.status == DebtStatus.UNPAID) {
+      message = `Hi ${debt.borrower.singleName},\r\n\r\nI have recorded the money I borrowed from you. Thank you.\r\n\r\n` +
+        `You can find the info here:\r\n${debtUrl}`;
+    } else if (debt.type == DebtType.RECEIVABLE && debt.status == DebtStatus.PAID) {
+      message = `Hi ${debt.borrower.singleName},\r\n\r\nThank you for lending me.\r\n\r\n` +
+        `You can find the info here:\r\n${debtUrl}`;
+    }
+    return message;
   }
 
 }

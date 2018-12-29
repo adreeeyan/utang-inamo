@@ -1,111 +1,117 @@
 page-debt-info {
-    .header-container {
-        height: 200px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        justify-items: center;
-        align-items: center;
-        background: map-get($colors, secondary) url(../assets/imgs/banderitas.png) repeat-x center 174px;
-        color: white;
+  .header-container {
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    background: map-get($colors, secondary) url("../assets/imgs/banderitas.png") repeat-x center 174px;
+    color: white;
 
-        .action-buttons {
-            button {
-                position: absolute;
-                top: 0;
-                box-shadow: none;
-                background-color: transparent;
-            }
+    .action-buttons {
+      button {
+        position: absolute;
+        top: 0;
+        box-shadow: none;
+        background-color: transparent;
+      }
 
-            .back {
-                left: 0;
-            }
+      .back {
+        left: 0;
+      }
 
-            .edit {
-                right: 0;
-            }
-        }
-
-        .amount {
-            font-size: 3em;
-        }
+      .edit {
+        right: 0;
+      }
     }
 
-    .borrower-info {
-        margin-top: 10px;
+    .amount {
+      font-size: 3em;
+    }
+  }
 
-        .name-part {
-            display: flex;
-            justify-content: center;
-            justify-items: center;
-            align-items: center;
+  .borrower-info {
+    margin-top: 10px;
+    padding-bottom: 0 !important;
 
-            .image {
-                margin-left: 20px;
-                margin-right: 20px;
+    .name-part {
+      display: flex;
+      justify-content: center;
+      justify-items: center;
+      align-items: center;
 
-                img {
-                    height: 60px;
-                    border-radius: 50%;
-                }
-            }
+      .image {
+        margin-left: 20px;
+        margin-right: 20px;
 
-            .right {
-                flex-grow: 2;
+        img {
+          height: 60px;
+          border-radius: 50%;
+        }
+      }
 
-                .name {
-                    margin-bottom: 0;
-                }
+      .right {
+        flex-grow: 2;
 
-                .duedate {
-                    margin-top: 0;
-                    font-weight: normal;
-                    font-size: 1.5rem;
-                    color: gray;
-                }
-            }
+        .name {
+          margin-bottom: 0;
         }
 
-        .contact-part {
-            button {
-    
-                &.sms .icon {
-                    color: #49d536;
-                }
-    
-                &.facebook .icon {
-                    color: #3b5998;
-                }
-    
-                &.skype .icon {
-                    color: #00AFF0;
-                }
-                
-            }
+        .duedate {
+          margin-top: 0;
+          font-weight: normal;
+          font-size: 1.5rem;
+          color: gray;
         }
+      }
     }
 
-    .sub-info-header {
-        display: flex;
-        margin-top: 10px;
-        margin-bottom: 10px;
-
-        .title {
-            font-size: 1.3em;
+    .contact-part {
+      button {
+        &.sms .icon {
+          color: #49d536;
         }
 
-        .ruler {
-            background-color: gray;
-            flex-grow: 1;
-            margin: 7px;
+        &.facebook .icon {
+          color: #3b5998;
         }
+
+        &.skype .icon {
+          color: #00AFF0;
+        }
+
+      }
+    }
+  }
+
+  .sub-info-header {
+    display: flex;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    .title {
+      font-size: 1.3em;
     }
 
-    .otherinfo-part {
-        .description {
-            .label {
-                white-space: normal;
-            }
-        }
+    .ruler {
+      background-color: gray;
+      flex-grow: 1;
+      margin: 7px;
     }
+  }
+
+  .otherinfo-part {
+    .description {
+      .label {
+        white-space: normal;
+      }
+    }
+  }
+
+  .see-me {
+    display: flex;
+    justify-self: center;
+    margin: 0 auto 20px auto;
+  }
 }

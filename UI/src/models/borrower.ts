@@ -17,6 +17,16 @@ export class Borrower {
     get name(){
         return `${this.firstName} ${this.lastName}`;
     }
+
+    get singleName() {
+        if(this.firstName) {
+            return this.firstName;
+        }
+        if(this.lastName) {
+            return this.lastName;
+        }
+        return "Unknown";
+    }
 }
 
 export enum BorrowerStatus {

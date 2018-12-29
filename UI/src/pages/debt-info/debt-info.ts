@@ -61,13 +61,17 @@ export class DebtInfoPage {
 
   openBorrowerInfo() {
     const borrower: any = this.debt.borrower;
-    if (borrower.status == BorrowerStatus.DELETED) {
+    if (this.isBorrowerDeleted) {
       return;
     }
 
     const data = { borrower: borrower.id || borrower._id };
     let borrowerInfoModal = this.modalCtrl.create(BorrowerInfoPage, data);
     borrowerInfoModal.present();
+  }
+
+  get isBorrowerDeleted() {
+    return this.debt.borrower && this.debt.borrower.status == BorrowerStatus.DELETED;
   }
 
   setDebtAsPaid() {
@@ -95,13 +99,8 @@ export class DebtInfoPage {
   }
 
   openSMS() {
-    let message = "";
-    const debt: any = this.debt;
-    if (debt.type == DebtType.RECEIVABLE && debt.status == DebtStatus.UNPAID) {
-      message = `Hi ${debt.borrower.name},\r\n\r\nI would like to follow up for your debt amounting to ${this.formatCurrencyPipe.transform(debt.total)}.\r\n\r\n` +
-        `You can find the info here:\r\n${this.utilities.createPublicDebtInfoUrl(debt.id || debt._id)}`;
-    }
-    this.dialogUtilities.openSMS(debt.borrower.cellNumber, message);
+    let message = this.dialogUtilities.createSMSMessage(this.debt);
+    this.dialogUtilities.openSMS(this.debt.borrower.cellNumber, message);
   }
 
   openMessenger() {
@@ -124,6 +123,11 @@ export class DebtInfoPage {
     if (this.isDebtPaid) {
       return `Paid last ${this.debt.paidDateString}`;
     }
+  }
+
+  openPublicDebtPage() {
+    const debt: any = this.debt;
+    this.dialogUtilities.openGenericLink(this.utilities.createPublicDebtInfoUrl(debt.id || debt._id));
   }
 
 }
