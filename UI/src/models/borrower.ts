@@ -33,6 +33,6 @@ export class Borrower {
 }
 
 export enum BorrowerStatus {
-    ACTIVE,
-    DELETED
+    ACTIVE = "active",
+    DELETED = "deleted"
 }

@@ -1,14 +1,16 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavParams, ModalController } from 'ionic-angular';
+import { IonicPage, NavParams, ModalController, NavController, Events } from 'ionic-angular';
 import { DebtEditorPage } from '../debt-editor/debt-editor';
 import { Debt, DebtStatus, DebtType } from '../../models/debt';
 import { DebtsProvider } from '../../providers/debts/debts';
 
-import superlogin from 'superlogin-client';
 import { DialogUtilitiesProvider } from '../../providers/dialog-utilities/dialog-utilities';
 import { BorrowerInfoPage } from '../borrower-info/borrower-info';
-import { BorrowerStatus } from '../../models/borrower';
 import { UtilitiesProvider } from '../../providers/utilities/utilities';
+import { User, UserStatus } from '../../models/user';
+import * as moment from "moment";
+import { AuthProvider } from '../../providers/auth/auth';
+import { SignInPage } from '../sign-in/sign-in';
 
 @IonicPage()
 @Component({
@@ -24,16 +26,26 @@ export class DebtInfoPage {
     private navParams: NavParams,
     private debtsProvider: DebtsProvider,
     private dialogUtilities: DialogUtilitiesProvider,
-    private utilities: UtilitiesProvider) {
+    private utilities: UtilitiesProvider,
+    private events: Events,
+    private authProvider: AuthProvider) {
   }
 
   ionViewCanEnter() {
-    return superlogin.authenticated();
+    const isLoggedIn = this.authProvider.isLoggedIn;
+
+    // redirect to sign in page if not logged in
+    if(!isLoggedIn) {
+      this.events.publish("user:logout");
+    }
+
+    return isLoggedIn;
   }
 
   async ionViewDidEnter() {
     console.log('ionViewDidEnter DebtInfoPage');
-    this.debt = new Debt(await this.getDebt(this.navParams.get("id")));
+
+    this.getDebt(this.navParams.get("id"));
 
     this.debtType = this.navParams.get("type");
     if (this.debtType == null) {
@@ -45,16 +57,13 @@ export class DebtInfoPage {
     }
   }
 
-  async getDebt(id) {
-    let debt = null;
+  getDebt(id) {
     try {
-      debt = await this.debtsProvider.getDebt(id);
+      this.debtsProvider.getDebt(id).subscribe(debt => this.debt = debt);
     }
     catch (e) {
       console.log("Issue while retrieving debt.", e);
     }
-
-    return Promise.resolve(debt);
   }
 
   openBorrowerInfo() {
@@ -69,12 +78,13 @@ export class DebtInfoPage {
   }
 
   get isBorrowerDeleted() {
-    return this.debt.borrower && this.debt.borrower.status == BorrowerStatus.DELETED;
+    const borrower = this.debt.borrower as User;
+    return borrower && borrower.status == UserStatus.DELETED;
   }
 
   setDebtAsPaid() {
     this.debt.status = DebtStatus.PAID;
-    this.debt.paidDate = new Date();
+    this.debt.paidDate = moment().format();
     this.debtsProvider.updateDebt(this.debt);
   }
 
@@ -93,20 +103,24 @@ export class DebtInfoPage {
   }
 
   openSkype() {
-    this.dialogUtilities.openSkype(this.debt.borrower.skypeId);
+    const borrower = this.debt.borrower as User;
+    this.dialogUtilities.openSkype(borrower.skypeId);
   }
 
-  openSMS() {
-    let message = this.dialogUtilities.createSMSMessage(this.debt);
-    this.dialogUtilities.openSMS(this.debt.borrower.cellNumber, message);
+  async openSMS() {
+    const borrower = this.debt.borrower as User;
+    let message = await this.dialogUtilities.createSMSMessage(this.debt);
+    this.dialogUtilities.openSMS(borrower.cellNumber, message);
   }
 
   openMessenger() {
-    this.dialogUtilities.openMessenger(this.debt.borrower.messengerId);
+    const borrower = this.debt.borrower as User;
+    this.dialogUtilities.openMessenger(borrower.messengerId);
   }
 
   openMap() {
-    this.dialogUtilities.openMap(this.debt.borrower.address);
+    const borrower = this.debt.borrower as User;
+    this.dialogUtilities.openMap(borrower.address);
   }
 
   get dueDateStringPart() {
@@ -123,9 +137,9 @@ export class DebtInfoPage {
     }
   }
 
-  openPublicDebtPage() {
+  async openPublicDebtPage() {
     const debt: any = this.debt;
-    this.dialogUtilities.openGenericLink(this.utilities.createPublicDebtInfoUrl(debt.id || debt._id));
+    this.dialogUtilities.openGenericLink(await this.utilities.createPublicDebtInfoUrl(debt.id || debt._id));
   }
 
 }

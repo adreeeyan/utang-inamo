@@ -3,15 +3,14 @@ import { Platform, Nav, IonicApp, IonicPage, Events, AlertController } from 'ion
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { fadeOutOnLeaveAnimation, bounceInUpOnEnterAnimation } from 'angular-animations';
-import superlogin from 'superlogin-client';
 
 import { SignInPage } from '../pages/sign-in/sign-in';
 import { TabsPage } from '../pages/tabs/tabs';
-import { DebtsProvider } from '../providers/debts/debts';
 import { Keyboard } from '@ionic-native/keyboard';
 import { DialogUtilitiesProvider } from '../providers/dialog-utilities/dialog-utilities';
 import { UtilitiesProvider } from '../providers/utilities/utilities';
 import { ConnectivityProvider } from '../providers/connectivity/connectivity';
+import { AuthProvider } from '../providers/auth/auth';
 
 @IonicPage()
 @Component({
@@ -34,13 +33,12 @@ export class MyApp {
     private statusBar: StatusBar,
     private splashScreen: SplashScreen,
     private ionicApp: IonicApp,
-    private debtsProvider: DebtsProvider,
     private keyboard: Keyboard,
     private events: Events,
     private dialogUtilities: DialogUtilitiesProvider,
     private utilities: UtilitiesProvider,
-    private connectivity: ConnectivityProvider,
-    private alertCtrl: AlertController) {
+    private alertCtrl: AlertController,
+    private authProvider: AuthProvider) {
 
     this.platform.ready().then(async () => {
       // Okay, so the platform is ready and our plugins are available.
@@ -71,7 +69,6 @@ export class MyApp {
   }
 
   async validateAuthentication() {
-
     // if this is web and the url is for public info
     // then just let it be
     if (this.utilities.isWeb() && document.URL.indexOf("public-debt-info") != -1) {
@@ -80,29 +77,8 @@ export class MyApp {
     }
 
     // Authentication
-    console.log("trying to authenticate");
-    const session = superlogin.getSession();
-    let isSessionValid = !!session;
-
-    // If we are online then verify if this session is still valid
-    if (this.connectivity.isOnline() && session) {
-      this.showLoading();
-      try {
-        await superlogin.validateSession();
-      } catch (e) {
-        // then session is not valid anymore
-        isSessionValid = false;
-        this.hideLoading();
-      }
-    }
-
-    if (isSessionValid) {
-      // If there is a session then initiaze the shits
-      this.debtsProvider.init(session);
-      await this.debtsProvider.IsInitizialized();
-      console.log("user authenticated");
-    } else {
-      console.log("user not authenticated");
+    const isLoggedIn = this.authProvider.isLoggedIn;
+    if (!isLoggedIn) {
       this.nav.setRoot(SignInPage);
     }
   }

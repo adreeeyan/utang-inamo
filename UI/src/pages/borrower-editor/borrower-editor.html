@@ -6,7 +6,7 @@
       </button>
     </div>
     <div class="image">
-      <img (click)="pickImage()" [src]="borrower.image">
+      <img (click)="pickImage()" [src]="sanitizer.bypassSecurityTrustUrl(imageData)">
       <input class="hide" type="file" name="image" #imageFile (change)="changeImage(imageFile.files)">
     </div>
   </div>

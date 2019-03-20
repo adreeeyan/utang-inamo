@@ -1,16 +1,20 @@
 <ion-content>
-  <div class="sign-up">
+  <div class="sign-up" *ngIf="user">
     <div class="logo">
       <img src="assets/imgs/logo-with-text.png" alt="Logo">
     </div>
     <div class="fields">
       <ion-list>
         <ion-item>
-            <ion-input type="text" placeholder="Username" [(ngModel)]="username"></ion-input>
-          </ion-item>
+          <ion-input type="text" placeholder="First Name" [(ngModel)]="user.firstName"></ion-input>
+        </ion-item>
 
         <ion-item>
-          <ion-input type="text" placeholder="Email address" [(ngModel)]="email"></ion-input>
+          <ion-input type="text" placeholder="Last Name" [(ngModel)]="user.lastName"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input type="text" placeholder="Email address" [(ngModel)]="user.email"></ion-input>
         </ion-item>
 
         <ion-item>

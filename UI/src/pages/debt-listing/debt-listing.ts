@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavParams, ModalController } from 'ionic-angular';
+import { IonicPage, NavParams, ModalController, NavController, Events } from 'ionic-angular';
 import { Debt, DebtType, DebtStatus } from '../../models/debt';
-import { Borrower, BorrowerStatus } from '../../models/borrower';
 import { DebtInfoPage } from '../debt-info/debt-info';
 import { DebtEditorPage } from '../debt-editor/debt-editor';
 import { DebtsProvider } from '../../providers/debts/debts';
 
-import superlogin from 'superlogin-client';
 import { DialogUtilitiesProvider } from '../../providers/dialog-utilities/dialog-utilities';
+import { UserStatus, User } from '../../models/user';
+import { AuthProvider } from '../../providers/auth/auth';
+import { SignInPage } from '../sign-in/sign-in';
 
 @IonicPage()
 @Component({
@@ -24,11 +25,20 @@ export class DebtListingPage {
   constructor(private navParams: NavParams,
     private debtsProvider: DebtsProvider,
     private modalCtrl: ModalController,
-    private dialogUtilities: DialogUtilitiesProvider) {
+    private dialogUtilities: DialogUtilitiesProvider,
+    private events: Events,
+    private authProvider: AuthProvider) {
   }
 
   ionViewCanEnter() {
-    return superlogin.authenticated();
+    const isLoggedIn = this.authProvider.isLoggedIn;
+
+    // redirect to sign in page if not logged in
+    if(!isLoggedIn) {
+      this.events.publish("user:logout");
+    }
+
+    return isLoggedIn;
   }
 
   async ionViewDidLoad() {
@@ -46,7 +56,11 @@ export class DebtListingPage {
         ? DebtType.PAYABLE : DebtType.RECEIVABLE;
     }
 
-    this.debts = this.debtType == DebtType.PAYABLE ? await this.getPayables() : await this.getReceivables();
+    if (this.debtType == DebtType.PAYABLE) {
+      this.getPayables();
+    } else {
+      this.getReceivables();
+    }
   }
 
   async doRefreshFromPull(refresher) {
@@ -55,27 +69,11 @@ export class DebtListingPage {
   }
 
   async getPayables() {
-    let payables = [];
-    try {
-      const debts: Debt[] = await this.debtsProvider.getDebts();
-      payables = debts.filter(debt => debt.type == DebtType.PAYABLE);
-    }
-    catch (e) {
-      console.log("Issue while retrieving payables.", e);
-    }
-    return payables;
+    this.debtsProvider.getPayables().subscribe(debts => this.debts = debts);
   }
 
   async getReceivables() {
-    let receivables = [];
-    try {
-      const debts: Debt[] = await this.debtsProvider.getDebts();
-      receivables = debts.filter(debt => debt.type == DebtType.RECEIVABLE);
-    }
-    catch (e) {
-      console.log("Issue while retrieving receivables.", e);
-    }
-    return receivables;
+    this.debtsProvider.getReceivables().subscribe(debts => this.debts = debts);
   }
 
   isDebtPaid(debt: Debt) {
@@ -87,12 +85,12 @@ export class DebtListingPage {
   }
 
   isBorrowerDeleted(debt: Debt) {
-    return debt.borrower && debt.borrower.status == BorrowerStatus.DELETED;
+    const borrower: any = debt.borrower;
+    return borrower && borrower.status == UserStatus.DELETED;
   }
 
   get debtsToShow() {
     const toShow = this.isPaid == "paid" ? this.paid : this.unpaid;
-    toShow.sort((a, b) => new Date(b.borrowedDate).getTime() - new Date(a.borrowedDate).getTime());
     return toShow;
   }
 
@@ -173,16 +171,16 @@ export class DebtListingPage {
     debtEditorModal.present();
   }
 
-  openSkype(borrower: Borrower) {
+  openSkype(borrower: User) {
     this.dialogUtilities.openSkype(borrower.skypeId);
   }
 
-  openSMS(debt) {
-    let message = this.dialogUtilities.createSMSMessage(debt);
+  async openSMS(debt) {
+    let message = await this.dialogUtilities.createSMSMessage(debt);
     this.dialogUtilities.openSMS(debt.borrower.cellNumber, message);
   }
 
-  openMessenger(borrower: Borrower) {
+  openMessenger(borrower: User) {
     this.dialogUtilities.openMessenger(borrower.messengerId);
   }
 

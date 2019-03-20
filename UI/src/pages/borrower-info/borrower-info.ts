@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavParams, ModalController, AlertController, ViewController } from 'ionic-angular';
+import { IonicPage, NavParams, ModalController, AlertController, ViewController, NavController, Events } from 'ionic-angular';
 import { DebtsProvider } from '../../providers/debts/debts';
 
-import superlogin from 'superlogin-client';
 import { Borrower } from '../../models/borrower';
 import { DialogUtilitiesProvider } from '../../providers/dialog-utilities/dialog-utilities';
 import { BorrowerEditorPage } from '../borrower-editor/borrower-editor';
+import { ContactsProvider } from '../../providers/contacts/contacts';
+import { User } from '../../models/user';
+import { AuthProvider } from '../../providers/auth/auth';
+import { SignInPage } from '../sign-in/sign-in';
 
 @IonicPage()
 @Component({
@@ -14,36 +17,42 @@ import { BorrowerEditorPage } from '../borrower-editor/borrower-editor';
 })
 export class BorrowerInfoPage {
 
-  borrower: Borrower;
+  borrower: User;
 
   constructor(private modalCtrl: ModalController,
     private navParams: NavParams,
-    private debtsProvider: DebtsProvider,
+    private contactsProvider: ContactsProvider,
     private dialogUtilities: DialogUtilitiesProvider,
     private alertCtrl: AlertController,
-    private viewCtrl: ViewController) {
+    private viewCtrl: ViewController,
+    private events: Events,
+    private authProvider: AuthProvider) {
   }
 
   ionViewCanEnter() {
-    return superlogin.authenticated();
+    const isLoggedIn = this.authProvider.isLoggedIn;
+
+    // redirect to sign in page if not logged in
+    if(!isLoggedIn) {
+      this.events.publish("user:logout");
+    }
+
+    return isLoggedIn;
   }
 
   async ionViewDidLoad() {
     console.log('ionViewDidLoad BorrowerInfoPage');
     const borrowerId = this.navParams.get("borrower");
-    this.borrower = await this.getBorrower(borrowerId);
+    this.getBorrower(borrowerId);
   }
 
-  async getBorrower(id) {
-    let borrower = null;
+  getBorrower(id) {
     try {
-      borrower = await this.debtsProvider.getBorrower(id);
+      this.contactsProvider.getContact(id).subscribe(borrower => this.borrower = borrower);
     }
     catch (e) {
       console.log("Issue while retrieving borrower.", e);
     }
-
-    return Promise.resolve(borrower);
   }
 
   openSkype() {
@@ -82,7 +91,7 @@ export class BorrowerInfoPage {
           text: "Delete",
           handler: async () => {
             try {
-              await this.debtsProvider.deleteBorrower(this.borrower);
+              await this.contactsProvider.deleteContact(this.borrower);
               this.dialogUtilities.showToast("Contact successfully deleted.");
               this.viewCtrl.dismiss();
             } catch (e) {

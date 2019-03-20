@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { environment } from '../../environments/debug.environment';
-import superlogin from 'superlogin-client';
+import { ProfileProvider } from '../profile/profile';
+import { resolve } from 'url';
 
 @Injectable()
 export class UtilitiesProvider {
 
-  constructor(private platform: Platform) {
+  constructor(private platform: Platform,
+    private profileProvider: ProfileProvider) {
     console.log('Hello UtilitiesProvider Provider');
   }
 
@@ -19,8 +21,11 @@ export class UtilitiesProvider {
   }
 
   createPublicDebtInfoUrl(debtId) {
-    let session: any = superlogin.getSession();
-    return `${environment.webUrl}/#/public-debt-info/${session.user_id}/${debtId}`;
+    return new Promise(resolve => {
+      this.profileProvider.getProfile().subscribe(user => {
+        resolve(`${environment.webUrl}/#/public-debt-info/${user.id}/${debtId}`);
+      });
+    });
   }
 
 }

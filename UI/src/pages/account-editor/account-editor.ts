@@ -1,11 +1,13 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, Events } from 'ionic-angular';
 import { DebtsProvider } from '../../providers/debts/debts';
-import { AuthProvider } from '../../providers/auth/auth';
 
-import superlogin from 'superlogin-client';
 import { User } from '../../models/user';
 import { DialogUtilitiesProvider } from '../../providers/dialog-utilities/dialog-utilities';
+import { ProfileProvider } from '../../providers/profile/profile';
+import { DomSanitizer } from '@angular/platform-browser';
+import { AuthProvider } from '../../providers/auth/auth';
+import { SignInPage } from '../sign-in/sign-in';
 
 @IonicPage()
 @Component({
@@ -16,18 +18,29 @@ export class AccountEditorPage {
 
   @ViewChild("imageFile")
   imageFile: any;
+  imageData: any;
 
   user: User = new User();
+  private hasChangedImage: boolean;
 
   constructor(private debtsProvider: DebtsProvider,
-    private authProvider: AuthProvider,
+    private profileProvider: ProfileProvider,
     private dialogUtilities: DialogUtilitiesProvider,
     private navCtrl: NavController,
-    private events: Events) {
+    private events: Events,
+    private authProvider: AuthProvider,
+    public sanitizer: DomSanitizer) {
   }
 
-  ionViewCanEnter() {
-    return superlogin.authenticated();
+  async ionViewCanEnter() {
+    const isLoggedIn = this.authProvider.isLoggedIn;
+
+    // redirect to sign in page if not logged in
+    if(!isLoggedIn) {
+      this.events.publish("user:logout");
+    }
+
+    return isLoggedIn;
   }
 
   ionViewWillEnter() {
@@ -35,17 +48,10 @@ export class AccountEditorPage {
 
   async ionViewDidEnter() {
     console.log('ionViewDidEnter DashboardPage');
-    try {
-      await this.refresh();
-      console.log("Dashboard finished initializing...");
-    }
-    catch (e) {
-      console.log("Shit happened while loading the dashboard", e);
-    }
-  }
-
-  async refresh() {
-    this.user = await this.authProvider.getInfo();
+    this.profileProvider.getProfile().subscribe(user => {
+      this.user = user;
+      this.imageData = this.user.image;
+    });
   }
 
   pickImage() {
@@ -55,7 +61,8 @@ export class AccountEditorPage {
   changeImage(files) {
     const reader = new FileReader();
     reader.onload = async (e: any) => {
-      this.user.image = (await this.debtsProvider.resizedataURL(e.target.result, 150, 150)) as string;
+      this.imageData = (await this.debtsProvider.resizedataURL(e.target.result, 150, 150)) as string;
+      this.hasChangedImage = true;
     };
     if (files.length > 0) {
       reader.readAsDataURL(files[0]);
@@ -65,8 +72,10 @@ export class AccountEditorPage {
   async save() {
     try {
       this.dialogUtilities.showLoading("I'm updating your data...");
-      await this.authProvider.updateUserPicture(this.user.id, this.user.image);
-      await this.authProvider.updateUser(this.user);
+      if (this.hasChangedImage) {
+        await this.profileProvider.updatePicture(this.imageData);
+      }
+      await this.profileProvider.updateProfile(this.user);
       this.dialogUtilities.showToast("Successfully updated your info.");
       this.events.publish("user:updated");
       this.navCtrl.pop();

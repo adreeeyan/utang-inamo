@@ -28,7 +28,7 @@ export class PublicDebtInfoPage {
 
   async refresh() {
     try {
-      this.dialogUtilities.showLoading("I'm retrieving your debt...");
+      this.dialogUtilities.showLoading("Hold my beer...");
       const userId = this.navParams.get("userid");
       const debtId = this.navParams.get("debtid");
       if (userId == null || debtId == null) {

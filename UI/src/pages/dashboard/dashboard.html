@@ -9,18 +9,13 @@
       </div>
       <div class="image">
         <img (click)="pickImage()" *ngIf="!user" src="assets/imgs/user-placeholder.jpg">
-        <img (click)="pickImage()" *ngIf="user" [src]="user?.image">
+        <img (click)="pickImage()" *ngIf="user" [src]="sanitizer.bypassSecurityTrustUrl(user?.image)">
         <input class="hide" type="file" name="image" #imageFile (change)="changeImage(imageFile.files)">
       </div>
       <div class="greetings" [style.visibility]="user != null ? 'visible' : 'hidden'">Hello {{user?.singleName}}!</div>
     </div>
 
     <ion-content class="info">
-      <ion-refresher (ionRefresh)="doRefreshFromPull($event)">
-        <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh">
-        </ion-refresher-content>
-      </ion-refresher>
-
       <div>
         <ion-card color="primary">
           <ion-card-header class="header">

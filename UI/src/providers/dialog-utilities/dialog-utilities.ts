@@ -61,9 +61,9 @@ export class DialogUtilitiesProvider {
     this.events.publish("util:hideloading");
   }
 
-  createSMSMessage(debt) {
+  async createSMSMessage(debt) {
     let message = "";
-    const debtUrl = this.utilities.createPublicDebtInfoUrl(debt.id || debt._id);
+    const debtUrl = await this.utilities.createPublicDebtInfoUrl(debt.id || debt._id);
     if (debt.type == DebtType.RECEIVABLE && debt.status == DebtStatus.UNPAID) {
       message = `Hi ${debt.borrower.singleName},\r\n\r\nI would like to follow up your debt amounting to ${this.formatCurrencyPipe.transform(debt.total)}.\r\n\r\n` +
         `You can find the info here:\r\n${debtUrl}`;

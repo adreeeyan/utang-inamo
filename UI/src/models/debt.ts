@@ -1,24 +1,25 @@
-import { Borrower } from "./borrower";
+import { User } from "./user";
+import * as moment from "moment";
 
 export class Debt {
     public id: string;
     public type: DebtType = DebtType.PAYABLE;
     // If type is Payable, then borrower means the person you borrowed to
     // else, then the person who borrowed money from you
-    public borrower: Borrower = new Borrower();
+    public borrower: User;
     public amount: number = 0;
     public interest: number = 0;
     public status: DebtStatus = DebtStatus.UNPAID;
     public dueDate: Date | string;
-    public borrowedDate: Date = new Date();
-    public paidDate: Date;
+    public borrowedDate: Date | string = moment().format();
+    public paidDate: Date | string;
     public description: string;
 
     constructor(init?: Partial<Debt>) {
         Object.assign(this, init);
 
-        if (init && init.borrower) {
-            this.borrower = new Borrower(init.borrower);
+        if (this.borrower != null) {
+            this.borrower = new User({ ...this.borrower });
         }
     }
 
@@ -51,14 +52,21 @@ export class Debt {
         }
         return useDate.toLocaleDateString("en-US", options);
     }
+
+    getPureObject() {
+        return {
+            ...(this as object),
+            borrower: Object.assign({}, this.borrower)
+        }
+    }
 }
 
 export enum DebtType {
-    PAYABLE,
-    RECEIVABLE
+    PAYABLE = "payable",
+    RECEIVABLE = "receivable"
 }
 
 export enum DebtStatus {
-    PAID,
-    UNPAID
+    PAID = "paid",
+    UNPAID = "unpaid"
 }

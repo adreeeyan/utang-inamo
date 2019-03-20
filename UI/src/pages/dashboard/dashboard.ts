@@ -1,13 +1,15 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, Events, PopoverController, ModalController, NavController } from 'ionic-angular';
 import { DebtsProvider } from '../../providers/debts/debts';
-import { DebtStatus, DebtType } from '../../models/debt';
+import { DebtType } from '../../models/debt';
 
-import superlogin from 'superlogin-client';
-import { AuthProvider } from '../../providers/auth/auth';
 import { MoreThingsPopupComponent } from '../../components/more-things-popup/more-things-popup';
 import { DebtEditorPage } from '../debt-editor/debt-editor';
 import { AccountEditorPage } from '../account-editor/account-editor';
+import { ProfileProvider } from '../../providers/profile/profile';
+import { DomSanitizer } from '@angular/platform-browser';
+import { DialogUtilitiesProvider } from '../../providers/dialog-utilities/dialog-utilities';
+import { AuthProvider } from '../../providers/auth/auth';
 
 @IonicPage()
 @Component({
@@ -24,17 +26,27 @@ export class DashboardPage {
   totalReceivables: any = 0;
 
   constructor(private debtsProvider: DebtsProvider,
-    private authProvider: AuthProvider,
+    private profileProvider: ProfileProvider,
     private events: Events,
     private popoverCtrl: PopoverController,
     private modalCtrl: ModalController,
-    private navCtrl: NavController) {
+    private navCtrl: NavController,
+    private dialogUtilities: DialogUtilitiesProvider,
+    public sanitizer: DomSanitizer,
+    private authProvider: AuthProvider) {
 
     this.events.subscribe("user:updated", this.refresh.bind(this));
   }
 
   ionViewCanEnter() {
-    return superlogin.authenticated();
+    const isLoggedIn = this.authProvider.isLoggedIn;
+
+    // redirect to sign in page if not logged in
+    if(!isLoggedIn) {
+      this.events.publish("user:logout");
+    }
+
+    return isLoggedIn;
   }
 
   ionViewWillEnter() {
@@ -52,44 +64,27 @@ export class DashboardPage {
   }
 
   async refresh() {
-    this.user = await this.authProvider.getInfo();
-    this.totalPayables = await this.getTotalPayables();
-    this.totalReceivables = await this.getTotalReceivables();
+    this.getUser();
+    this.getTotalPayables();
+    this.getTotalReceivables();
   }
 
-  async doRefreshFromPull(refresher) {
-    await this.refresh();
-    refresher.complete();
+  getUser() {
+    this.profileProvider.getProfile().subscribe(user => this.user = user);
   }
 
-  async getTotalPayables() {
-    let unpaidAmount = 0;
-    try {
-      const debts = await this.debtsProvider.getDebts();
-      const unpaid = debts.filter(p => p.status == DebtStatus.UNPAID && p.type == DebtType.PAYABLE);
-      unpaidAmount = unpaid.reduce((accumulator, currentValue) => {
-        return accumulator + currentValue.total;
-      }, 0);
-      return Promise.resolve(unpaidAmount || 0);
-    }
-    catch (e) {
-      console.log("Issue while retrieving total payables.", e);
-    }
-    return Promise.resolve(unpaidAmount);
+  getTotalPayables() {
+    this.debtsProvider.getUnpaidPayables().subscribe(unpaid => {
+      const unpaidAmount = unpaid.reduce((accumulator, currentValue) => accumulator + currentValue.total, 0);
+      this.totalPayables = unpaidAmount || 0;
+    });
   }
 
-  async getTotalReceivables() {
-    let receivableAmount = 0;
-    try {
-      const debts = await this.debtsProvider.getDebts();
-      const unpaid = debts.filter(p => p.status == DebtStatus.UNPAID && p.type == DebtType.RECEIVABLE);
-      receivableAmount = unpaid.reduce((accumulator, currentValue) => accumulator + currentValue.total, 0);
-      return Promise.resolve(receivableAmount || 0);
-    }
-    catch (e) {
-      console.log("Issue while retrieving total receivables.", e);
-    }
-    return Promise.resolve(receivableAmount);
+  getTotalReceivables() {
+    this.debtsProvider.getUnpaidReceivables().subscribe(unpaid => {
+      const receivableAmount = unpaid.reduce((accumulator, currentValue) => accumulator + currentValue.total, 0);
+      this.totalReceivables = receivableAmount || 0;
+    });
   }
 
   pickImage() {
@@ -99,8 +94,18 @@ export class DashboardPage {
   changeImage(files) {
     const reader = new FileReader();
     reader.onload = async (e: any) => {
-      this.user.image = (await this.debtsProvider.resizedataURL(e.target.result, 150, 150)) as string;
-      await this.authProvider.updateUserPicture(this.user.id, this.user.image);
+      try {
+        this.dialogUtilities.showLoading("I'm updating your picture...");
+        this.user.image = (await this.debtsProvider.resizedataURL(e.target.result, 150, 150)) as string;
+        await this.profileProvider.updatePicture(this.user.image);
+      }
+      catch (e) {
+        console.log("Error updating user picture", e);
+        this.dialogUtilities.showToast("Something went wrong while updating your picture.");
+      }
+      finally {
+        this.dialogUtilities.hideLoading();
+      }
     };
     if (files.length > 0) {
       reader.readAsDataURL(files[0]);

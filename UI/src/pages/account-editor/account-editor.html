@@ -14,7 +14,7 @@
       </div>
       <div class="image">
         <img (click)="pickImage()" *ngIf="!user" src="assets/imgs/user-placeholder.jpg">
-        <img (click)="pickImage()" *ngIf="user" [src]="user?.image">
+        <img (click)="pickImage()" *ngIf="user" [src]="sanitizer.bypassSecurityTrustUrl(imageData)">
         <input class="hide" type="file" name="image" #imageFile (change)="changeImage(imageFile.files)">
       </div>
     </div>

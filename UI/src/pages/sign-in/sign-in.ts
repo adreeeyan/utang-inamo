@@ -20,7 +20,6 @@ export class SignInPage {
     public navParams: NavParams,
     private authProvider: AuthProvider,
     private loadingCtrl: LoadingController,
-    private debtsProvider: DebtsProvider,
     private dialogUtilities: DialogUtilitiesProvider) {
   }
 
@@ -35,8 +34,7 @@ export class SignInPage {
     loading.present();
 
     try {
-      const response = await this.authProvider.login(this.username, this.password);
-      this.debtsProvider.init(response);
+      await this.authProvider.login(this.username, this.password);
       this.navCtrl.setRoot(TabsPage);
     }
     catch (e) {
@@ -55,8 +53,7 @@ export class SignInPage {
     loading.present();
 
     try {
-      let response = await this.authProvider.loginViaProvider(provider);
-      this.debtsProvider.init(response);
+      await this.authProvider.loginViaProvider(provider);
       this.navCtrl.setRoot(TabsPage);
     }
     catch (e) {

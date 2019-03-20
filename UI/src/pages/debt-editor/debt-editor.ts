@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, Events } from 'ionic-angular';
 import { AmountEditorComponent } from '../../components/amount-editor/amount-editor';
 import { BorrowerPickerPage } from '../borrower-picker/borrower-picker';
 import { DebtsProvider } from '../../providers/debts/debts';
 import { Debt, DebtType } from '../../models/debt';
 
-import superlogin from 'superlogin-client';
 import { DialogUtilitiesProvider } from '../../providers/dialog-utilities/dialog-utilities';
-import { BorrowerStatus } from '../../models/borrower';
+import { User, UserStatus } from '../../models/user';
+import { AuthProvider } from '../../providers/auth/auth';
+import { SignInPage } from '../sign-in/sign-in';
 
 @IonicPage()
 @Component({
@@ -23,11 +24,20 @@ export class DebtEditorPage {
     public navParams: NavParams,
     public modalCtrl: ModalController,
     private debtsProvider: DebtsProvider,
-    private dialogUtilities: DialogUtilitiesProvider) {
+    private dialogUtilities: DialogUtilitiesProvider,
+    private events: Events,
+    private authProvider: AuthProvider) {
   }
 
   ionViewCanEnter() {
-    return superlogin.authenticated();
+    const isLoggedIn = this.authProvider.isLoggedIn;
+
+    // redirect to sign in page if not logged in
+    if(!isLoggedIn) {
+      this.events.publish("user:logout");
+    }
+
+    return isLoggedIn;
   }
 
   async ionViewDidLoad() {
@@ -38,8 +48,7 @@ export class DebtEditorPage {
     if (debtId) {
       // This is an edit
       this.isEdit = true;
-
-      this.debt = await this.getDebt(debtId);
+      this.getDebt(debtId);
     } else {
       // This is a create
       this.isEdit = false;
@@ -51,23 +60,21 @@ export class DebtEditorPage {
     }
   }
 
-  async getDebt(id) {
-    let debt = null;
+  getDebt(id) {
     try {
-      debt = await this.debtsProvider.getDebt(id);
+      this.debtsProvider.getDebt(id).subscribe(debt => this.debt = debt);
     }
     catch (e) {
       console.log("Issue while retrieving debt.", e);
     }
-
-    return Promise.resolve(debt);
   }
 
   get borrowerName() {
     if (!this.debt.borrower) {
       return "";
     }
-    return this.debt.borrower.name;
+    const borrower = this.debt.borrower as User;
+    return borrower.name;
   }
 
   openAmountEditor() {
@@ -86,7 +93,6 @@ export class DebtEditorPage {
     try {
       const borrowerPickerModal = this.modalCtrl.create(BorrowerPickerPage);
       borrowerPickerModal.onDidDismiss(borrower => {
-        console.log("borrower", borrower);
         if (borrower) {
           this.debt.borrower = borrower;
         }
@@ -141,7 +147,8 @@ export class DebtEditorPage {
       return DebtValidationStatus.NEGATIVEINTEREST;
     }
 
-    if (this.debt.borrower.status == BorrowerStatus.DELETED) {
+    const borrower = this.debt.borrower as User;
+    if (borrower.status == UserStatus.DELETED) {
       return DebtValidationStatus.DELETEDBORROWER;
     }
 

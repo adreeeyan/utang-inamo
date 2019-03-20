@@ -5,6 +5,7 @@ import { SignInPage } from '../sign-in/sign-in';
 import { DebtsProvider } from '../../providers/debts/debts';
 import { TabsPage } from '../tabs/tabs';
 import { DialogUtilitiesProvider } from '../../providers/dialog-utilities/dialog-utilities';
+import { User } from '../../models/user';
 
 @IonicPage()
 @Component({
@@ -13,8 +14,7 @@ import { DialogUtilitiesProvider } from '../../providers/dialog-utilities/dialog
 })
 export class SignUpPage {
 
-  username: any = "";
-  email: any = "";
+  user: User = new User();
   password: any = "";
   confirmPassword: any = "";
 
@@ -31,14 +31,20 @@ export class SignUpPage {
   }
 
   async register() {
+    // check if passwords are the same
+    if(this.password !== this.confirmPassword) {
+      this.dialogUtilities.showToast("Passwords are not the same.");
+      return;
+    }
+
     let loading = this.loadingCtrl.create({
       content: "Registering..."
     });
     loading.present();
 
     try {
-      const res = await this.authProvider.register(this.username, this.email, this.password, this.confirmPassword);
-      this.debtsProvider.init(res);
+      const res = await this.authProvider.register(this.user, this.password);
+      // this.debtsProvider.init(res);
       this.navCtrl.setRoot(TabsPage);
     }
     catch (e) {

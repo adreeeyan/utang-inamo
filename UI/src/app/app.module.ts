@@ -1,4 +1,4 @@
-import { NgModule, ErrorHandler } from '@angular/core';
+import { NgModule, ErrorHandler, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { HttpClientModule } from '@angular/common/http';
@@ -6,8 +6,6 @@ import { IonicStorageModule } from '@ionic/storage';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-const superlogin = require('superlogin-client').default;
 
 import { MyApp } from './app.component';
 import { DebtListingPageModule } from '../pages/debt-listing/debt-listing.module';
@@ -38,8 +36,20 @@ import { AccountEditorPageModule } from '../pages/account-editor/account-editor.
 import { PublicDebtProvider } from '../providers/public-debt/public-debt';
 import { AboutPageModule } from '../pages/about/about.module';
 import { AboutPage } from '../pages/about/about';
+import { ProfileProvider } from '../providers/profile/profile';
 
-superlogin.configure(environment.superlogin);
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireStorageModule } from '@angular/fire/storage';
+import { AngularFireFunctionsModule } from '@angular/fire/functions';
+import * as firebase from 'firebase/app';
+import { ContactsProvider } from '../providers/contacts/contacts';
+
+// Initialize firebase
+firebase.initializeApp(environment.firebase);
+
+console.log("initializing")
 
 @NgModule({
   declarations: [
@@ -81,6 +91,11 @@ superlogin.configure(environment.superlogin);
           ]
       }
     ),
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule,
+    AngularFirestoreModule,
+    AngularFireStorageModule,
+    AngularFireFunctionsModule,
     IonicStorageModule.forRoot(),
     DebtListingPageModule,
     BorrowerEditorPageModule,
@@ -107,12 +122,20 @@ superlogin.configure(environment.superlogin);
     GooglePlus,
     Network,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
+    ProfileProvider,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (pp: ProfileProvider) => () => pp.init(),
+      deps: [ProfileProvider],
+      multi: true
+    },
     AuthProvider,
     DebtsProvider,
     DialogUtilitiesProvider,
     UtilitiesProvider,
     ConnectivityProvider,
-    PublicDebtProvider
+    PublicDebtProvider,
+    ContactsProvider
   ]
 })
 export class AppModule { }

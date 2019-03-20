@@ -1,7 +1,7 @@
 <ion-content>
   <div class="header-container">
     <div class="image" (click)="openAppWebsite()">
-      <img class="logo" src="assets/imgs/logo-with-text-small.png" alt="Logo">      
+      <img class="logo" src="assets/imgs/logo-with-text-small.png" alt="Logo">
     </div>
     <div class="amount">
       {{debt.total | formatCurrency}}
@@ -16,8 +16,10 @@
       </div>
       <div class="right">
         <h3 class="name">Hi {{debt.borrower?.singleName}}!</h3>
-        <h5 class="duedate">Please see below for the details of the debt and how you may be able to pay me or contact
+        <h5 class="duedate" *ngIf="debt.type == 'receivable'">Please see below for the details of the debt and how you
+          may be able to pay me or contact
           me. Thanks!</h5>
+        <h5 class="duedate" *ngIf="debt.type == 'payable'">Please see below for the details of my debt. Thanks!</h5>
       </div>
     </div>
     <div class="otherinfo-part">
@@ -45,7 +47,7 @@
         </ion-item>
       </ion-list>
     </div>
-    <div class="contact-part">
+    <div class="contact-part" *ngIf="debt.type == 'receivable'">
       <div class="sub-info-header">
         <div class="title">
           Pay me via

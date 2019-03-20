@@ -3,13 +3,14 @@ import { IonicPage, ModalController, ViewController, NavParams, AlertController 
 import { Borrower } from '../../models/borrower';
 import { DebtsProvider } from '../../providers/debts/debts';
 
-import superlogin from 'superlogin-client';
 import { Contacts } from '@ionic-native/contacts';
 import { DialogUtilitiesProvider } from '../../providers/dialog-utilities/dialog-utilities';
 import { UtilitiesProvider } from '../../providers/utilities/utilities';
 import { BorrowerInfoPage } from '../borrower-info/borrower-info';
 import _ from "lodash";
 import { BorrowerEditorPage } from '../borrower-editor/borrower-editor';
+import { ContactsProvider } from '../../providers/contacts/contacts';
+import { User } from '../../models/user';
 
 @IonicPage()
 @Component({
@@ -18,29 +19,30 @@ import { BorrowerEditorPage } from '../borrower-editor/borrower-editor';
 })
 export class BorrowerPickerPage {
 
-  borrowers: Borrower[] = [];
-  searchResults: Borrower[] = [];
+  borrowers: User[] = [];
+  searchResults: User[] = [];
   isFinishedInitializing: boolean = false;
   // for transitioning to borrower editor
   stayWhenSelected: boolean = false;
 
   // for multi-selection
   multiSelectionEnabled = false;
-  selectedBorrowers: Borrower[] = [];
+  selectedBorrowers: User[] = [];
 
   constructor(private navParams: NavParams,
     private viewCtrl: ViewController,
     private modalCtrl: ModalController,
     private debtsProvider: DebtsProvider,
+    private contactsProvider: ContactsProvider,
     private contacts: Contacts,
     private dialogUtilities: DialogUtilitiesProvider,
     private utilities: UtilitiesProvider,
     private alertCtrl: AlertController) {
   }
 
-  ionViewCanEnter() {
-    return superlogin.authenticated();
-  }
+  // ionViewCanEnter() {
+  //   return superlogin.authenticated();
+  // }
 
   async ionViewDidEnter() {
     console.log('ionViewDidEnter BorrowerPickerPage');
@@ -50,9 +52,9 @@ export class BorrowerPickerPage {
   }
 
   async refresh() {
-    this.borrowers = await this.getBorrowers();
-    this.borrowers.sort((a, b) => a.name.localeCompare(b.name));
-    this.searchResults = this.borrowers;
+    this.getBorrowers();
+    // this.borrowers.sort((a, b) => a.name.localeCompare(b.name));
+    // this.searchResults = this.borrowers;
   }
 
   async doRefreshFromPull(refresher) {
@@ -60,16 +62,16 @@ export class BorrowerPickerPage {
     refresher.complete();
   }
 
-  async getBorrowers() {
-    let borrowers = [];
+  getBorrowers() {
     try {
-      borrowers = await this.debtsProvider.getBorrowers();
+      this.contactsProvider.getContacts().subscribe(borrowers => {
+        this.borrowers = borrowers.sort((a, b) => a.name.localeCompare(b.name));
+        this.searchResults = this.borrowers;
+      });
     }
     catch (e) {
       console.log("Issue while retrieving borrowers.", e);
     }
-
-    return borrowers;
   }
 
   search(ev: any) {
@@ -144,7 +146,7 @@ export class BorrowerPickerPage {
     }
   }
 
-  toggleSelection(borrower: Borrower) {
+  toggleSelection(borrower: User) {
     // check if borrower if list
     // if in list then remove it
     const hasItem = this.isInList(borrower);
@@ -155,7 +157,7 @@ export class BorrowerPickerPage {
     }
   }
 
-  isInList(borrower: Borrower) {
+  isInList(borrower: User) {
     return _.includes(this.selectedBorrowers, borrower);
   }
 
@@ -191,7 +193,7 @@ export class BorrowerPickerPage {
         messengerId: facebook
       });
 
-      await this.debtsProvider.createBorrower(borrower);
+      await this.contactsProvider.createContact(borrower);
       setTimeout(() => {
         this.refresh();
       }, 500);
@@ -223,7 +225,7 @@ export class BorrowerPickerPage {
               // iterate the contacts
               for (const borrower of this.selectedBorrowers) {
                 // delete it
-                await this.debtsProvider.deleteBorrower(borrower);
+                await this.contactsProvider.deleteContact(borrower);
               }
               // refresh the list
               setTimeout(async () => {
