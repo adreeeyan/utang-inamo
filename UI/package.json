@@ -1,6 +1,6 @@
 {
   "name": "utang-inamo",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "author": "Adrian Dela Piedra",
   "homepage": "http://ionicframework.com/",
   "private": true,
@@ -59,7 +59,7 @@
   },
   "devDependencies": {
     "@ionic/app-scripts": "3.2.1",
-    "typescript": "^3.3.4000"
+    "typescript": "~2.8"
   },
   "description": "Just a debt manager.",
   "cordova": {
