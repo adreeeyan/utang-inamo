@@ -51,8 +51,6 @@
     "ionicons": "3.0.0",
     "lodash": "^4.17.11",
     "moment": "^2.24.0",
-    "pouchdb": "^7.0.0",
-    "pouchdb-req-http-query": "^4.1.0",
     "promise-polyfill": "^8.1.0",
     "rxjs": "^6.3.3",
     "rxjs-compat": "^6.4.0",
@@ -61,7 +59,7 @@
   },
   "devDependencies": {
     "@ionic/app-scripts": "3.2.1",
-    "typescript": "~2.6.2"
+    "typescript": "^3.3.4000"
   },
   "description": "Just a debt manager.",
   "cordova": {
