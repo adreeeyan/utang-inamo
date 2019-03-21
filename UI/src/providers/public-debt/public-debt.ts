@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-
 import { Debt } from '../../models/debt';
-import { Borrower } from '../../models/borrower';
 import { User } from '../../models/user';
 import { AngularFireFunctions } from '@angular/fire/functions';
 

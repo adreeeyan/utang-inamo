@@ -8,7 +8,6 @@ import { Debt, DebtType } from '../../models/debt';
 import { DialogUtilitiesProvider } from '../../providers/dialog-utilities/dialog-utilities';
 import { User, UserStatus } from '../../models/user';
 import { AuthProvider } from '../../providers/auth/auth';
-import { SignInPage } from '../sign-in/sign-in';
 
 @IonicPage()
 @Component({

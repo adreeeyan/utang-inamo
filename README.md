@@ -15,7 +15,7 @@
     - In order to use this continuously without internet usage, you need to **Add it to your homescreen**
 
 * There are features that is not supported on PWA yet so a native build is made to support these features. See features list below for those supported in native builds only.
-    - [Latest APK](https://github.com/adrianonrails/utang-inamo/releases/download/v0.2.0/UtangInamo.apk)
+    - [Latest APK](https://github.com/adrianonrails/utang-inamo/releases/download/v0.2.1/UtangInamo.apk)
     - Sorry no native build for iOS :(
 
 #### Features
@@ -39,16 +39,16 @@
 #### Found some bugs? [Report it here.](https://github.com/adrianonrails/baruch/issues/new)
 
 #### Screenshot
-Dashboard
+Dashboard  
 ![dashboard](https://user-images.githubusercontent.com/18593260/50537373-94735900-0b99-11e9-8ff3-9935bb5dc5a3.png "Dashboard")  
 
-Debts listing
+Debts listing  
 ![debts](https://user-images.githubusercontent.com/18593260/50537390-de5c3f00-0b99-11e9-9e46-0187c621311f.png "Debts")  
 
-Contacts listing
+Contacts listing  
 ![contacts](https://user-images.githubusercontent.com/18593260/50537384-c1c00700-0b99-11e9-9829-677e7ca0c15e.png "Contacts")  
 
-Page containing the debt info viewable by the borrower
+Page containing the debt info viewable by the borrower  
 ![debtinfo](https://user-images.githubusercontent.com/18593260/50537208-eb782e80-0b97-11e9-994f-aec9ec490a07.png "Debt info viewable by borrower")
 
 

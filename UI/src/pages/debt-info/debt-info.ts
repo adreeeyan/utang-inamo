@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavParams, ModalController, NavController, Events } from 'ionic-angular';
+import { IonicPage, NavParams, ModalController, Events } from 'ionic-angular';
 import { DebtEditorPage } from '../debt-editor/debt-editor';
 import { Debt, DebtStatus, DebtType } from '../../models/debt';
 import { DebtsProvider } from '../../providers/debts/debts';
@@ -10,7 +10,6 @@ import { UtilitiesProvider } from '../../providers/utilities/utilities';
 import { User, UserStatus } from '../../models/user';
 import * as moment from "moment";
 import { AuthProvider } from '../../providers/auth/auth';
-import { SignInPage } from '../sign-in/sign-in';
 
 @IonicPage()
 @Component({

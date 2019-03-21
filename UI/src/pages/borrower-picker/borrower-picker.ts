@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, ModalController, ViewController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, ModalController, ViewController, NavParams, AlertController, Events } from 'ionic-angular';
 import { Borrower } from '../../models/borrower';
-import { DebtsProvider } from '../../providers/debts/debts';
 
 import { Contacts } from '@ionic-native/contacts';
 import { DialogUtilitiesProvider } from '../../providers/dialog-utilities/dialog-utilities';
@@ -11,6 +10,7 @@ import _ from "lodash";
 import { BorrowerEditorPage } from '../borrower-editor/borrower-editor';
 import { ContactsProvider } from '../../providers/contacts/contacts';
 import { User } from '../../models/user';
+import { AuthProvider } from '../../providers/auth/auth';
 
 @IonicPage()
 @Component({
@@ -32,17 +32,25 @@ export class BorrowerPickerPage {
   constructor(private navParams: NavParams,
     private viewCtrl: ViewController,
     private modalCtrl: ModalController,
-    private debtsProvider: DebtsProvider,
     private contactsProvider: ContactsProvider,
     private contacts: Contacts,
     private dialogUtilities: DialogUtilitiesProvider,
     private utilities: UtilitiesProvider,
-    private alertCtrl: AlertController) {
+    private alertCtrl: AlertController,
+    private events: Events,
+    private authProvider: AuthProvider) {
   }
 
-  // ionViewCanEnter() {
-  //   return superlogin.authenticated();
-  // }
+  ionViewCanEnter() {
+    const isLoggedIn = this.authProvider.isLoggedIn;
+
+    // redirect to sign in page if not logged in
+    if(!isLoggedIn) {
+      this.events.publish("user:logout");
+    }
+
+    return isLoggedIn;
+  }
 
   async ionViewDidEnter() {
     console.log('ionViewDidEnter BorrowerPickerPage');
@@ -53,8 +61,6 @@ export class BorrowerPickerPage {
 
   async refresh() {
     this.getBorrowers();
-    // this.borrowers.sort((a, b) => a.name.localeCompare(b.name));
-    // this.searchResults = this.borrowers;
   }
 
   async doRefreshFromPull(refresher) {

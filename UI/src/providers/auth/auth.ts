@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Storage } from '@ionic/storage';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { DebtsProvider } from '../debts/debts';
 import { GooglePlus } from '@ionic-native/google-plus';
 import { UtilitiesProvider } from '../utilities/utilities';
 import { User } from '../../models/user';
@@ -14,8 +12,6 @@ export class AuthProvider {
   isLoggedIn: boolean;
 
   constructor(private fireAuth: AngularFireAuth,
-    private storage: Storage,
-    private debtsProvider: DebtsProvider,
     private googlePlus: GooglePlus,
     private utilities: UtilitiesProvider,
     private profileProvider: ProfileProvider) {

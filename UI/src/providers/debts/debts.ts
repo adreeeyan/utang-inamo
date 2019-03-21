@@ -1,32 +1,23 @@
 import { Injectable } from "@angular/core";
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { Debt, DebtType, DebtStatus } from "../../models/debt";
-import { Events } from "ionic-angular";
 import { Subject } from "rxjs";
 import { AngularFireAuth } from "@angular/fire/auth";
-import { ProfileProvider } from "../profile/profile";
 import { User } from "../../models/user";
 
 @Injectable()
 export class DebtsProvider {
 
-  private data: any;
-  private db: any;
-  private remote: any;
   private user: any;
 
   private debtsLocation: string = "debts";
   private usersLocation: string = "users";
   private debtsCollection: AngularFirestoreCollection;
 
-  private isFinishInitializing: boolean = false;
 
   constructor(private fireStore: AngularFirestore,
-    private fireAuth: AngularFireAuth,
-    private profileProvider: ProfileProvider,
-    private events: Events) {
+    private fireAuth: AngularFireAuth) {
     console.log("Hello DebtsProvider Provider");
-    this.isFinishInitializing = false;
 
     // set debts reference
     this.fireAuth.auth.onAuthStateChanged(async user => {
@@ -37,48 +28,6 @@ export class DebtsProvider {
         this.user = null;
         this.debtsCollection = null;
       }
-    });
-  }
-
-  // init(details) {
-
-  //   this.events.publish("user:startsync");
-
-  //   this.db = new PouchDB("utang-inamo");
-
-  //   this.remote = details.userDBs.utanginamo;
-
-  //   this.db.replicate.from(this.remote)
-  //     .on("complete", () => {
-  //       console.log("Shits finished replicating...");
-  //       this.isFinishInitializing = true;
-
-  //       // Do some live syncing
-  //       let options = {
-  //         live: true,
-  //         retry: true,
-  //         continuous: true
-  //       };
-  //       this.db.sync(this.remote, options);
-
-  //       this.events.publish("user:endsync");
-  //     })
-  //     .on("error", err => {
-  //       console.log("Shit happened while replicating", err);
-  //       this.isFinishInitializing = true;
-  //       this.events.publish("user:endsync");
-  //     });
-  // }
-
-  IsInitizialized() {
-    return new Promise(resolve => {
-      // let initializeCheckerInterval = setInterval(() => {
-      //   if (this.isFinishInitializing) {
-      //     clearInterval(initializeCheckerInterval);
-      //     resolve(true);
-      //   }
-      // }, 500);
-      resolve(true);
     });
   }
 

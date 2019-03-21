@@ -1,42 +1,45 @@
 <ion-content>
-  <div class="sign-up" *ngIf="user">
+  <form class="sign-up" *ngIf="user" role="form" (ngSubmit)="register()" #registerForm="ngForm">
     <div class="logo">
       <img src="assets/imgs/logo-with-text.png" alt="Logo">
     </div>
     <div class="fields">
       <ion-list>
         <ion-item>
-          <ion-input type="text" placeholder="First Name" [(ngModel)]="user.firstName"></ion-input>
+          <ion-input type="text" name="firstName" placeholder="First Name" [(ngModel)]="user.firstName" required>
+          </ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-input type="text" placeholder="Last Name" [(ngModel)]="user.lastName"></ion-input>
+          <ion-input type="text" name="lastName" placeholder="Last Name" [(ngModel)]="user.lastName" required>
+          </ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-input type="text" placeholder="Email address" [(ngModel)]="user.email"></ion-input>
+          <ion-input type="text" name="email" placeholder="Email address" [(ngModel)]="user.email" required></ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-input type="password" placeholder="Password" [(ngModel)]="password"></ion-input>
+          <ion-input type="password" name="password" placeholder="Password" [(ngModel)]="password" required></ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-input type="password" placeholder="Confirm password" [(ngModel)]="confirmPassword"></ion-input>
+          <ion-input type="password" name="confirmPassword" placeholder="Confirm password" [(ngModel)]="confirmPassword"
+            required></ion-input>
         </ion-item>
       </ion-list>
       <div class="field-buttons">
-        <button ion-button outline icon-start color="danger" (click)="register()">
+        <button type="submit" ion-button outline icon-start color="danger" [disabled]="!registerForm.form.valid">
           <ion-icon name="person-add"></ion-icon>
           Register
         </button>
       </div>
     </div>
     <div class="buttons">
-      <button ion-button round icon-start color="realdanger" (click)="goToSignInPage()">
+      <button type="button" ion-button round icon-start color="realdanger" (click)="goToSignInPage()">
         <ion-icon name="log-in"></ion-icon>
         Back to Login Page
       </button>
     </div>
-  </div>
+  </form>
 </ion-content>

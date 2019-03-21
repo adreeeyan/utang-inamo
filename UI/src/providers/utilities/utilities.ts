@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { environment } from '../../environments/debug.environment';
 import { ProfileProvider } from '../profile/profile';
-import { resolve } from 'url';
 
 @Injectable()
 export class UtilitiesProvider {

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavParams, ModalController, NavController, Events } from 'ionic-angular';
+import { IonicPage, NavParams, ModalController, Events } from 'ionic-angular';
 import { Debt, DebtType, DebtStatus } from '../../models/debt';
 import { DebtInfoPage } from '../debt-info/debt-info';
 import { DebtEditorPage } from '../debt-editor/debt-editor';
@@ -8,7 +8,6 @@ import { DebtsProvider } from '../../providers/debts/debts';
 import { DialogUtilitiesProvider } from '../../providers/dialog-utilities/dialog-utilities';
 import { UserStatus, User } from '../../models/user';
 import { AuthProvider } from '../../providers/auth/auth';
-import { SignInPage } from '../sign-in/sign-in';
 
 @IonicPage()
 @Component({

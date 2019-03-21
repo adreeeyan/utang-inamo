@@ -1,14 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavParams, ModalController, AlertController, ViewController, NavController, Events } from 'ionic-angular';
-import { DebtsProvider } from '../../providers/debts/debts';
-
-import { Borrower } from '../../models/borrower';
+import { IonicPage, NavParams, ModalController, AlertController, ViewController, Events } from 'ionic-angular';
 import { DialogUtilitiesProvider } from '../../providers/dialog-utilities/dialog-utilities';
 import { BorrowerEditorPage } from '../borrower-editor/borrower-editor';
 import { ContactsProvider } from '../../providers/contacts/contacts';
 import { User } from '../../models/user';
 import { AuthProvider } from '../../providers/auth/auth';
-import { SignInPage } from '../sign-in/sign-in';
 
 @IonicPage()
 @Component({

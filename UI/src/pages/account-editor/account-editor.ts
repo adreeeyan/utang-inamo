@@ -1,13 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, Events } from 'ionic-angular';
 import { DebtsProvider } from '../../providers/debts/debts';
-
 import { User } from '../../models/user';
 import { DialogUtilitiesProvider } from '../../providers/dialog-utilities/dialog-utilities';
 import { ProfileProvider } from '../../providers/profile/profile';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AuthProvider } from '../../providers/auth/auth';
-import { SignInPage } from '../sign-in/sign-in';
 
 @IonicPage()
 @Component({

@@ -1,38 +1,38 @@
 <ion-content>
-  <div class="sign-in">
+  <form class="sign-in" role="form" (ngSubmit)="login()" #loginForm="ngForm">
     <div class="logo">
       <img src="assets/imgs/logo-with-text.png" alt="Logo">
     </div>
     <div class="fields">
       <ion-list>
         <ion-item>
-          <ion-input type="text" placeholder="Username" [(ngModel)]="username"></ion-input>
+          <ion-input type="text" name="email" placeholder="Email address" [(ngModel)]="username" required></ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-input type="password" placeholder="Password" [(ngModel)]="password"></ion-input>
+          <ion-input type="password" name="password" placeholder="Password" [(ngModel)]="password" required></ion-input>
         </ion-item>
       </ion-list>
       <div class="field-buttons">
-        <button ion-button outline icon-start color="danger" (click)="goToSignUpPage()">
+        <button type="button" ion-button outline icon-start color="danger" (click)="goToSignUpPage()">
           <ion-icon name="person-add"></ion-icon>
           Register
         </button>
-        <button ion-button outline icon-start color="danger" (click)="login()">
+        <button type="submit" ion-button outline icon-start color="danger" [disabled]="!loginForm.form.valid">
           <ion-icon name="log-in"></ion-icon>
           Login
         </button>
       </div>
     </div>
     <div class="buttons">
-      <button ion-button round icon-start class="google" (tap)="loginViaProvider('google')">
+      <button type="button" ion-button round icon-start class="google" (tap)="loginViaProvider('google')">
         <ion-icon name="logo-googleplus"></ion-icon>
         Login via Google
       </button>
-      <button ion-button round icon-start disabled class="facebook" (tap)="loginViaProvider('facebook')">
+      <button type="button" ion-button round icon-start disabled class="facebook" (tap)="loginViaProvider('facebook')">
         <ion-icon name="logo-facebook"></ion-icon>
         Login via Facebook
       </button>
     </div>
-  </div>
+  </form>
 </ion-content>

@@ -9,7 +9,6 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { Keyboard } from '@ionic-native/keyboard';
 import { DialogUtilitiesProvider } from '../providers/dialog-utilities/dialog-utilities';
 import { UtilitiesProvider } from '../providers/utilities/utilities';
-import { ConnectivityProvider } from '../providers/connectivity/connectivity';
 import { AuthProvider } from '../providers/auth/auth';
 
 @IonicPage()

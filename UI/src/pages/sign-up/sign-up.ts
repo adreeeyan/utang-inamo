@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { SignInPage } from '../sign-in/sign-in';
-import { DebtsProvider } from '../../providers/debts/debts';
 import { TabsPage } from '../tabs/tabs';
 import { DialogUtilitiesProvider } from '../../providers/dialog-utilities/dialog-utilities';
 import { User } from '../../models/user';
@@ -22,7 +21,6 @@ export class SignUpPage {
     public navParams: NavParams,
     private authProvider: AuthProvider,
     private loadingCtrl: LoadingController,
-    private debtsProvider: DebtsProvider,
     private dialogUtilities: DialogUtilitiesProvider) {
   }
 
@@ -43,7 +41,7 @@ export class SignUpPage {
     loading.present();
 
     try {
-      const res = await this.authProvider.register(this.user, this.password);
+      await this.authProvider.register(this.user, this.password);
       // this.debtsProvider.init(res);
       this.navCtrl.setRoot(TabsPage);
     }
