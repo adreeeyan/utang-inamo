@@ -70,7 +70,14 @@ export class AuthProvider {
     let response: any;
     if (!this.utilities.isApp()) {
       // This is for PWA
-      response = await this.fireAuth.auth.signInWithPopup(provider);
+      try
+      {
+        response = await this.fireAuth.auth.signInWithRedirect(provider);
+      }
+      catch(e)
+      {
+        console.log(`Error when logging in via google ${e}`);
+      }
     } else {
       // This is for the mobile app
       const gPlusResponse = await this.googlePlus.login({
