@@ -46,7 +46,7 @@ before_install:
 - openssl aes-256-cbc -K $encrypted_bd5072f0e57f_key -iv $encrypted_bd5072f0e57f_iv
   -in my-release-key.keystore.enc -out my-release-key.keystore -d
 - export LANG=en_US.UTF-8
-- nvm install 8
+- nvm install 10
 - npm install -g ionic cordova
 script:
 - npm install
