@@ -7,6 +7,6 @@ export const environment = {
         storageBucket: "utang-inamo.appspot.com",
         messagingSenderId: "497597677459"
     },
-    webUrl: "https://adrianonrails.github.io/utang-inamo",
+    webUrl: "https://adreeeyan.github.io/utang-inamo",
     appVersion: "0.2.3"
 };
