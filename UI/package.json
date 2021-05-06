@@ -43,7 +43,7 @@
     "cordova-plugin-splashscreen": "~5.0.2",
     "cordova-plugin-statusbar": "~2.4.2",
     "cordova-plugin-whitelist": "~1.3.3",
-    "cordova-sqlite-storage": "~2.5.2",
+    "cordova-sqlite-storage": "~3.0.0",
     "firebase": "~5.9.0",
     "fitty": "~2.2.6",
     "ionic-angular": "3.9.2",
