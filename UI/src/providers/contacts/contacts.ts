@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { User } from '../../models/user';
 import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireStorage } from '@angular/fire/storage';
+import { Events } from 'ionic-angular';
 
 @Injectable()
 export class ContactsProvider {
@@ -13,9 +14,14 @@ export class ContactsProvider {
   private contactsPictureLocation: string = "contacts";
   private contactsCollection: AngularFirestoreCollection;
 
+  // Subscriptions
+  private contactsCollectionSnapshot: Subscription;
+  private contactSnapshot: Subscription;
+
   constructor(private fireStore: AngularFirestore,
     private fireAuth: AngularFireAuth,
-    private fireStorage: AngularFireStorage) {
+    private fireStorage: AngularFireStorage,
+    private events: Events) {
     console.log('Hello ContactsProvider Provider');
 
     // set debts reference
@@ -26,12 +32,14 @@ export class ContactsProvider {
         this.contactsCollection = null;
       }
     });
+
+    this.events.subscribe("user:logout", this.clearSubscription.bind(this));
   }
 
   getContacts(): Subject<User[]> {
     let contacts$: Subject<User[]> = new Subject();
     try {
-      this.contactsCollection.snapshotChanges().subscribe(async collection => {
+      this.contactsCollectionSnapshot = this.contactsCollection.snapshotChanges().subscribe(async collection => {
         contacts$.next(collection.map(doc => new User({ ...doc.payload.doc.data(), id: doc.payload.doc.id })));
       });
       return contacts$;
@@ -45,8 +53,8 @@ export class ContactsProvider {
     try {
       let contact$: Subject<User> = new Subject();
       const doc$ = this.contactsCollection.doc(id);
-      doc$.snapshotChanges().subscribe(async contact => {
-        const contactObj = new User({ ...contact.payload.data(), id: contact.payload.id });
+      this.contactSnapshot = doc$.snapshotChanges().subscribe(async contact => {
+        const contactObj = new User({ ...<any>contact.payload.data(), id: contact.payload.id });
         contact$.next(contactObj);
       });
       return contact$;
@@ -110,6 +118,21 @@ export class ContactsProvider {
         reject(e.message);
       }
     });
+  }
+
+  clearSubscription()
+  {
+    try
+    {
+      this.contactsCollectionSnapshot.unsubscribe();
+      this.contactSnapshot.unsubscribe();
+  
+      this.events.unsubscribe("user:logout");
+    }
+    catch
+    {
+      // We should be doing some catching here
+    }    
   }
 
 }

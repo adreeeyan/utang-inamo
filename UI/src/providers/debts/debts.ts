@@ -1,9 +1,10 @@
 import { Injectable } from "@angular/core";
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { Debt, DebtType, DebtStatus } from "../../models/debt";
-import { Subject } from "rxjs";
+import { Subject, Subscription } from "rxjs";
 import { AngularFireAuth } from "@angular/fire/auth";
 import { User } from "../../models/user";
+import { Events } from "ionic-angular";
 
 @Injectable()
 export class DebtsProvider {
@@ -14,9 +15,20 @@ export class DebtsProvider {
   private usersLocation: string = "users";
   private debtsCollection: AngularFirestoreCollection;
 
+  // Subscriptions
+  private debtsCollectionSnapshot: Subscription;
+  private payablesSnapshot: Subscription;
+  private receivablesSnapshot: Subscription;
+  private paidPayablesSnapshot: Subscription;
+  private unpaidPayablesSnapshot: Subscription;
+  private paidReceivablesSnapshot: Subscription;
+  private unpaidReceivablesSnapshot: Subscription;
+  private debtSnapshot: Subscription;
+
 
   constructor(private fireStore: AngularFirestore,
-    private fireAuth: AngularFireAuth) {
+    private fireAuth: AngularFireAuth,
+    private events: Events) {
     console.log("Hello DebtsProvider Provider");
 
     // set debts reference
@@ -29,12 +41,14 @@ export class DebtsProvider {
         this.debtsCollection = null;
       }
     });
+
+    this.events.subscribe("user:logout", this.clearSubscription.bind(this));
   }
 
   getDebts(): Subject<Debt[]> {
     let debts$: Subject<Debt[]> = new Subject();
     try {
-      this.debtsCollection.snapshotChanges().subscribe(async collection => {
+      this.debtsCollectionSnapshot = this.debtsCollection.snapshotChanges().subscribe(async collection => {
         debts$.next(collection.map(doc => {
           const debt = new Debt({ ...doc.payload.doc.data(), id: doc.payload.doc.id });
           debt.borrower = new User({ ...debt.borrower });
@@ -54,9 +68,9 @@ export class DebtsProvider {
       const payables = this.fireStore.collection(`${this.usersLocation}/${this.user.email}/${this.debtsLocation}`, ref => {
         return ref.where("type", "==", DebtType.PAYABLE);
       });
-      payables.snapshotChanges().subscribe(async collection => {
+      this.payablesSnapshot = payables.snapshotChanges().subscribe(async collection => {
         debts$.next(collection.map(doc => {
-          const debt = new Debt({ ...doc.payload.doc.data(), id: doc.payload.doc.id });
+          const debt = new Debt({ ...<any>doc.payload.doc.data(), id: doc.payload.doc.id });
           debt.borrower = new User({ ...debt.borrower });
           return debt;
         }));
@@ -74,9 +88,9 @@ export class DebtsProvider {
       const receivables = this.fireStore.collection(`${this.usersLocation}/${this.user.email}/${this.debtsLocation}`, ref => {
         return ref.where("type", "==", DebtType.RECEIVABLE);
       });
-      receivables.snapshotChanges().subscribe(async collection => {
+      this.receivablesSnapshot = receivables.snapshotChanges().subscribe(async collection => {
         debts$.next(collection.map(doc => {
-          const debt = new Debt({ ...doc.payload.doc.data(), id: doc.payload.doc.id });
+          const debt = new Debt({ ...<any>doc.payload.doc.data(), id: doc.payload.doc.id });
           debt.borrower = new User({ ...debt.borrower });
           return debt;
         }));
@@ -96,9 +110,9 @@ export class DebtsProvider {
           .where("type", "==", DebtType.PAYABLE)
           .where("status", "==", DebtStatus.PAID);
       });
-      payables.snapshotChanges().subscribe(async collection => {
+      this.paidPayablesSnapshot = payables.snapshotChanges().subscribe(async collection => {
         debts$.next(collection.map(doc => {
-          const debt = new Debt({ ...doc.payload.doc.data(), id: doc.payload.doc.id });
+          const debt = new Debt({ ...<any>doc.payload.doc.data(), id: doc.payload.doc.id });
           debt.borrower = new User({ ...debt.borrower });
           return debt;
         }));
@@ -118,9 +132,9 @@ export class DebtsProvider {
           .where("type", "==", DebtType.PAYABLE)
           .where("status", "==", DebtStatus.UNPAID);
       });
-      payables.snapshotChanges().subscribe(async collection => {
+      this.unpaidPayablesSnapshot = payables.snapshotChanges().subscribe(async collection => {
         debts$.next(collection.map(doc => {
-          const debt = new Debt({ ...doc.payload.doc.data(), id: doc.payload.doc.id });
+          const debt = new Debt({ ...<any>doc.payload.doc.data(), id: doc.payload.doc.id });
           debt.borrower = new User({ ...debt.borrower });
           return debt;
         }));
@@ -140,9 +154,9 @@ export class DebtsProvider {
           .where("type", "==", DebtType.RECEIVABLE)
           .where("status", "==", DebtStatus.PAID);
       });
-      receivables.snapshotChanges().subscribe(async collection => {
+      this.paidReceivablesSnapshot = receivables.snapshotChanges().subscribe(async collection => {
         debts$.next(collection.map(doc => {
-          const debt = new Debt({ ...doc.payload.doc.data(), id: doc.payload.doc.id });
+          const debt = new Debt({ ...<any>doc.payload.doc.data(), id: doc.payload.doc.id });
           debt.borrower = new User({ ...debt.borrower });
           return debt;
         }));
@@ -162,9 +176,9 @@ export class DebtsProvider {
           .where("type", "==", DebtType.RECEIVABLE)
           .where("status", "==", DebtStatus.UNPAID);
       });
-      receivables.snapshotChanges().subscribe(async collection => {
+      this.unpaidReceivablesSnapshot = receivables.snapshotChanges().subscribe(async collection => {
         debts$.next(collection.map(doc => {
-          const debt = new Debt({ ...doc.payload.doc.data(), id: doc.payload.doc.id });
+          const debt = new Debt({ ...<any>doc.payload.doc.data(), id: doc.payload.doc.id });
           debt.borrower = new User({ ...debt.borrower });
           return debt;
         }));
@@ -180,8 +194,8 @@ export class DebtsProvider {
     try {
       let debt$: Subject<Debt> = new Subject();
       const doc$ = this.debtsCollection.doc(id);
-      doc$.snapshotChanges().subscribe(async debt => {
-        const debtObj = new Debt({ ...debt.payload.data(), id: debt.payload.id });
+      this.debtSnapshot = doc$.snapshotChanges().subscribe(async debt => {
+        const debtObj = new Debt({ ...<any>debt.payload.data(), id: debt.payload.id });
         debtObj.borrower = new User({ ...debtObj.borrower });
         debt$.next(debtObj);
       });
@@ -261,5 +275,26 @@ export class DebtsProvider {
       img.src = datas;
 
     });
+  }
+
+  clearSubscription()
+  {
+    try
+    {
+      this.debtsCollectionSnapshot && this.debtsCollectionSnapshot.unsubscribe();
+      this.payablesSnapshot && this.payablesSnapshot.unsubscribe();
+      this.receivablesSnapshot && this.receivablesSnapshot.unsubscribe();
+      this.paidPayablesSnapshot && this.paidPayablesSnapshot.unsubscribe();
+      this.unpaidPayablesSnapshot && this.unpaidPayablesSnapshot.unsubscribe();
+      this.paidReceivablesSnapshot && this.paidReceivablesSnapshot.unsubscribe();
+      this.unpaidReceivablesSnapshot && this.unpaidReceivablesSnapshot.unsubscribe();
+      this.debtSnapshot && this.debtSnapshot.unsubscribe();
+  
+      this.events.unsubscribe("user:logout");
+    }
+    catch
+    {
+      // We should be doing some catching here
+    }    
   }
 }
