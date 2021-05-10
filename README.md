@@ -1,7 +1,7 @@
 ![logo](UI/resources/android/icon/drawable-xxhdpi-icon.png "logo")  
 # Utang Inamo
-[![Build Status](https://travis-ci.org/adrianonrails/utang-inamo.svg?branch=master)](https://travis-ci.org/adrianonrails/utang-inamo)
-##### [https://adrianonrails.github.io/utang-inamo](https://adrianonrails.github.io/utang-inamo/)
+[![Build Status](https://travis-ci.org/adreeeyan/utang-inamo.svg?branch=master)](https://travis-ci.org/adreeeyan/utang-inamo)
+##### [https://adreeeyan.github.io/utang-inamo](https://adreeeyan.github.io/utang-inamo/)
 ---
 **Utang Inamo** is a debt manager. You can list down those people who owes you or who you borrowed from, and then give them some gentle reminders and a nice debt information web page.
 
@@ -11,11 +11,11 @@
 
 ### Download
 * You don't need to download, just visit this site
-    - [https://adrianonrails.github.io/utang-inamo](https://adrianonrails.github.io/utang-inamo/)
+    - [https://adreeeyan.github.io/utang-inamo](https://adreeeyan.github.io/utang-inamo/)
     - In order to use this continuously without internet usage, you need to **Add it to your homescreen**
 
 * There are features that is not supported on PWA yet so a native build is made to support these features. See features list below for those supported in native builds only.
-    - [Latest APK](https://github.com/adrianonrails/utang-inamo/releases/download/v0.2.3/UtangInamo.apk)
+    - [Latest APK](https://github.com/adreeeyan/utang-inamo/releases/download/v0.2.3/UtangInamo.apk)
     - Sorry no native build for iOS :(
 
 #### Features
@@ -35,8 +35,8 @@
 - [x] Add a contact from phonebook (native only)
 - [ ] Bulk SMS
 
-#### Want to request a feature? [Submit a request.](https://github.com/adrianonrails/baruch/issues/new)
-#### Found some bugs? [Report it here.](https://github.com/adrianonrails/baruch/issues/new)
+#### Want to request a feature? [Submit a request.](https://github.com/adreeeyan/baruch/issues/new)
+#### Found some bugs? [Report it here.](https://github.com/adreeeyan/baruch/issues/new)
 
 #### Screenshot
 Dashboard  
@@ -55,10 +55,10 @@ Page containing the debt info viewable by the borrower
 ## Contributors
 
 ### Contributors on GitHub
-* [Contributors](https://github.com/adrianonrails/utang-inamo/graphs/contributors)
+* [Contributors](https://github.com/adreeeyan/utang-inamo/graphs/contributors)
 
 ## License 
-* see [LICENSE](https://github.com/adrianonrails/utang-inamo/blob/master/LICENSE) file
+* see [LICENSE](https://github.com/adreeeyan/utang-inamo/blob/master/LICENSE) file
 
 ## Contact
 #### Your dev
