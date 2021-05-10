@@ -1,0 +1,14 @@
+{
+  "name": "Utang Inamo",
+  "short_name": "Utang Inamo",
+  "start_url": "index.html",
+  "display": "standalone",
+  "icons": [{
+    "src": "assets/imgs/logo.png",
+    "sizes": "512x512",
+    "type": "image/png"
+  }],
+  "background_color": "#ffffff",
+  "theme_color": "#22AED1",
+  "description": "Just a debt manager."
+}
