@@ -8,5 +8,5 @@ export const environment = {
         messagingSenderId: "497597677459"
     },
     webUrl: "https://adreeeyan.github.io/utang-inamo",
-    appVersion: "0.2.3"
+    appVersion: "0.2.4"
 };

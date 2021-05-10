@@ -15,7 +15,7 @@
     - In order to use this continuously without internet usage, you need to **Add it to your homescreen**
 
 * There are features that is not supported on PWA yet so a native build is made to support these features. See features list below for those supported in native builds only.
-    - [Latest APK](https://github.com/adreeeyan/utang-inamo/releases/download/v0.2.3/UtangInamo.apk)
+    - [Latest APK](https://github.com/adreeeyan/utang-inamo/releases/download/v0.2.4/UtangInamo.apk)
     - Sorry no native build for iOS :(
 
 #### Features
