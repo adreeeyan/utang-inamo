@@ -14,7 +14,7 @@ fi
 
 if [[ "$TRAVIS_BRANCH" == "develop" ]]
 then
-    ionic cordova build android
+    ionic cordova build android -enableLint false
 else
-    ionic cordova build android --prod --release
+    ionic cordova build android --prod --release -enableLint false
 fi

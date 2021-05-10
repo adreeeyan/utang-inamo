@@ -83,6 +83,7 @@
     "platforms": []
   },
   "config": {
-    "ionic_purge_unused_fonts": false
+    "ionic_purge_unused_fonts": false,
+    "ionic_enable_lint": false
   }
 }
