@@ -1,41 +1,29 @@
 {
   "project_info": {
-    "project_number": "113008889190",
-    "firebase_url": "https://utanginamo-ca403.firebaseio.com",
-    "project_id": "utanginamo-ca403",
-    "storage_bucket": "utanginamo-ca403.appspot.com"
+    "project_number": "497597677459",
+    "firebase_url": "https://utang-inamo.firebaseio.com",
+    "project_id": "utang-inamo",
+    "storage_bucket": "utang-inamo.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:113008889190:android:4b01a766d406975e",
+        "mobilesdk_app_id": "1:497597677459:android:a382cf4407e826a1c63266",
         "android_client_info": {
           "package_name": "com.baruchempire.utanginamo"
         }
       },
       "oauth_client": [
         {
+          "client_id": "497597677459-cckf5b01g08ss6cp232fq44ko572j83f.apps.googleusercontent.com",
+          "client_type": 3
+        },
+		{
           "client_id": "113008889190-0hds2unj7n8tvc3o6e6e0p2ktl7l8ij2.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.baruchempire.utanginamo",
             "certificate_hash": "541ab1cdf7996aedf08c6a94b95e16282166b471"
-          }
-        },
-        {
-          "client_id": "113008889190-upu7q78nl65oj1bv8cgjd2g53aoek6hc.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.baruchempire.utanginamo",
-            "certificate_hash": "c24f33864a13d9a9fdea6422d7105c99e18b9944"
-          }
-        },
-        {
-          "client_id": "113008889190-ft4o54avfkl1supufitgn4k78rnsb1rv.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.baruchempire.utanginamo",
-            "certificate_hash": "0cb97ecf98f11af4280481a5c73c4aaf7a29aa48"
           }
         },
         {
@@ -47,37 +35,39 @@
           }
         },
         {
+          "client_id": "113008889190-ft4o54avfkl1supufitgn4k78rnsb1rv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.baruchempire.utanginamo",
+            "certificate_hash": "0cb97ecf98f11af4280481a5c73c4aaf7a29aa48"
+          }
+        },
+        {
+          "client_id": "113008889190-upu7q78nl65oj1bv8cgjd2g53aoek6hc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.baruchempire.utanginamo",
+            "certificate_hash": "c24f33864a13d9a9fdea6422d7105c99e18b9944"
+          }
+        },
+        {
           "client_id": "113008889190-2ld9cfnl4l7j2tkuq3hi5b72ef77qnj3.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCds5VuJrUT9LmjjYKrxLRNRmQN7nyzEQA"
+          "current_key": "AIzaSyAkY72bulPd1XzS6qB8auLWklPRpmGc6_k"
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "113008889190-2ld9cfnl4l7j2tkuq3hi5b72ef77qnj3.apps.googleusercontent.com",
+              "client_id": "497597677459-cckf5b01g08ss6cp232fq44ko572j83f.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "113008889190-ft86b10roua1kdekbce2nbgtpnigv89j.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.baruchempire.utanginamo"
-              }
             }
           ]
-        },
-        "ads_service": {
-          "status": 2
         }
       }
     }

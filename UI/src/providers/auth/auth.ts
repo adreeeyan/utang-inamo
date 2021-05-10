@@ -68,13 +68,24 @@ export class AuthProvider {
   async loginViaGoogle() {
     const provider = new firebase.auth.GoogleAuthProvider();
     let response: any;
-    try
-    {
-      response = await this.fireAuth.auth.signInWithRedirect(provider);
-    }
-    catch(e)
-    {
-      console.log(`Error when logging in via google ${e}`);
+    if (!this.utilities.isApp()) {
+      // This is for PWA
+      try
+      {
+        response = await this.fireAuth.auth.signInWithRedirect(provider);
+      }
+      catch(e)
+      {
+        console.log(`Error when logging in via google ${e}`);
+      }
+    } else {
+      // This is for the mobile app
+      const gPlusResponse = await this.googlePlus.login({
+        "webClientId": "497597677459-cckf5b01g08ss6cp232fq44ko572j83f.apps.googleusercontent.com",
+        "offline": true,
+        "scopes": "profile email"
+      });
+      response = await this.fireAuth.auth.signInWithCredential(firebase.auth.GoogleAuthProvider.credential(gPlusResponse.idToken));
     }
 
     // check if has profile, if none create it
