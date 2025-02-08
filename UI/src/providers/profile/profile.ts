@@ -19,7 +19,7 @@ export class ProfileProvider {
   }
 
   init() {
-    return new Promise((resolve) => {
+    return new Promise<void>((resolve) => {
       this.fireAuth.auth.onAuthStateChanged(async user => {
         console.log("changing auth state", user);
         if (user) {
