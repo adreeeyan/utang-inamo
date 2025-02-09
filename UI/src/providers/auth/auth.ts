@@ -72,7 +72,7 @@ export class AuthProvider {
       // This is for PWA
       try
       {
-        response = await this.fireAuth.auth.signInWithRedirect(provider);
+        response = await this.fireAuth.auth.signInWithPopup(provider);
       }
       catch(e)
       {

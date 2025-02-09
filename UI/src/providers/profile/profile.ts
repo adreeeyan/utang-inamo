@@ -56,7 +56,9 @@ export class ProfileProvider {
         if(!user.exists) {
           return user$.error("No profile found");
         }
-        user$.next(new User({ ...user.data(), id: user.id }));
+        const newUser = new User({ ...user.data(), id: user.id });
+        user$.next(newUser);
+        user$.complete();
       });
       return user$;
     } catch (e) {
