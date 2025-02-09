@@ -10,6 +10,10 @@
     "build": "ionic-app-scripts build",
     "lint": "ionic-app-scripts lint"
   },
+  "engines": {
+    "node": ">=12.0.0 <13.0.0",
+    "npm": ">=6.0.0 <7.0.0"
+  },
   "dependencies": {
     "@angular/animations": "5.2.11",
     "@angular/common": "5.2.11",
@@ -44,7 +48,7 @@
     "cordova-plugin-statusbar": "~2.4.2",
     "cordova-plugin-whitelist": "~1.3.3",
     "cordova-sqlite-storage": "~3.0.0",
-    "firebase": "~5.9.0",
+    "firebase": "~7.0.0",
     "fitty": "~2.2.6",
     "ionic-angular": "3.9.2",
     "ionic-long-press": "~1.5.0",
@@ -58,9 +62,9 @@
     "zone.js": "0.8.26"
   },
   "devDependencies": {
-    "@types/node": "14.6.2",
     "@ionic/app-scripts": "3.2.1",
-    "typescript": "~2.8"
+    "@types/node": "14.6.2",
+    "typescript": "^4.7.4"
   },
   "description": "Just a debt manager.",
   "cordova": {
